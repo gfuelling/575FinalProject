@@ -1,12 +1,22 @@
 //javascript
 function loadPage(){
     createMap('map1')
-    createMap('map2')
+    createDetroitMap('map2')
+    //second case study map will go here
     createMap('map3')
 }
 function createMap(div){
-    var map = L.map(div).setView([43.3, -85.76], 7);
-    
+    var map = L.map(div).setView([39.8283, -98.5795], 4);
+
+    L.tileLayer(
+        'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'
+        }).addTo(map);
+    //getData(map)
+}
+function createDetroitMap(div){
+    var map = L.map(div).setView([42.331, -83.045], 11);
+
     L.tileLayer(
         'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'
@@ -34,7 +44,7 @@ function createMap(div){
 //    L.Topojson = function(data,options){
 //        return new L.Topojson(data, options);
 //    };
-//    
+//
 //    var geojson = L.Topojson(null,{
 //        style: function(feature){
 //            return{
@@ -48,17 +58,17 @@ function createMap(div){
 //        onEachFeature: function(feature, layer){
 //            layer.bindPopup("test popup")
 //        }
-//        
+//
 //    }).addTo(map);
-//    
-//    
+//
+//
 //    function getGeoData(url){
 //        response = fetch(url)
 //        data = response.json();
 //        console.log(data)
 //        return data
 //    }
-//    
+//
 //    getGeoData('data/miTracts')
 //}
 

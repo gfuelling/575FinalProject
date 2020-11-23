@@ -6,7 +6,7 @@
     margin: 10px;
     margin:auto;
     border-style: solid;
-    border-width: 2px
+    border-width: 2px;
 }
 
 #map2{
@@ -15,7 +15,7 @@
     margin: 10px;
     margin:auto;
     border-style: solid;
-    border-width: 2px
+    border-width: 2px;
 }
 
 #map3{
@@ -25,4 +25,16 @@
     margin:auto;
     border-style: solid;
     border-width: 2px
+}
+#title{
+  width: 100%;
+  height: 80px;
+  font-size: 40px;
+  font-family: "Oswald";
+  text-align: center;
+  color: seashell;
+}
+body{
+  background: #36454f;
+  /* background: #4a4747 */
 }
