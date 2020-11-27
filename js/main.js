@@ -12,7 +12,8 @@ function createMap(div){
         'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'
         }).addTo(map);
-    //getData(map)
+    getCountryData(map);
+    //joinData();
 }
 function createDetroitMap(div){
     var map = L.map(div).setView([42.331, -83.045], 11);
@@ -21,9 +22,9 @@ function createDetroitMap(div){
         'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'
         }).addTo(map);
-    //getData(map)
+    getDetroitData(map)
 }
-
+//get topodata
 //function getData(map){
 //    L.Topojson = L.GeoJSON.extend({
 //        addData: function(data){
@@ -71,5 +72,31 @@ function createDetroitMap(div){
 //
 //    getGeoData('data/miTracts')
 //}
-
+//get geojson data
+function getCountryData(map){
+  //load the data
+  $.ajax("data/usCounties_Contig.json", {
+    dataType: "json",
+    success: function(response){
+    }
+  }).done(function(data){
+    //setup functions that will run upon success
+    var myStyle = { "color": "red", "weight": .5}
+    L.geoJSON(data, {style: myStyle}).addTo(map);
+    console.log(data);
+  }).fail(function() { alert("There has been a problem loading the US Counties geojson")})
+}
+function getDetroitData(map){
+  //load the data
+  $.ajax("data/miTracts.json", {
+    dataType: "json",
+    success: function(response){
+    }
+  }).done(function(data){
+    //setup functions that will run upon success
+    var myStyle = { "color": "green", "weight": .5}
+    L.geoJSON(data, {style: myStyle}).addTo(map);
+    console.log(data);
+  }).fail(function() { alert("There has been a problem loading the US Counties geojson")})
+};
 $(document).ready(loadPage)
