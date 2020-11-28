@@ -1,18 +1,35 @@
 //javascript
-function loadPage(){
-    createMap('map1')
+//GLOBAL VARIABLES//
+//field names for Internet csv (county and tract)
+var attrIntArray = ["total","hascomputer","dialup","broadband","nointernet","nocomputer"];
+//field names for Unemployment csv(county and tract)
+var attrUnempArray = ["totalpopover16","laborforceparticipationrate","unemploymentrate","popabove20underpovertylevel"];
+//import csv using D3 method
+internetCounties = d3.queue()
+  .defer(d3.csv,"data/csvCountiesInternet.csv")
+  .await(callback);
+
+function callback(error, internetCounties){
+  console.log(internetCounties);
+  loadPage(internetCounties);
+
+}
+function loadPage(csvInternetCounties){
+  console.log(csvInternetCounties);
+    createMap('map1',csvInternetCounties)
     createDetroitMap('map2')
     //second case study map will go here
     createMap('map3')
 }
-function createMap(div){
+function createMap(div, csvData){
+  console.log(csvData);
     var map = L.map(div).setView([39.8283, -98.5795], 4);
 
     L.tileLayer(
         'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'
         }).addTo(map);
-    getCountryData(map);
+    getCountyData(map, csvData);
     createSequenceControls(map)
 }
 function createDetroitMap(div){
@@ -26,8 +43,8 @@ function createDetroitMap(div){
     createSequenceControls(map)
 }
 
-//get geojson data
-function getCountryData(map){
+//get geojson data ???? THE CSV DATA IS PASSED CORRECTLY UNTIL HERE
+function getCountyData(map, csvData){
   //load the data
   $.ajax("data/usCounties_Contig.json", {
     dataType: "json",
@@ -37,7 +54,11 @@ function getCountryData(map){
     //setup functions that will run upon success
     var myStyle = { "color": "red", "weight": .5}
     L.geoJSON(data, {style: myStyle}).addTo(map);
-    console.log(data);
+    // console.log(data);
+    //call csv data to join
+    countyIntData = joinData(data,csvData);
+    console.log(countyIntData);
+
   }).fail(function() { alert("There has been a problem loading the US Counties geojson")})
 }
 function getDetroitData(map){
@@ -53,7 +74,22 @@ function getDetroitData(map){
     console.log(data);
   }).fail(function() { alert("There has been a problem loading the US Counties geojson")})
 };
-
+//some components taken from https://stackoverflow.com/questions/40726168/how-to-load-data-from-csv-to-use-it-in-a-leaflet-heatmap
+// function getIntCsvData(){
+//   fetch("data/csvMiTractsInternet.csv").then(function(response){
+//     return response.text();
+//   }).then(function(text){
+//     //handling of the text contents goes here
+//     // var lines = text.split("\n");
+//     // for (var i=1; i<lines.length; i++){
+//     //   var parts = lines[i].split(",");
+//     // }
+//      console.log(text);
+//     return text;
+//   }).catch(function(err){
+//     //error handling goes here
+//   })
+// }
 //https://stackoverflow.com/questions/36555409/need-help-adding-popup-info-windows-to-polygons-on-leaflet-map
 function makePopup(feature, layer){
     //this will be dynamic further down the line, getting the value from the dropdown box and replacing ALAND with that value to make it dynamic
@@ -68,27 +104,51 @@ function makePopup(feature, layer){
             this.closePopup()
         }
     })
-     
+
 }
 
 function createSequenceControls(map){
     //make dropdown with attributes we want to show(or hardcode into index.html?), call process data function to get the attributes in the geojson
     console.log("test")
-    
+
 }
 
 //function processData(data){
 //    //taken from Module examples 1-2 lesson 3
 //    var attributes = []
-//    
+//
 //    var properties = data.features[0].properties
-//    
+//
 //    for (var attribute in properties){
 //        attributes.push(attribute)
-//        
+//
 //    }
 //    console.log(attributes)
-//    
+//
 //    return attributes
 //}
-$(document).ready(loadPage)
+
+//taken from D3 lab - 
+function joinData(geoJson, csvData){
+  console.log(csvData);
+  //loop through csv to assign each csv values to json
+  for (var i=0; i<csvData.length; i++) {
+    var csvRegion = csvData[i];
+    var csvKey = csvData.geo_id.slice(-5); //csv JOIN field
+    //loop through json to match keys
+    for (var a=0; a<geoJson.length; a++){
+      var geoJsonProps = geoJson[a].properties;//the current areas geojson properties
+      var geojsonKey = geojsonProps.GEOID; //the geojson JOIN field
+      //where geoid's match, attach csv to json object
+      if (geojsonKey == csvKey) {
+        attrIntArray.forEach(function(attr){
+          var val = parseFloat(csvRegion[attr]); //get csv attribute value
+          geojsonProps[attr] = val; //assign attribute and value to geojson props
+        });
+      };
+    };
+  };
+  console.log(geoJson);
+  return geoJson;
+};
+// $(document).ready(loadPage)
