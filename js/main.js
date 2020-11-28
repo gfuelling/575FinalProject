@@ -13,7 +13,7 @@ function createMap(div){
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'
         }).addTo(map);
     getCountryData(map);
-    //joinData();
+    createSequenceControls(map)
 }
 function createDetroitMap(div){
     var map = L.map(div).setView([42.331, -83.045], 11);
@@ -23,55 +23,9 @@ function createDetroitMap(div){
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'
         }).addTo(map);
     getDetroitData(map)
+    createSequenceControls(map)
 }
-//get topodata
-//function getData(map){
-//    L.Topojson = L.GeoJSON.extend({
-//        addData: function(data){
-//            var geojson, key;
-//            if(data.type === "Topology"){
-//                for (key in data.objects){
-//                    if (data.objects.hasOwnProperty(key)){
-//                        geojson = topojson.feature(data, data.objects[key]);
-//                        L.GeoJSON.prototype.addData.call(this, geojson)
-//                    }
-//                }
-//                return this;
-//            }
-//            L.geoJSON.prototype.addData.call(this, data);
-//            return this;
-//        }
-//    });
-//    L.Topojson = function(data,options){
-//        return new L.Topojson(data, options);
-//    };
-//
-//    var geojson = L.Topojson(null,{
-//        style: function(feature){
-//            return{
-//                color: "#000",
-//                opacity: 1,
-//                weight: 1,
-//                fillColor: '#35495d',
-//                fillOpacity: 0.8
-//            }
-//        },
-//        onEachFeature: function(feature, layer){
-//            layer.bindPopup("test popup")
-//        }
-//
-//    }).addTo(map);
-//
-//
-//    function getGeoData(url){
-//        response = fetch(url)
-//        data = response.json();
-//        console.log(data)
-//        return data
-//    }
-//
-//    getGeoData('data/miTracts')
-//}
+
 //get geojson data
 function getCountryData(map){
   //load the data
@@ -95,8 +49,46 @@ function getDetroitData(map){
   }).done(function(data){
     //setup functions that will run upon success
     var myStyle = { "color": "green", "weight": .5}
-    L.geoJSON(data, {style: myStyle}).addTo(map);
+    L.geoJSON(data, {style: myStyle, onEachFeature: makePopup}).addTo(map);
     console.log(data);
   }).fail(function() { alert("There has been a problem loading the US Counties geojson")})
 };
+
+//https://stackoverflow.com/questions/36555409/need-help-adding-popup-info-windows-to-polygons-on-leaflet-map
+function makePopup(feature, layer){
+    //this will be dynamic further down the line, getting the value from the dropdown box and replacing ALAND with that value to make it dynamic
+    content = "Testattribute:" + feature.properties.ALAND
+    layer.bindPopup(content)
+    //This is optional if we want people to manually click
+    layer.on({
+        mouseover: function(){
+            this.openPopup()
+        },
+        mouseout: function(){
+            this.closePopup()
+        }
+    })
+     
+}
+
+function createSequenceControls(map){
+    //make dropdown with attributes we want to show(or hardcode into index.html?), call process data function to get the attributes in the geojson
+    console.log("test")
+    
+}
+
+//function processData(data){
+//    //taken from Module examples 1-2 lesson 3
+//    var attributes = []
+//    
+//    var properties = data.features[0].properties
+//    
+//    for (var attribute in properties){
+//        attributes.push(attribute)
+//        
+//    }
+//    console.log(attributes)
+//    
+//    return attributes
+//}
 $(document).ready(loadPage)
