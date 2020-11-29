@@ -12,7 +12,6 @@ internetCounties = d3.queue()
 function callback(error, internetCounties){
   console.log(internetCounties);
   loadPage(internetCounties);
-
 }
 function loadPage(csvInternetCounties){
   console.log(csvInternetCounties);
@@ -128,18 +127,22 @@ function createSequenceControls(map){
 //    return attributes
 //}
 
-//taken from D3 lab - 
+//taken from D3 lab -
+//why it's not reading csvData.length:  https://stackoverflow.com/questions/43744205/cannot-read-property-length-of-undefined-but-can-still-print-length-in-consol
 function joinData(geoJson, csvData){
-  console.log(csvData);
+  csvLength = csvData.length;
   //loop through csv to assign each csv values to json
-  for (var i=0; i<csvData.length; i++) {
+  for (var i=0; i<csvLength; i++) {
     var csvRegion = csvData[i];
-    var csvKey = csvData.geo_id.slice(-5); //csv JOIN field
+    var csvKey = csvRegion.geo_id.slice(-5); //csv JOIN field
+    //console.log(csvKey);
     //loop through json to match keys
     for (var a=0; a<geoJson.length; a++){
-      var geoJsonProps = geoJson[a].properties;//the current areas geojson properties
+      console.log(a);
+      var geojsonProps = geoJson[a].properties;//the current areas geojson properties
       var geojsonKey = geojsonProps.GEOID; //the geojson JOIN field
       //where geoid's match, attach csv to json object
+      console.log(geojsonKey, csvKey);
       if (geojsonKey == csvKey) {
         attrIntArray.forEach(function(attr){
           var val = parseFloat(csvRegion[attr]); //get csv attribute value
@@ -151,4 +154,4 @@ function joinData(geoJson, csvData){
   console.log(geoJson);
   return geoJson;
 };
-// $(document).ready(loadPage)
+//$(document).ready(loadPage)
