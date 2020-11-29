@@ -1,20 +1,37 @@
 //javascript
-function loadPage(){
-    createMap('map1')
+//GLOBAL VARIABLES//
+//field names for Internet csv (county and tract)
+var attrIntArray = ["total","hascomputer","dialup","broadband","nointernet","nocomputer"];
+//field names for Unemployment csv(county and tract)
+var attrUnempArray = ["totalpopover16","laborforceparticipationrate","unemploymentrate","popabove20underpovertylevel"];
+//import csv using D3 method
+internetCounties = d3.queue()
+  .defer(d3.csv,"data/csvCountiesInternet.csv")
+  .await(callback);
+
+function callback(error, internetCounties){
+  console.log(internetCounties);
+  loadPage(internetCounties);
+}
+function loadPage(csvInternetCounties){
+  console.log(csvInternetCounties);
+    createMap('map1',csvInternetCounties)
     createDetroitMap('map2')
     //second case study map will go here
     createMap('map3')
     
     createPieChart()
 }
-function createMap(div){
+function createMap(div, csvData){
+  console.log(csvData);
     var map = L.map(div).setView([39.8283, -98.5795], 4);
 
     L.tileLayer(
         'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'
         }).addTo(map);
-    //getData(map)
+    getCountyData(map, csvData);
+    createSequenceControls(map)
 }
 function createDetroitMap(div){
     var map = L.map(div).setView([42.331, -83.045], 11);
@@ -23,57 +40,96 @@ function createDetroitMap(div){
         'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'
         }).addTo(map);
-    //getData(map)
+    getDetroitData(map)
+    createSequenceControls(map)
 }
 
-//function getData(map){
-//    L.Topojson = L.GeoJSON.extend({
-//        addData: function(data){
-//            var geojson, key;
-//            if(data.type === "Topology"){
-//                for (key in data.objects){
-//                    if (data.objects.hasOwnProperty(key)){
-//                        geojson = topojson.feature(data, data.objects[key]);
-//                        L.GeoJSON.prototype.addData.call(this, geojson)
-//                    }
-//                }
-//                return this;
-//            }
-//            L.geoJSON.prototype.addData.call(this, data);
-//            return this;
-//        }
-//    });
-//    L.Topojson = function(data,options){
-//        return new L.Topojson(data, options);
-//    };
+//get geojson data ???? THE CSV DATA IS PASSED CORRECTLY UNTIL HERE
+function getCountyData(map, csvData){
+  //load the data
+  $.ajax("data/usCounties_Contig.json", {
+    dataType: "json",
+    success: function(response){
+    }
+  }).done(function(data){
+    //setup functions that will run upon success
+    var myStyle = { "color": "red", "weight": .5}
+    L.geoJSON(data, {style: myStyle}).addTo(map);
+    // console.log(data);
+    //call csv data to join
+    countyIntData = joinData(data,csvData);
+    console.log(countyIntData);
+
+  }).fail(function() { alert("There has been a problem loading the US Counties geojson")})
+}
+function getDetroitData(map){
+  //load the data
+  $.ajax("data/miTracts.json", {
+    dataType: "json",
+    success: function(response){
+    }
+  }).done(function(data){
+    //setup functions that will run upon success
+    var myStyle = { "color": "green", "weight": .5}
+    L.geoJSON(data, {style: myStyle, onEachFeature: makePopup}).addTo(map);
+    console.log(data);
+  }).fail(function() { alert("There has been a problem loading the US Counties geojson")})
+};
+//some components taken from https://stackoverflow.com/questions/40726168/how-to-load-data-from-csv-to-use-it-in-a-leaflet-heatmap
+// function getIntCsvData(){
+//   fetch("data/csvMiTractsInternet.csv").then(function(response){
+//     return response.text();
+//   }).then(function(text){
+//     //handling of the text contents goes here
+//     // var lines = text.split("\n");
+//     // for (var i=1; i<lines.length; i++){
+//     //   var parts = lines[i].split(",");
+//     // }
+//      console.log(text);
+//     return text;
+//   }).catch(function(err){
+//     //error handling goes here
+//   })
+// }
+//https://stackoverflow.com/questions/36555409/need-help-adding-popup-info-windows-to-polygons-on-leaflet-map
+function makePopup(feature, layer){
+    //this will be dynamic further down the line, getting the value from the dropdown box and replacing ALAND with that value to make it dynamic
+    content = "Testattribute:" + feature.properties.ALAND
+    layer.bindPopup(content)
+    //This is optional if we want people to manually click
+    layer.on({
+        mouseover: function(){
+            this.openPopup()
+        },
+        mouseout: function(){
+            this.closePopup()
+        }
+    })
+
+}
+
+function createSequenceControls(map){
+    //make dropdown with attributes we want to show(or hardcode into index.html?), call process data function to get the attributes in the geojson
+    console.log("test")
+
+}
+
+//function processData(data){
+//    //taken from Module examples 1-2 lesson 3
+//    var attributes = []
 //
-//    var geojson = L.Topojson(null,{
-//        style: function(feature){
-//            return{
-//                color: "#000",
-//                opacity: 1,
-//                weight: 1,
-//                fillColor: '#35495d',
-//                fillOpacity: 0.8
-//            }
-//        },
-//        onEachFeature: function(feature, layer){
-//            layer.bindPopup("test popup")
-//        }
+//    var properties = data.features[0].properties
 //
-//    }).addTo(map);
+//    for (var attribute in properties){
+//        attributes.push(attribute)
 //
-//
-//    function getGeoData(url){
-//        response = fetch(url)
-//        data = response.json();
-//        console.log(data)
-//        return data
 //    }
+//    console.log(attributes)
 //
-//    getGeoData('data/miTracts')
+//    return attributes
 //}
 
+//<<<<<<< HEAD
 function createPieChart(){
     var w = 300,                        //width
     h = 300,                            //height
@@ -126,3 +182,33 @@ function createPieChart(){
 };
 
 $(document).ready(loadPage)
+
+//taken from D3 lab -
+//why it's not reading csvData.length:  https://stackoverflow.com/questions/43744205/cannot-read-property-length-of-undefined-but-can-still-print-length-in-consol
+function joinData(geoJson, csvData){
+  csvLength = csvData.length;
+  //loop through csv to assign each csv values to json
+  for (var i=0; i<csvLength; i++) {
+    var csvRegion = csvData[i];
+    var csvKey = csvRegion.geo_id.slice(-5); //csv JOIN field
+    //console.log(csvKey);
+    //loop through json to match keys
+    for (var a=0; a<geoJson.length; a++){
+      console.log(a);
+      var geojsonProps = geoJson[a].properties;//the current areas geojson properties
+      var geojsonKey = geojsonProps.GEOID; //the geojson JOIN field
+      //where geoid's match, attach csv to json object
+      console.log(geojsonKey, csvKey);
+      if (geojsonKey == csvKey) {
+        attrIntArray.forEach(function(attr){
+          var val = parseFloat(csvRegion[attr]); //get csv attribute value
+          geojsonProps[attr] = val; //assign attribute and value to geojson props
+        });
+      };
+    };
+  };
+  console.log(geoJson);
+  return geoJson;
+};
+//$(document).ready(loadPage)
+//>>>>>>> 46c4e6fc64c8b8a57ec2abbf9e0633e56c222722
