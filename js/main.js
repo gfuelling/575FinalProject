@@ -19,7 +19,7 @@ function loadPage(csvInternetCounties){
     createDetroitMap('map2')
     //second case study map will go here
     createMap('map3')
-    
+
     createPieChart()
 }
 function createMap(div, csvData){
@@ -143,7 +143,7 @@ function createPieChart(){
             {"label": "No Computer", "value":13875454}
            ];
 
-    
+
     var vis = d3.select("body")
         .append("svg:svg")              //create the SVG element inside the <body>
         .data([data])                   //associate our data with the document
@@ -161,7 +161,7 @@ function createPieChart(){
 
 
     var arcs = vis.selectAll("g.slice")     //select all <g> elements with class slice (there aren't any yet)
-        .data(pie)                          //associate the generated pie data (an array of arcs, each having startAngle, endAngle and value properties) 
+        .data(pie)                          //associate the generated pie data (an array of arcs, each having startAngle, endAngle and value properties)
         .enter()                            //create <g> elements for every "extra" data element that should be associated with a selection. The result is creating a <g> for every object in the data array
             .append("svg:g")                //create a group to hold each slice (we will have a <path> and a <text>                                     element associated with each slice)
             .attr("class", "slice");    //for styling
@@ -181,7 +181,7 @@ function createPieChart(){
             .text(function(d, i) { return data[i].label; });        //get the label from our original data array
 };
 
-$(document).ready(loadPage)
+//$(document).ready(loadPage)
 
 //taken from D3 lab -
 //why it's not reading csvData.length:  https://stackoverflow.com/questions/43744205/cannot-read-property-length-of-undefined-but-can-still-print-length-in-consol
