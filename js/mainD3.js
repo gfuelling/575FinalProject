@@ -1,8 +1,6 @@
-
 //anonymous funcion
 (function(){
 	//array of csv fields
-var attrArray = ["LessThan9","SomeHighSchool","HighSchoolGrad","SomeCollege","Associates","Bachelors","GradorProfDegree"];
 var attrIntArray = ["total","hascomputer","dialup","broadband","nointernet","nocomputer"];
 //array of csv fields formatted for titles and dropdown options
 var chartTitleArray = ["Total Households","Has Computer","Dialup","Broadband","No Internet","No Computer"];
@@ -37,48 +35,42 @@ async function drawMap(){
 		.attr("height", height);
 	//create Albers equal area conic projection centered on Michigan
 	var projection = d3.geoAlbers()
-		.center([-98, 39.8283])
+		.center([-98, 36])
 		.rotate([-2, 0])
-		.parallels([0, 0])
+		.parallels([-40, 40])
 		.scale(1000)
 		.translate([width / 2, height / 2]);
 		//create path
 	var path = d3.geoPath().projection(projection);
-	//use Promise.all to parallelize asynchronous data loading
-	//var promises = [];
-	// promises.push(d3.csv("data/registeredVoters.csv")); //load attributes from csv
-	// promises.push(d3.json("data/counties.topojson")); //load background spatial data
-  //
-	// Promise.all(promises).then(callback);
+	// pull in data
   d3.queue()
     .defer(d3.csv,"data/csvCountiesInternet.csv")
     .defer(d3.json,"data/usCounties_Contig.topojson")
     .await(callback);
 	//callback function
-	function callback(error, voters, counties){
-		//establish data sources from promises array
-		// var voters = data[0];
-		// var counties = data[1];
+	function callback(error, internetCounties, counties){
 		//call graticule generator
 		setGraticule(map,path);
 		//translate counties TopoJSON
-		miCounties = topojson.feature(counties, counties.objects.usCounties_Contig).features;
+		usCounties = topojson.feature(counties, counties.objects.usCounties_Contig).features;
 		//use turf library to draw geometry in clockwise to correct data display issues
 		// miCounties.forEach(function(feature){
 		// 	feature.geometry = turf.rewind(feature.geometry, {reverse:true});
 		// })
 		//join csv data to geojson enumeration units
-		miCounties = joinData(miCounties,voters);
+		usCounties = joinData(usCounties,internetCounties);
 		//create color scale for enumeration units
-		var colorScale = makeColorScale(voters);
+		var colorScale = makeColorScale(internetCounties);
 		//add enumeration units to the map
-		setEnumerationUnits(miCounties,map,path,colorScale);
+		setEnumerationUnits(usCounties,map,path,colorScale);
 		//create dropdown
-		createDropdown(voters);
+		createDropdown(internetCounties);
+		//create side panel
+		sidePanel();
 		//create chart
-		//setChart(voters,colorScale);
+		//setChart(internetCounties,colorScale);
 		//create bottom div and sources
-		//setDataSources();
+		setDataSources();
 	};
 };
 function makeColorScale(csvData){
@@ -124,10 +116,8 @@ function joinData(miCounties, voters){
 		for (var a=0; a<miCounties.length; a++) {
 			var geojsonProps = miCounties[a].properties;//the current region geojson properties
 			var geojsonKey = geojsonProps.GEOID;//the geojson primary key
-		//	console.log(geojsonProps, geojsonKey);
 			///where NAME codes match, attach csv to json object
 			if (geojsonKey == csvKey) {
-				//onsole.log(geojsonKey, csvKey);
 				//assign key/value pairs
 				attrIntArray.forEach(function(attr){
 					var val = parseFloat(csvCounty[attr]); //get csv attribute value
@@ -140,13 +130,6 @@ function joinData(miCounties, voters){
 	return miCounties;
 };
 function setEnumerationUnits(miCounties,map,path,colorScale){
-	// var tooltip = d3.select("body")
-	// 	.append("div")
-	// 	.attr("class","tooltip")
-	// 	.style("position", "absolute")
-	// 	.style("z-index", "10")
-	// 	.style("visibility","hidden")
-	// 	.text("testing");
 
 	var counties = map.selectAll(".counties")
 		.data(miCounties)
@@ -159,13 +142,6 @@ function setEnumerationUnits(miCounties,map,path,colorScale){
 		.style("fill", function(d) {
 			return choropleth(d.properties, colorScale)
 		})
-		// .text((d) => d.properties.NAME)
-		// .text(function(d){ return d; })
-		// .on("mouseover", function(d){
-		// 	tooltip.text;
-		// 	return tooltip.style("visibility", "visible");})
-		// .on("mousemove", function(){ return tooltip.style("top","80px").style("left","400px");})
-		// .on("mouseout", function(){ return tooltip.style("visibility", "hidden");});
 		.on("mouseover", function(d){
 			highlight(d.properties)
 		})
@@ -175,16 +151,6 @@ function setEnumerationUnits(miCounties,map,path,colorScale){
 		.on("mousemove", moveLabel);
 		var desc = counties.append("desc")
 			.text('{"stroke": "#000", "stroke-width": "0.5px"}');
-	// 	.on("mouseover", function (d,i) {
-	// 	d3.select(this).transition()
-	// 			.duration('50')
-	// 			.attr('opacity', '.85');
-	// 	})
-	// 	.on("mouseout", function(d,i) {
-	// 	d3.select(this).transition()
-	// 			.duration("50")
-	// 			.attr('opacity', '1');
-	// });
 };
 function setGraticule(map,path){
 	var graticule = d3.geoGraticule()
@@ -203,13 +169,6 @@ function setGraticule(map,path){
 	 .attr("d", path); //project graticule lines
 };
 function setChart(csvData, colorScale){
-	// var tooltip = d3.tip()
-	// 	.append("div")
-	// 	.attr("class","tooltip")
-	// 	.style("position", "absolute")
-	// 	.style("z-index", "10")
-	// 	.style("visibility","hidden")
-	// 	.html("a simple tooltip");
 	//create second svg element to hold the bar chart
 	var chart = d3.select("body")
 						.append("svg")
@@ -234,9 +193,6 @@ function setChart(csvData, colorScale){
 							return "bar " + d.county;
 						})
 						.attr("width", chartInnerWidth/csvData.length -1)
-						// .on("mouseover", function(d){tooltip.text(d.properties.name);return tooltip.style("visibility", "visible");})
-						// .on("mousemove", function(){ return tooltip.style("top","80px").style("left","400px");})
-						// .on("mouseout", function(){ return tooltip.style("visibility", "hidden");});
 						.on("mouseover", highlight)
 						.on("mouseout", dehighlight)
 						.on("mousemove", moveLabel)
@@ -277,15 +233,6 @@ function setChart(csvData, colorScale){
 						.attr("height",chartInnerHeight)
 						.attr("transform", translate);
 		//create an average line
-		// var xLine = 0;
-		// var yLine = 7;
-		// var avgLine = chart.append("line")
-		// 	.attr("class","avgLine")
-		// 	.attr("x1",50)
-		// 	.attr("y1", 800)
-		// 	.attr("x2",rightPadding)
-		// 	.attr("y2",400);
-
 	//reset bar positions, heights, and colors
 	updateChart(bars, csvData.length, colorScale);
 };
@@ -353,7 +300,7 @@ function updateChart(bars, n, colorScale){
 			});
 	//updated chart title
 	var chartTitle = d3.select(".chartTitle")
-			.text("Percentage of those with "+ chartTitleArray[attrArray.indexOf(expressed)]);
+			.text("Percentage of those with "+ chartTitleArray[attrIntArray.indexOf(expressed)]);
 };
 //not working
 function onMouseEnter(d){
@@ -366,7 +313,6 @@ function onMouseEnter(d){
 function onMouseLeave() {
 	tooltip.style("opacity", 0)
 }
-//not working
 function highlight(props){ //add interactivity
 	// var selected = d3.selectAll("." + d.name).append("text")
 	// 	.text(function() {
@@ -402,10 +348,10 @@ function dehighlight(props){
 //not working
 function setLabel(props){
 	//label content
-  var formatted = (props[expressed]).toFixed(1);
-  var titleFormatted = chartTitleArray[attrArray.indexOf(expressed)];
+  var formatted = (props[expressed]);
+  var titleFormatted = chartTitleArray[attrIntArray.indexOf(expressed)];
   //console.log(props[expressed]);
-	var labelAttribute = "<h1>" + formatted + "%</h1><b>" + titleFormatted + "</b>";
+	var labelAttribute = "<h1>" + formatted + " " + titleFormatted + "</h>";
 
 	//create label div
 	var infolabel = d3.select("body")
@@ -439,11 +385,18 @@ function moveLabel(){
 		.style("left", x + "px")
 		.style("top", y + "px");
 };
+//create side panel
+function sidePanel(){
+	var panel = d3.select("body")
+			.append("div")
+			.attr("class","sidePanel")
+			.text("TESTING");
+}
 //set bottom div and data sources
 function setDataSources(){
 	var dataSources = d3.select("body")
 			.append("div")
 			.attr("class","dataSources")
-			.text("Data sources: County Shapefiles: State of Michigan Open Data Portal, Educational Attainment: ACS 2018 5-Year Estimates, United States Census. Created by Cassandra Verras, November 2020.")
+			.text("Data sources: Counties: US Census, Internet and Poverty statistics: ACS 2018 5-Year Estimates, United States Census. Created by Garret Fuelling, Cassandra Verras, Danielle Wyenberg, December 2020.")
 };
 })(); //run anonymous function

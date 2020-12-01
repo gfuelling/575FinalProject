@@ -41,5 +41,48 @@ body{
 
 .slice{
     font-family: "Oswald";
-    
 }
+.dataSources {
+  font-family: arial;
+  font-size: 10px;
+  background-color: #36454f;
+  color: seashell;
+  padding-top: 10px;
+  text-align: left;
+  justify-content: center;
+  height: 40px;
+  padding-left: 20px;
+}
+.sidePanel {
+  font-family: arial;
+  font-size: 10px;
+  background-color: #36454f;
+  color: seashell;
+  padding-top: 10px;
+  text-align: right;
+  justify-content: center;
+  height: 40px;
+  padding-left: 20px;
+}
+.dropdown {
+  position: absolute;
+  top: 100px;
+  left: 40px;
+  z-index:10;
+  font-family: "Oswald";
+  font-size: 1em;
+  font-weight: bold;
+  padding: 2px;
+  border: .8px solid dimgrey;
+  box-shadow: 2px 2px 4px #999;
+  border-radius: 50;
+  background-color: seashell;
+}
+/* .gratBackground {
+  fill: dimgrey;
+  opacity: .8;
+} */
+/* .gratLines {
+  stroke: seashell;
+  stroke-width: .6;
+} */
