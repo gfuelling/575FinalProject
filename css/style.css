@@ -86,3 +86,11 @@ body{
   stroke: seashell;
   stroke-width: .6;
 } */
+.firstPara {
+  padding-left: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-family: times;
+  color: seashell;
+  font-size: 18px;
+}

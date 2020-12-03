@@ -1,9 +1,9 @@
 //anonymous funcion
 (function(){
 	//array of csv fields
-var attrIntArray = ["total","hascomputer","dialup","broadband","nointernet","nocomputer"];
+var attrIntArray = ["hascomputer","dialup","broadband","nointernet","nocomputer"];
 //array of csv fields formatted for titles and dropdown options
-var chartTitleArray = ["Total Households","Has Computer","Dialup","Broadband","No Internet","No Computer"];
+var chartTitleArray = ["Has Computer","Dialup","Broadband","No Internet","No Computer"];
 var expressed = attrIntArray[0];
 var chartTitleExpressed = chartTitleArray[0];
 var chartWidth = window.innerWidth *0.54,
@@ -20,12 +20,14 @@ var yScale = d3.scaleLinear()
 					.domain([0, 50]);
 //begin script when window loads
 window.onload = drawMap();
+window.onload = createFirstPara();
+window.onload = drawDetroitMap();
 
-//MAIN FUNCTION
+//MAIN COUNTRYWIDE FUNCTION
 async function drawMap(){
 	//set up header div and title
 	//map frame dimensions
-	 var width = window.innerWidth * 0.8,
+	 var width = window.innerWidth * 0.7,
 	 	height = 460;
 	//create new svg container for the map
 	var map = d3.select("body")
@@ -69,12 +71,74 @@ async function drawMap(){
 		sidePanel();
 		//create chart
 		//setChart(internetCounties,colorScale);
-        
+
         //create pie chart
         setPieChart();
-        
+
 		//create bottom div and sources
 		setDataSources();
+	};
+};
+//MAIN DETROIT function
+async function drawDetroitMap(){
+	//set up header div and title
+	//map frame dimensions
+	 var width = window.innerWidth * 0.7,
+	 	height = 460;
+	//create new svg container for the map
+	var map = d3.select("body")
+		.append("svg")
+		.attr("class", "map")
+		.attr("width", width)
+		.attr("height", height);
+	//create Albers equal area conic projection centered on Michigan
+	var projection = d3.geoAlbers()
+		.center([-85, 43])
+		.rotate([-2, 0])
+		.parallels([-40, 40])
+		.scale(40000)
+		.translate([width / 2, height / 2]);
+		//create path
+	var path = d3.geoPath().projection(projection);
+
+	map.append("text")
+		.attr("x", (width/2))
+		.attr("y", -20)
+		.attr("text-anchor", "middle")
+		.text("Detroit, Michigan");
+	// pull in data
+  d3.queue()
+    .defer(d3.csv,"data/csvMiTractsInternet.csv")
+    .defer(d3.json,"data/miTracts.topojson")
+    .await(callback);
+	//callback function
+	function callback(error, internetCounties, counties){
+		//call graticule generator
+		console.log(counties);
+		//translate counties TopoJSON
+		usCounties = topojson.feature(counties, counties.objects.miTracts).features;
+		//use turf library to draw geometry in clockwise to correct data display issues
+		// miCounties.forEach(function(feature){
+		// 	feature.geometry = turf.rewind(feature.geometry, {reverse:true});
+		// })
+		//join csv data to geojson enumeration units
+		usCounties = joinDetroitData(usCounties,internetCounties);
+		//create color scale for enumeration units
+		var colorScale = makeColorScale(internetCounties);
+		//add enumeration units to the map
+		setEnumerationUnits(usCounties,map,path,colorScale);
+		//create dropdown
+		createDropdown(internetCounties);
+		//create side panel
+		//sidePanel();
+		//create chart
+		//setChart(internetCounties,colorScale);
+
+        //create pie chart
+        //setPieChart();
+
+		//create bottom div and sources
+		//setDataSources();
 	};
 };
 function makeColorScale(csvData){
@@ -116,6 +180,28 @@ function joinData(miCounties, voters){
 	for (var i=0; i<voters.length; i++) {
 		var csvCounty = voters[i]; //the current region
 		var csvKey = csvCounty.geo_id.slice(-5); //csv county field
+		//loop through json regions to find right regions
+		for (var a=0; a<miCounties.length; a++) {
+			var geojsonProps = miCounties[a].properties;//the current region geojson properties
+			var geojsonKey = geojsonProps.GEOID;//the geojson primary key
+			///where NAME codes match, attach csv to json object
+			if (geojsonKey == csvKey) {
+				//assign key/value pairs
+				attrIntArray.forEach(function(attr){
+					var val = parseFloat(csvCounty[attr]); //get csv attribute value
+					geojsonProps[attr] = val; //assign attribute and value to geojson props
+				});
+			};
+		};
+	};
+	console.log(miCounties);
+	return miCounties;
+};
+function joinDetroitData(miCounties, voters){
+	//loop through csv to assign each csv values to json county
+	for (var i=0; i<voters.length; i++) {
+		var csvCounty = voters[i]; //the current region
+		var csvKey = csvCounty.GEO_ID.slice(-11); //csv county field
 		//loop through json regions to find right regions
 		for (var a=0; a<miCounties.length; a++) {
 			var geojsonProps = miCounties[a].properties;//the current region geojson properties
@@ -240,56 +326,56 @@ function setChart(csvData, colorScale){
 	//reset bar positions, heights, and colors
 	updateChart(bars, csvData.length, colorScale);
 };
-    
+
 function setPieChart(){
     var data = [10,20,100];
-    
+
     var radius = Math.min(chartWidth, chartHeight) /2;
-    
-    var color = d3.scaleOrdinal() 
+
+    var color = d3.scaleOrdinal()
         .range([
 		"#52212C",
 		"#9C7981",
 		"#929C5A",
 		"#465200"
 	]);
-    
-        
+
+
     var arc = d3.arc()
         .outerRadius(radius - 10)
         .innerRadius(0);
-    
+
     var labelArc = d3.arc()
         .outerRadius(radius-40)
         .innerRadius(radius-40);
-    
+
     var pie = d3.pie()
         .sort(null)
         .value(function(d) {return d; });
-    
+
     var svg = d3.select("body").append("svg")
         .attr("width", chartWidth)
         .attr("height", chartHeight)
         .append("g")
         .attr("transform", "translate(" + chartWidth / 2 + "," + chartHeight / 2 + ")");
-    
+
     var g = svg.selectAll(".arc")
         .data(pie(data))
         .enter().append("g")
         .attr("class", "arc");
-    
+
     g.append("path")
         .attr("d", arc)
         .style("fill", function(d) {return color(d.data); });
-    
+
     g.append("text")
       .attr("transform", function(d) { return "translate(" + labelArc.centroid(d) + ")"; })
       .attr("dy", ".35em")
       .text(function(d) { return d.data; });
-	
-		
+
+
 }
-    
+
 function createDropdown(csvData){
 	//add select element
 	var dropdown = d3.select("body")
@@ -453,4 +539,10 @@ function setDataSources(){
 			.attr("class","dataSources")
 			.text("Data sources: Counties: US Census, Internet and Poverty statistics: ACS 2018 5-Year Estimates, United States Census. Created by Garret Fuelling, Cassandra Verras, Danielle Wyenberg, December 2020.")
 };
+function createFirstPara(){
+	var firstPara = d3.select("body")
+		.append("div")
+		.attr("class","firstPara")
+		.text("The blah blah blah is blah blah blah imagine really enlightening text here testing testing when are we getting our lab 2 grades, when can we see other peoples lab two?? testing testing should we / can we write from a text file for this portion? How is that usually done? Should this actually be in a side scrolling panel?")
+}
 })(); //run anonymous function
