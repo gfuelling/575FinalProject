@@ -69,6 +69,10 @@ async function drawMap(){
 		sidePanel();
 		//create chart
 		//setChart(internetCounties,colorScale);
+        
+        //create pie chart
+        setPieChart();
+        
 		//create bottom div and sources
 		setDataSources();
 	};
@@ -236,6 +240,56 @@ function setChart(csvData, colorScale){
 	//reset bar positions, heights, and colors
 	updateChart(bars, csvData.length, colorScale);
 };
+    
+function setPieChart(){
+    var data = [10,20,100];
+    
+    var radius = Math.min(chartWidth, chartHeight) /2;
+    
+    var color = d3.scaleOrdinal() 
+        .range([
+		"#52212C",
+		"#9C7981",
+		"#929C5A",
+		"#465200"
+	]);
+    
+        
+    var arc = d3.arc()
+        .outerRadius(radius - 10)
+        .innerRadius(0);
+    
+    var labelArc = d3.arc()
+        .outerRadius(radius-40)
+        .innerRadius(radius-40);
+    
+    var pie = d3.pie()
+        .sort(null)
+        .value(function(d) {return d; });
+    
+    var svg = d3.select("body").append("svg")
+        .attr("width", chartWidth)
+        .attr("height", chartHeight)
+        .append("g")
+        .attr("transform", "translate(" + chartWidth / 2 + "," + chartHeight / 2 + ")");
+    
+    var g = svg.selectAll(".arc")
+        .data(pie(data))
+        .enter().append("g")
+        .attr("class", "arc");
+    
+    g.append("path")
+        .attr("d", arc)
+        .style("fill", function(d) {return color(d.data); });
+    
+    g.append("text")
+      .attr("transform", function(d) { return "translate(" + labelArc.centroid(d) + ")"; })
+      .attr("dy", ".35em")
+      .text(function(d) { return d.data; });
+	
+		
+}
+    
 function createDropdown(csvData){
 	//add select element
 	var dropdown = d3.select("body")
