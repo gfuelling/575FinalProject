@@ -1,9 +1,9 @@
 //anonymous funcion
 (function(){
 	//array of csv fields
-var attrIntArray = ["hascomputer","dialup","broadband","nointernet","nocomputer"];
+var attrIntArray = ["hascomputer","dialup","broadband","nointernet","nocomputer","totalpopover16","laborforceparticipationrate","unemploymentrate","popabove20underpovertylevel"];
 //array of csv fields formatted for titles and dropdown options
-var chartTitleArray = ["Has Computer","Dialup","Broadband","No Internet","No Computer"];
+var chartTitleArray = ["Has Computer","Dialup","Broadband","No Internet","No Computer", "Total Population 16+","Labor Participation Rate","Unemployment Rate","Pop 20+ Below Poverty Level"];
 var expressed = attrIntArray[0];
 var chartTitleExpressed = chartTitleArray[0];
 var chartWidth = window.innerWidth *0.54,
@@ -93,10 +93,10 @@ async function drawDetroitMap(){
 		.attr("height", height);
 	//create Albers equal area conic projection centered on Michigan
 	var projection = d3.geoAlbers()
-		.center([-85, 43])
+		.center([-85, 42.5])
 		.rotate([-2, 0])
 		.parallels([-40, 40])
-		.scale(40000)
+		.scale(29000)
 		.translate([width / 2, height / 2]);
 		//create path
 	var path = d3.geoPath().projection(projection);
@@ -112,23 +112,21 @@ async function drawDetroitMap(){
     .defer(d3.json,"data/miTracts.topojson")
     .await(callback);
 	//callback function
-	function callback(error, internetCounties, counties){
-		//call graticule generator
-		console.log(counties);
+	function callback(error,internetMiTracts, miTracts){
 		//translate counties TopoJSON
-		usCounties = topojson.feature(counties, counties.objects.miTracts).features;
+		miTracts = topojson.feature(miTracts, miTracts.objects.miTracts).features;
 		//use turf library to draw geometry in clockwise to correct data display issues
 		// miCounties.forEach(function(feature){
 		// 	feature.geometry = turf.rewind(feature.geometry, {reverse:true});
 		// })
 		//join csv data to geojson enumeration units
-		usCounties = joinDetroitData(usCounties,internetCounties);
+		miTracts = joinDetroitData(miTracts,internetMiTracts);
 		//create color scale for enumeration units
-		var colorScale = makeColorScale(internetCounties);
+		var colorScale = makeColorScale(internetMiTracts);
 		//add enumeration units to the map
-		setEnumerationUnits(usCounties,map,path,colorScale);
+		setDetroitEnumerationUnits(miTracts,map,path,colorScale);
 		//create dropdown
-		createDropdown(internetCounties);
+		createDropdown(internetMiTracts);
 		//create side panel
 		//sidePanel();
 		//create chart
@@ -174,15 +172,14 @@ function choropleth(d, colorScale){
 		return "#ccc";
 	};
 };
-function joinData(miCounties, voters){
-	console.log(voters);
+function joinData(geoJson, csvData){
 	//loop through csv to assign each csv values to json county
-	for (var i=0; i<voters.length; i++) {
-		var csvCounty = voters[i]; //the current region
+	for (var i=0; i<csvData.length; i++) {
+		var csvCounty = csvData[i]; //the current region
 		var csvKey = csvCounty.geo_id.slice(-5); //csv county field
 		//loop through json regions to find right regions
-		for (var a=0; a<miCounties.length; a++) {
-			var geojsonProps = miCounties[a].properties;//the current region geojson properties
+		for (var a=0; a<geoJson.length; a++) {
+			var geojsonProps = geoJson[a].properties;//the current region geojson properties
 			var geojsonKey = geojsonProps.GEOID;//the geojson primary key
 			///where NAME codes match, attach csv to json object
 			if (geojsonKey == csvKey) {
@@ -194,17 +191,17 @@ function joinData(miCounties, voters){
 			};
 		};
 	};
-	console.log(miCounties);
-	return miCounties;
+	console.log(geoJson);
+	return geoJson;
 };
-function joinDetroitData(miCounties, voters){
+function joinDetroitData(geoJson, csvData){
 	//loop through csv to assign each csv values to json county
-	for (var i=0; i<voters.length; i++) {
-		var csvCounty = voters[i]; //the current region
+	for (var i=0; i<csvData.length; i++) {
+		var csvCounty = csvData[i]; //the current region
 		var csvKey = csvCounty.GEO_ID.slice(-11); //csv county field
 		//loop through json regions to find right regions
-		for (var a=0; a<miCounties.length; a++) {
-			var geojsonProps = miCounties[a].properties;//the current region geojson properties
+		for (var a=0; a<geoJson.length; a++) {
+			var geojsonProps = geoJson[a].properties;//the current region geojson properties
 			var geojsonKey = geojsonProps.GEOID;//the geojson primary key
 			///where NAME codes match, attach csv to json object
 			if (geojsonKey == csvKey) {
@@ -216,13 +213,36 @@ function joinDetroitData(miCounties, voters){
 			};
 		};
 	};
-	console.log(miCounties);
-	return miCounties;
+	console.log(geoJson);
+	return geoJson;
 };
-function setEnumerationUnits(miCounties,map,path,colorScale){
+function setEnumerationUnits(geoJson,map,path,colorScale){
 
 	var counties = map.selectAll(".counties")
-		.data(miCounties)
+		.data(geoJson)
+		.enter()
+		.append("path")
+		.attr("class", function(d){
+				return "counties " + d.properties.NAME;
+		})
+		.attr("d", path)
+		.style("fill", function(d) {
+			return choropleth(d.properties, colorScale)
+		})
+		.on("mouseover", function(d){
+			highlight(d.properties)
+		})
+		.on("mouseout", function(d){
+			dehighlight(d.properties);
+		})
+		.on("mousemove", moveLabel);
+		var desc = counties.append("desc")
+			.text('{"stroke": "#000", "stroke-width": "0.5px"}');
+};
+function setDetroitEnumerationUnits(geoJson,map,path,colorScale){
+
+	var counties = map.selectAll(".counties")
+		.data(geoJson)
 		.enter()
 		.append("path")
 		.attr("class", function(d){
@@ -375,12 +395,24 @@ function setPieChart(){
 
 
 }
-
 function createDropdown(csvData){
+	//determine the census data level for to differentiate .attr("class")
+	var censusLevel = csvData[0].geo_id.substring(0,2);
+	console.log(censusLevel);
 	//add select element
 	var dropdown = d3.select("body")
 				.append("select")
-				.attr("class", "dropdown")
+				.attr("class", function(){
+					if (censusLevel == 05){
+						return "dropdownUS"
+					}
+					else if (censusLevel == 14) {
+						return "dropdownMI"
+					}
+					else {
+						console.log("there's a problem with your dropdown");
+					}
+				})
 				.on("change", function(){
 					changeAttribute(this.value, csvData)
 				});
