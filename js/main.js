@@ -31,7 +31,6 @@ function createMap(div, csvData){
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'
         }).addTo(map);
     getCountyData(map, csvData);
-    createSequenceControls(map)
 }
 function createDetroitMap(div){
     var map = L.map(div).setView([42.331, -83.045], 11);
@@ -41,7 +40,6 @@ function createDetroitMap(div){
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'
         }).addTo(map);
     getDetroitData(map)
-    createSequenceControls(map)
 }
 
 //get geojson data ???? THE CSV DATA IS PASSED CORRECTLY UNTIL HERE
@@ -75,59 +73,6 @@ function getDetroitData(map){
     console.log(data);
   }).fail(function() { alert("There has been a problem loading the US Counties geojson")})
 };
-//some components taken from https://stackoverflow.com/questions/40726168/how-to-load-data-from-csv-to-use-it-in-a-leaflet-heatmap
-// function getIntCsvData(){
-//   fetch("data/csvMiTractsInternet.csv").then(function(response){
-//     return response.text();
-//   }).then(function(text){
-//     //handling of the text contents goes here
-//     // var lines = text.split("\n");
-//     // for (var i=1; i<lines.length; i++){
-//     //   var parts = lines[i].split(",");
-//     // }
-//      console.log(text);
-//     return text;
-//   }).catch(function(err){
-//     //error handling goes here
-//   })
-// }
-//https://stackoverflow.com/questions/36555409/need-help-adding-popup-info-windows-to-polygons-on-leaflet-map
-function makePopup(feature, layer){
-    //this will be dynamic further down the line, getting the value from the dropdown box and replacing ALAND with that value to make it dynamic
-    content = "Testattribute:" + feature.properties.ALAND
-    layer.bindPopup(content)
-    //This is optional if we want people to manually click
-    layer.on({
-        mouseover: function(){
-            this.openPopup()
-        },
-        mouseout: function(){
-            this.closePopup()
-        }
-    })
-
-}
-
-function createSequenceControls(map){
-    //make dropdown with attributes we want to show(or hardcode into index.html?), call process data function to get the attributes in the geojson
-    console.log("test")
-
-}
-
-//function processData(data){
-//    //taken from Module examples 1-2 lesson 3
-//    var attributes = []
-//
-//    var properties = data.features[0].properties
-//
-//    for (var attribute in properties){
-//        attributes.push(attribute)
-//
-//    }
-//    console.log(attributes)
-//
-//    return attributes
-//}
 
 //<<<<<<< HEAD
 function createPieChart(){
@@ -157,8 +102,6 @@ function createPieChart(){
 
     var pie = d3.layout.pie()           //this will create arc data for us given a list of values
         .value(function(d) { return d.value; });    //access the value of each element in our data array
-
-
 
     var arcs = vis.selectAll("g.slice")     //select all <g> elements with class slice (there aren't any yet)
         .data(pie)                          //associate the generated pie data (an array of arcs, each having startAngle, endAngle and value properties)

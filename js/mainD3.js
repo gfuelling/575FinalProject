@@ -564,9 +564,10 @@ function setLabel(props){
 function moveLabel(){
 	//get width of label
 	var labelWidth = d3.select(".infolabel")
-		.node();
-		// .getBoundingClientRect()
-		// .width;
+		.node()
+        .getBoundingClientRect()
+		.width;
+    
 	//use coords of mousemove event to set label coords
 	var x1 = d3.event.clientX + 10,
 			y1 = d3.event.clientY - 75,
@@ -594,7 +595,7 @@ function setDataSources(){
 	var dataSources = d3.select("body")
 			.append("div")
 			.attr("class","dataSources")
-			.text("Data sources: Counties: US Census, Internet and Poverty statistics: ACS 2018 5-Year Estimates, United States Census. Created by Garret Fuelling, Cassandra Verras, Danielle Wyenberg, December 2020.")
+			.text("Data sources: Counties: US Census, Internet and Poverty statistics: ACS 2018 5-Year Estimates, United States Census. Created by Garrett Fuelling, Cassandra Verras, Danielle Wyenberg, December 2020.")
 };
 function createFirstPara(){
 	var firstPara = d3.select("body")
