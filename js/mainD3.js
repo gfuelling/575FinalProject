@@ -1,9 +1,13 @@
 //anonymous funcion
 (function(){
-	//array of csv fields
+	//array of integer csv fields
 var attrIntArray = ["hascomputer","dialup","broadband","nointernet","nocomputer","totalpopover16","laborforceparticipationrate","unemploymentrate","popabove20underpovertylevel"];
-//array of csv fields formatted for titles and dropdown options
+//array of string csv fields
+var attrStrArray = ["LABEL"];
+//array of csv fields formatted for dropdown options
 var chartTitleArray = ["Has Computer","Dialup","Broadband","No Internet","No Computer", "Total Population 16+","Labor Participation Rate","Unemployment Rate","Pop 20+ Below Poverty Level"];
+//array of csv fields formatted for popups
+var chartPopupArray = ["households have a computer","households have dialup","households have broadband","households have no internet","households have no computer", "= Total Population 16+","% Labor Participation","% Unemployment","Pop 20+ Below Poverty Level"];
 var expressed = attrIntArray[0];
 var chartTitleExpressed = chartTitleArray[0];
 var chartWidth = window.innerWidth *0.54,
@@ -52,7 +56,7 @@ async function drawMap(){
 	//callback function
 	function callback(error, internetCounties, counties){
 		//call graticule generator
-		setGraticule(map,path);
+		//setGraticule(map,path);
 		//translate counties TopoJSON
 		usCounties = topojson.feature(counties, counties.objects.usCounties_Contig).features;
 		//use turf library to draw geometry in clockwise to correct data display issues
@@ -188,6 +192,10 @@ function joinData(geoJson, csvData){
 					var val = parseFloat(csvCounty[attr]); //get csv attribute value
 					geojsonProps[attr] = val; //assign attribute and value to geojson props
 				});
+				attrStrArray.forEach(function(attr){
+					var val = csvCounty[attr]; //get csv attribute value
+					geojsonProps[attr] = val; //assign attribute and value to geojson props
+				});
 			};
 		};
 	};
@@ -223,7 +231,7 @@ function setEnumerationUnits(geoJson,map,path,colorScale){
 		.enter()
 		.append("path")
 		.attr("class", function(d){
-				return "counties " + d.properties.NAME;
+				return "counties " + d.properties.LABEL;
 		})
 		.attr("d", path)
 		.style("fill", function(d) {
@@ -241,12 +249,12 @@ function setEnumerationUnits(geoJson,map,path,colorScale){
 };
 function setDetroitEnumerationUnits(geoJson,map,path,colorScale){
 
-	var counties = map.selectAll(".counties")
+	var tracts = map.selectAll(".tracts")
 		.data(geoJson)
 		.enter()
 		.append("path")
 		.attr("class", function(d){
-				return "counties " + d.properties.NAME;
+				return "tracts " + d.properties.TRACTCE;
 		})
 		.attr("d", path)
 		.style("fill", function(d) {
@@ -259,7 +267,7 @@ function setDetroitEnumerationUnits(geoJson,map,path,colorScale){
 			dehighlight(d.properties);
 		})
 		.on("mousemove", moveLabel);
-		var desc = counties.append("desc")
+		var desc = tracts.append("desc")
 			.text('{"stroke": "#000", "stroke-width": "0.5px"}');
 };
 function setGraticule(map,path){
@@ -431,12 +439,17 @@ function createDropdown(csvData){
 };
 //dropdown change listener handler
 function changeAttribute(attribute, csvData){
+	//get variable to determine census level - counties or tracts
+	var censusLevel = csvData[0].geo_id.substring(0,2);
+	//determine census level - counties or tracts
+	var classType = classType(censusLevel);
+	console.log(classType);
 	//change the expressed attribute
 	expressed = attribute;
 	//recreate the color scale
 	var colorScale = makeColorScale(csvData);
 	//recolor enumeration units
-	var regions = d3.selectAll(".counties")
+	var regions = d3.selectAll(classType)
 			.transition()
 			.duration(1000)
 			.style("fill", function(d){
@@ -453,6 +466,19 @@ function changeAttribute(attribute, csvData){
 			return i * 20
 		})
 		.duration(500);
+
+		function classType(censusLevel){
+				if (censusLevel == 05){
+					return ".counties"
+				}
+				else if (censusLevel == 14) {
+					return ".tracts"
+				}
+				else {
+					console.log("there's a problem within changeAttributeFunction");
+				}
+				console.log("this is "+ classType)
+		}
 
 		updateChart(bars,csvData.length, colorScale);
 };
@@ -492,14 +518,14 @@ function highlight(props){ //add interactivity
 	// 	})
 
 	//change stroke
-	var selected = d3.selectAll("." + props.NAME)
+	var selected = d3.selectAll("." + props.LABEL)
 				.style("stroke","#ad3e3e")
 				.style("stroke-width","2");
 	setLabel(props);
 };
 //not working
 function dehighlight(props){
-	var selected = d3.selectAll("."+ props.NAME)
+	var selected = d3.selectAll("."+ props.LABEL)
 		.style("stroke", function(){
 			return getStyle(this,"stroke")
 		})
@@ -517,11 +543,10 @@ function dehighlight(props){
 	d3.select(".infolabel")
 		.remove();
 };
-//not working
 function setLabel(props){
 	//label content
   var formatted = (props[expressed]);
-  var titleFormatted = chartTitleArray[attrIntArray.indexOf(expressed)];
+  var titleFormatted = chartPopupArray[attrIntArray.indexOf(expressed)];
   //console.log(props[expressed]);
 	var labelAttribute = "<h1>" + formatted + " " + titleFormatted + "</h>";
 
@@ -529,11 +554,11 @@ function setLabel(props){
 	var infolabel = d3.select("body")
 		.append("div")
 		.attr("class", "infolabel")
-		.attr("id", props.NAME + "_label")
+		.attr("id", props.LABEL + "_label")
 		.html(labelAttribute);
 	var countyName = infolabel.append("div")
 		.attr("class","labelname")
-		.html(props.NAME + " County")
+		.html(props.LABEL)
 };
 //not working
 function moveLabel(){

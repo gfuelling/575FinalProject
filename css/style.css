@@ -1,5 +1,8 @@
 /*StyleSheet*/
-
+body{
+  background: #36454f;
+  /* background: #4a4747 */
+}
 #map1{
     width: 75%;
     height: 500px;
@@ -33,10 +36,6 @@
   font-family: "Oswald";
   text-align: center;
   color: seashell;
-}
-body{
-  background: #36454f;
-  /* background: #4a4747 */
 }
 
 .slice{
@@ -106,4 +105,41 @@ body{
   font-family: times;
   color: seashell;
   font-size: 18px;
+}
+.counties {
+  stroke: white;
+  stroke-width: .2px;
+  /* stroke-linecap: round; */
+  /* fill: white; */
+}
+.tracts {
+  stroke: white;
+  stroke-width: .2px;
+  /* stroke-linecap: round; */
+  /* fill: white; */
+}
+option {
+  font-weight: normal;
+}
+.infolabel {
+  position: absolute;
+  height: 50px;
+  min-width: 100px;
+  color: #36454F;
+  background-color: seashell;
+  border: solid thin #36454F;
+  border-radius: 10;
+  padding: 5px 10px;
+  top: -75px;
+  font-family: "Arial";
+  font-size: 18px;
+}
+.infolabel h1 {
+  margin: 0 5px 0 0;
+  padding: 0;
+  display: inline-block;
+  line-height: 1em;
+  font-family: "Arial";
+  font-size: 20px;
+  color: #36454F;
 }
