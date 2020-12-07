@@ -73,7 +73,7 @@ async function drawMap(){
 		//setChart(internetCounties,colorScale);
 
         //create pie chart
-        setPieChart();
+        setPieChart(internetCounties,colorScale);
 
 		//create bottom div and sources
 		setDataSources();
@@ -142,6 +142,7 @@ async function drawDetroitMap(){
 	};
 };
 function makeColorScale(csvData){
+   
 	//create color scale array
 	var colorClasses = [
 		"#52212C",
@@ -327,11 +328,17 @@ function setChart(csvData, colorScale){
 	updateChart(bars, csvData.length, colorScale);
 };
 
-function setPieChart(){
-    var data = [10,20,100];
+function setPieChart(csvData, colorScale){
+    
+    //csv data totals
+    var data = [{"label" : "Dialup", "value" : 547104 } ,
+                {"label" : "Broadband" , "value": 96128868 } ,
+                {"label" : "No Internet", "value": 10383777} ,
+                {"label": "No Computer", "value" : 13875454}];
 
     var radius = Math.min(chartWidth, chartHeight) /2;
 
+    //change this color scale so it doesn't match ma
     var color = d3.scaleOrdinal()
         .range([
 		"#52212C",
@@ -349,32 +356,37 @@ function setPieChart(){
         .outerRadius(radius-40)
         .innerRadius(radius-40);
 
+    //process the data for pie chart - when called, adds start and end angle to array
     var pie = d3.pie()
         .sort(null)
-        .value(function(d) {return d; });
+        .value(function(d) {return d.value; });
 
-    var svg = d3.select("body").append("svg")
+   var svg = d3.select("body").append("svg")
         .attr("width", chartWidth)
         .attr("height", chartHeight)
         .append("g")
         .attr("transform", "translate(" + chartWidth / 2 + "," + chartHeight / 2 + ")");
 
+    //get data to give to selectAll function to convert to pie
+    //data should be how many are in each class
+    
+         
     var g = svg.selectAll(".arc")
-        .data(pie(data))
-        .enter().append("g")
-        .attr("class", "arc");
+            .data(pie(data))
+            .enter().append("g")
+            .attr("class", "arc");
 
     g.append("path")
-        .attr("d", arc)
-        .style("fill", function(d) {return color(d.data); });
+            .attr("d", arc)
+            .style("fill", function(d) {return color(d.data.value); });
 
     g.append("text")
-      .attr("transform", function(d) { return "translate(" + labelArc.centroid(d) + ")"; })
-      .attr("dy", ".35em")
-      .text(function(d) { return d.data; });
+            .attr("transform", function(d) { return "translate(" + labelArc.centroid(d) + ")"; })
+            .attr("dy", ".35em")
+            .text(function(d) { return d.data.label; });
 
-
-}
+    
+};
 
 function createDropdown(csvData){
 	//add select element
