@@ -1,9 +1,13 @@
 //anonymous funcion
 (function(){
-	//array of csv fields
-var attrIntArray = ["hascomputer","dialup","broadband","nointernet","nocomputer"];
-//array of csv fields formatted for titles and dropdown options
-var chartTitleArray = ["Has Computer","Dialup","Broadband","No Internet","No Computer"];
+	//array of integer csv fields
+var attrIntArray = ["hascomputer","dialup","broadband","nointernet","nocomputer","totalpopover16","laborforceparticipationrate","unemploymentrate","popabove20underpovertylevel"];
+//array of string csv fields
+var attrStrArray = ["LABEL"];
+//array of csv fields formatted for dropdown options
+var chartTitleArray = ["Has Computer","Dialup","Broadband","No Internet","No Computer", "Total Population 16+","Labor Participation Rate","Unemployment Rate","Pop 20+ Below Poverty Level"];
+//array of csv fields formatted for popups
+var chartPopupArray = ["households have a computer","households have dialup","households have broadband","households have no internet","households have no computer", "= Total Population 16+","% Labor Participation","% Unemployment","Pop 20+ Below Poverty Level"];
 var expressed = attrIntArray[0];
 var chartTitleExpressed = chartTitleArray[0];
 var chartWidth = window.innerWidth *0.54,
@@ -52,7 +56,7 @@ async function drawMap(){
 	//callback function
 	function callback(error, internetCounties, counties){
 		//call graticule generator
-		setGraticule(map,path);
+		//setGraticule(map,path);
 		//translate counties TopoJSON
 		usCounties = topojson.feature(counties, counties.objects.usCounties_Contig).features;
 		//use turf library to draw geometry in clockwise to correct data display issues
@@ -93,10 +97,10 @@ async function drawDetroitMap(){
 		.attr("height", height);
 	//create Albers equal area conic projection centered on Michigan
 	var projection = d3.geoAlbers()
-		.center([-85, 43])
+		.center([-85, 42.5])
 		.rotate([-2, 0])
 		.parallels([-40, 40])
-		.scale(40000)
+		.scale(29000)
 		.translate([width / 2, height / 2]);
 		//create path
 	var path = d3.geoPath().projection(projection);
@@ -112,23 +116,21 @@ async function drawDetroitMap(){
     .defer(d3.json,"data/miTracts.topojson")
     .await(callback);
 	//callback function
-	function callback(error, internetCounties, counties){
-		//call graticule generator
-		console.log(counties);
+	function callback(error,internetMiTracts, miTracts){
 		//translate counties TopoJSON
-		usCounties = topojson.feature(counties, counties.objects.miTracts).features;
+		miTracts = topojson.feature(miTracts, miTracts.objects.miTracts).features;
 		//use turf library to draw geometry in clockwise to correct data display issues
 		// miCounties.forEach(function(feature){
 		// 	feature.geometry = turf.rewind(feature.geometry, {reverse:true});
 		// })
 		//join csv data to geojson enumeration units
-		usCounties = joinDetroitData(usCounties,internetCounties);
+		miTracts = joinDetroitData(miTracts,internetMiTracts);
 		//create color scale for enumeration units
-		var colorScale = makeColorScale(internetCounties);
+		var colorScale = makeColorScale(internetMiTracts);
 		//add enumeration units to the map
-		setEnumerationUnits(usCounties,map,path,colorScale);
+		setDetroitEnumerationUnits(miTracts,map,path,colorScale);
 		//create dropdown
-		createDropdown(internetCounties);
+		createDropdown(internetMiTracts);
 		//create side panel
 		//sidePanel();
 		//create chart
@@ -162,7 +164,7 @@ function makeColorScale(csvData){
 	};
 	//pass array of expressed values as domain
 	color.domain(domainArray);
-	console.log("domain array: ",domainArray);
+	//console.log("domain array: ",domainArray);
 	return color; //return the color scale generator
 };
 function choropleth(d, colorScale){
@@ -175,15 +177,14 @@ function choropleth(d, colorScale){
 		return "#ccc";
 	};
 };
-function joinData(miCounties, voters){
-	console.log(voters);
+function joinData(geoJson, csvData){
 	//loop through csv to assign each csv values to json county
-	for (var i=0; i<voters.length; i++) {
-		var csvCounty = voters[i]; //the current region
-		var csvKey = csvCounty.geo_id.slice(-5); //csv county field
+	for (var i=0; i<csvData.length; i++) {
+		var csvCounty = csvData[i]; //the current region
+		var csvKey = csvCounty.GEO_ID.slice(-5); //csv county field
 		//loop through json regions to find right regions
-		for (var a=0; a<miCounties.length; a++) {
-			var geojsonProps = miCounties[a].properties;//the current region geojson properties
+		for (var a=0; a<geoJson.length; a++) {
+			var geojsonProps = geoJson[a].properties;//the current region geojson properties
 			var geojsonKey = geojsonProps.GEOID;//the geojson primary key
 			///where NAME codes match, attach csv to json object
 			if (geojsonKey == csvKey) {
@@ -192,20 +193,24 @@ function joinData(miCounties, voters){
 					var val = parseFloat(csvCounty[attr]); //get csv attribute value
 					geojsonProps[attr] = val; //assign attribute and value to geojson props
 				});
+				attrStrArray.forEach(function(attr){
+					var val = csvCounty[attr]; //get csv attribute value
+					geojsonProps[attr] = val; //assign attribute and value to geojson props
+				});
 			};
 		};
 	};
-	console.log(miCounties);
-	return miCounties;
+	//console.log(geoJson);
+	return geoJson;
 };
-function joinDetroitData(miCounties, voters){
+function joinDetroitData(geoJson, csvData){
 	//loop through csv to assign each csv values to json county
-	for (var i=0; i<voters.length; i++) {
-		var csvCounty = voters[i]; //the current region
+	for (var i=0; i<csvData.length; i++) {
+		var csvCounty = csvData[i]; //the current region
 		var csvKey = csvCounty.GEO_ID.slice(-11); //csv county field
 		//loop through json regions to find right regions
-		for (var a=0; a<miCounties.length; a++) {
-			var geojsonProps = miCounties[a].properties;//the current region geojson properties
+		for (var a=0; a<geoJson.length; a++) {
+			var geojsonProps = geoJson[a].properties;//the current region geojson properties
 			var geojsonKey = geojsonProps.GEOID;//the geojson primary key
 			///where NAME codes match, attach csv to json object
 			if (geojsonKey == csvKey) {
@@ -217,30 +222,53 @@ function joinDetroitData(miCounties, voters){
 			};
 		};
 	};
-	console.log(miCounties);
-	return miCounties;
+	//console.log(geoJson);
+	return geoJson;
 };
-function setEnumerationUnits(miCounties,map,path,colorScale){
+function setEnumerationUnits(geoJson,map,path,colorScale){
 
 	var counties = map.selectAll(".counties")
-		.data(miCounties)
+		.data(geoJson)
 		.enter()
 		.append("path")
 		.attr("class", function(d){
-				return "counties " + d.properties.NAME;
+				return "counties " + d.properties.LABEL;
 		})
 		.attr("d", path)
 		.style("fill", function(d) {
 			return choropleth(d.properties, colorScale)
 		})
 		.on("mouseover", function(d){
-			highlight(d.properties)
+            highlight(d.properties)
 		})
 		.on("mouseout", function(d){
 			dehighlight(d.properties);
 		})
 		.on("mousemove", moveLabel);
 		var desc = counties.append("desc")
+			.text('{"stroke": "#000", "stroke-width": "0.5px"}');
+};
+function setDetroitEnumerationUnits(geoJson,map,path,colorScale){
+
+	var tracts = map.selectAll(".tracts")
+		.data(geoJson)
+		.enter()
+		.append("path")
+		.attr("class", function(d){
+				return "tracts " + d.properties.TRACTCE;
+		})
+		.attr("d", path)
+		.style("fill", function(d) {
+			return choropleth(d.properties, colorScale)
+		})
+		.on("mouseover", function(d){
+            highlightGF(d.properties)
+		})
+		.on("mouseout", function(d){
+			dehighlight(d.properties);
+		})
+		.on("mousemove", moveLabel);
+		var desc = tracts.append("desc")
 			.text('{"stroke": "#000", "stroke-width": "0.5px"}');
 };
 function setGraticule(map,path){
@@ -385,16 +413,43 @@ function setPieChart(csvData, colorScale){
             .attr("dy", ".35em")
             .text(function(d) { return d.data.label; });
 
+
     
 };
 
+
+
+
 function createDropdown(csvData){
+	//determine the census data level for to differentiate .attr("class")
+    
+    var censusLevel = csvData[0].GEO_ID.substring(0,2);
+   
 	//add select element
 	var dropdown = d3.select("body")
 				.append("select")
-				.attr("class", "dropdown")
+				.attr("class", function(){
+					if (censusLevel == 05){
+						return "dropdownUS"
+					}
+					else if (censusLevel == 14) {
+						return "dropdownMI"
+					}
+					else {
+						console.log("there's a problem with your dropdown");
+					}
+				})
 				.on("change", function(){
+                    //this is the issue with the labels. Both of the dropdowns made have this capability, which is called in the set label function. So both of them call changeAttribute(), which changes the value of expressed, which affects the setLabel function. 
+                    var attribute = this.value
+                    console.log(attribute)
 					changeAttribute(this.value, csvData)
+//                $(".dropdownMI").change(function(){
+//                        changeAttribute(this.value, csvData)
+//                    })
+//                $(".dropdownUS").change(function(){
+//                        changeAttribute(this.value, csvData)
+//                    })
 				});
 	//add initial option
 	var titleOption = dropdown.append("option")
@@ -411,12 +466,16 @@ function createDropdown(csvData){
 };
 //dropdown change listener handler
 function changeAttribute(attribute, csvData){
+	//get variable to determine census level - counties or tracts
+	var censusLevel = csvData[0].GEO_ID.substring(0,2);
+	//determine census level - counties or tracts
+	var classType = classType(censusLevel);
 	//change the expressed attribute
 	expressed = attribute;
 	//recreate the color scale
 	var colorScale = makeColorScale(csvData);
 	//recolor enumeration units
-	var regions = d3.selectAll(".counties")
+	var regions = d3.selectAll(classType)
 			.transition()
 			.duration(1000)
 			.style("fill", function(d){
@@ -433,6 +492,19 @@ function changeAttribute(attribute, csvData){
 			return i * 20
 		})
 		.duration(500);
+
+		function classType(censusLevel){
+				if (censusLevel == 05){
+					return ".counties"
+				}
+				else if (censusLevel == 14) {
+					return ".tracts"
+				}
+				else {
+					console.log("there's a problem within changeAttributeFunction");
+				}
+				console.log("this is "+ classType)
+		}
 
 		updateChart(bars,csvData.length, colorScale);
 };
@@ -472,14 +544,21 @@ function highlight(props){ //add interactivity
 	// 	})
 
 	//change stroke
-	var selected = d3.selectAll("." + props.NAME)
+	var selected = d3.selectAll("." + props.LABEL)
 				.style("stroke","#ad3e3e")
 				.style("stroke-width","2");
 	setLabel(props);
 };
+function highlightGF(props){ //add interactivity
+	//change stroke
+	var selected = d3.selectAll("." + props.TRACTE)
+				.style("stroke","#ad3e3e")
+				.style("stroke-width","2");
+	setLabelGF(props);
+};
 //not working
 function dehighlight(props){
-	var selected = d3.selectAll("."+ props.NAME)
+	var selected = d3.selectAll("."+ props.LABEL)
 		.style("stroke", function(){
 			return getStyle(this,"stroke")
 		})
@@ -497,31 +576,50 @@ function dehighlight(props){
 	d3.select(".infolabel")
 		.remove();
 };
-//not working
 function setLabel(props){
 	//label content
-  var formatted = (props[expressed]);
-  var titleFormatted = chartTitleArray[attrIntArray.indexOf(expressed)];
-  //console.log(props[expressed]);
+  var attributeCV = $(".dropdownUS option:selected").val()
+  var formatted = (props[attributeCV]);
+  var titleFormatted = chartPopupArray[attrIntArray.indexOf(attributeCV)];
+  var labelAttribute = "<h1>" + formatted + " " + titleFormatted + "</h>";
+
+	//create label div
+	var infolabel = d3.select("body")
+		.append("div")
+		.attr("class", "infolabel")
+		.attr("id", props.LABEL + "_label")
+		.html(labelAttribute);
+	var countyName = infolabel.append("div")
+		.attr("class","labelname")
+		.html(props.LABEL)
+};
+//Thinking of a seperate label function for the second map, works kinda
+function setLabelGF(props){
+	//label content
+  var attributeGF = $(".dropdownMI option:selected").val()
+  //console.log(attributeGF)
+  var formatted = (props[attributeGF]);
+  var titleFormatted = chartPopupArray[attrIntArray.indexOf(attributeGF)];
 	var labelAttribute = "<h1>" + formatted + " " + titleFormatted + "</h>";
 
 	//create label div
 	var infolabel = d3.select("body")
 		.append("div")
 		.attr("class", "infolabel")
-		.attr("id", props.NAME + "_label")
+		.attr("id", props.LABEL + "_label")
 		.html(labelAttribute);
 	var countyName = infolabel.append("div")
 		.attr("class","labelname")
-		.html(props.NAME + " County")
+		.html(props.LABEL)
 };
-//not working
+//Think this works
 function moveLabel(){
 	//get width of label
 	var labelWidth = d3.select(".infolabel")
-		.node();
-		// .getBoundingClientRect()
-		// .width;
+		.node()
+        .getBoundingClientRect()
+		.width;
+    
 	//use coords of mousemove event to set label coords
 	var x1 = d3.event.clientX + 10,
 			y1 = d3.event.clientY - 75,
@@ -549,7 +647,7 @@ function setDataSources(){
 	var dataSources = d3.select("body")
 			.append("div")
 			.attr("class","dataSources")
-			.text("Data sources: Counties: US Census, Internet and Poverty statistics: ACS 2018 5-Year Estimates, United States Census. Created by Garret Fuelling, Cassandra Verras, Danielle Wyenberg, December 2020.")
+			.text("Data sources: Counties: US Census, Internet and Poverty statistics: ACS 2018 5-Year Estimates, United States Census. Created by Garrett Fuelling, Cassandra Verras, Danielle Wyenberg, December 2020.")
 };
 function createFirstPara(){
 	var firstPara = d3.select("body")
