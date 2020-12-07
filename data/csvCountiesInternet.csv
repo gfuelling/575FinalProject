@@ -1,4 +1,4 @@
-geo_id,LABEL,total,hascomputer,dialup,broadband,nointernet,nocomputer,totalpopover16,laborforceparticipationrate,unemploymentrate,popabove20underpovertylevel
+GEO_ID,LABEL,total,hascomputer,dialup,broadband,nointernet,nocomputer,totalpopover16,laborforceparticipationrate,unemploymentrate,popabove20underpovertylevel
 0500000US01001,"Autauga County, Alabama",21115,18368,48,16549,1771,2747,43368,59.3,4.2,4555
 0500000US01003,"Baldwin County, Alabama",78622,69635,412,61121,8102,8987,167712,58.5,4.4,11826
 0500000US01005,"Barbour County, Alabama",9186,6986,68,5490,1428,2200,20948,46,9.5,3059

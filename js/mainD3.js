@@ -163,7 +163,7 @@ function makeColorScale(csvData){
 	};
 	//pass array of expressed values as domain
 	color.domain(domainArray);
-	console.log("domain array: ",domainArray);
+	//console.log("domain array: ",domainArray);
 	return color; //return the color scale generator
 };
 function choropleth(d, colorScale){
@@ -180,7 +180,7 @@ function joinData(geoJson, csvData){
 	//loop through csv to assign each csv values to json county
 	for (var i=0; i<csvData.length; i++) {
 		var csvCounty = csvData[i]; //the current region
-		var csvKey = csvCounty.geo_id.slice(-5); //csv county field
+		var csvKey = csvCounty.GEO_ID.slice(-5); //csv county field
 		//loop through json regions to find right regions
 		for (var a=0; a<geoJson.length; a++) {
 			var geojsonProps = geoJson[a].properties;//the current region geojson properties
@@ -199,7 +199,7 @@ function joinData(geoJson, csvData){
 			};
 		};
 	};
-	console.log(geoJson);
+	//console.log(geoJson);
 	return geoJson;
 };
 function joinDetroitData(geoJson, csvData){
@@ -221,7 +221,7 @@ function joinDetroitData(geoJson, csvData){
 			};
 		};
 	};
-	console.log(geoJson);
+	//console.log(geoJson);
 	return geoJson;
 };
 function setEnumerationUnits(geoJson,map,path,colorScale){
@@ -238,7 +238,7 @@ function setEnumerationUnits(geoJson,map,path,colorScale){
 			return choropleth(d.properties, colorScale)
 		})
 		.on("mouseover", function(d){
-			highlight(d.properties)
+            highlight(d.properties)
 		})
 		.on("mouseout", function(d){
 			dehighlight(d.properties);
@@ -261,7 +261,7 @@ function setDetroitEnumerationUnits(geoJson,map,path,colorScale){
 			return choropleth(d.properties, colorScale)
 		})
 		.on("mouseover", function(d){
-			highlight(d.properties)
+            highlightGF(d.properties)
 		})
 		.on("mouseout", function(d){
 			dehighlight(d.properties);
@@ -405,8 +405,9 @@ function setPieChart(){
 }
 function createDropdown(csvData){
 	//determine the census data level for to differentiate .attr("class")
-	var censusLevel = csvData[0].geo_id.substring(0,2);
-	console.log(censusLevel);
+    
+    var censusLevel = csvData[0].GEO_ID.substring(0,2);
+   
 	//add select element
 	var dropdown = d3.select("body")
 				.append("select")
@@ -422,7 +423,16 @@ function createDropdown(csvData){
 					}
 				})
 				.on("change", function(){
+                    //this is the issue with the labels. Both of the dropdowns made have this capability, which is called in the set label function. So both of them call changeAttribute(), which changes the value of expressed, which affects the setLabel function. 
+                    var attribute = this.value
+                    console.log(attribute)
 					changeAttribute(this.value, csvData)
+//                $(".dropdownMI").change(function(){
+//                        changeAttribute(this.value, csvData)
+//                    })
+//                $(".dropdownUS").change(function(){
+//                        changeAttribute(this.value, csvData)
+//                    })
 				});
 	//add initial option
 	var titleOption = dropdown.append("option")
@@ -440,10 +450,9 @@ function createDropdown(csvData){
 //dropdown change listener handler
 function changeAttribute(attribute, csvData){
 	//get variable to determine census level - counties or tracts
-	var censusLevel = csvData[0].geo_id.substring(0,2);
+	var censusLevel = csvData[0].GEO_ID.substring(0,2);
 	//determine census level - counties or tracts
 	var classType = classType(censusLevel);
-	console.log(classType);
 	//change the expressed attribute
 	expressed = attribute;
 	//recreate the color scale
@@ -523,6 +532,13 @@ function highlight(props){ //add interactivity
 				.style("stroke-width","2");
 	setLabel(props);
 };
+function highlightGF(props){ //add interactivity
+	//change stroke
+	var selected = d3.selectAll("." + props.TRACTE)
+				.style("stroke","#ad3e3e")
+				.style("stroke-width","2");
+	setLabelGF(props);
+};
 //not working
 function dehighlight(props){
 	var selected = d3.selectAll("."+ props.LABEL)
@@ -545,9 +561,28 @@ function dehighlight(props){
 };
 function setLabel(props){
 	//label content
-  var formatted = (props[expressed]);
-  var titleFormatted = chartPopupArray[attrIntArray.indexOf(expressed)];
-  //console.log(props[expressed]);
+  var attributeCV = $(".dropdownUS option:selected").val()
+  var formatted = (props[attributeCV]);
+  var titleFormatted = chartPopupArray[attrIntArray.indexOf(attributeCV)];
+  var labelAttribute = "<h1>" + formatted + " " + titleFormatted + "</h>";
+
+	//create label div
+	var infolabel = d3.select("body")
+		.append("div")
+		.attr("class", "infolabel")
+		.attr("id", props.LABEL + "_label")
+		.html(labelAttribute);
+	var countyName = infolabel.append("div")
+		.attr("class","labelname")
+		.html(props.LABEL)
+};
+//Thinking of a seperate label function for the second map, works kinda
+function setLabelGF(props){
+	//label content
+  var attributeGF = $(".dropdownMI option:selected").val()
+  //console.log(attributeGF)
+  var formatted = (props[attributeGF]);
+  var titleFormatted = chartPopupArray[attrIntArray.indexOf(attributeGF)];
 	var labelAttribute = "<h1>" + formatted + " " + titleFormatted + "</h>";
 
 	//create label div
@@ -560,7 +595,7 @@ function setLabel(props){
 		.attr("class","labelname")
 		.html(props.LABEL)
 };
-//not working
+//Think this works
 function moveLabel(){
 	//get width of label
 	var labelWidth = d3.select(".infolabel")

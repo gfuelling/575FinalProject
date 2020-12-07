@@ -78,6 +78,7 @@ body{
   background-color: seashell;
 }
 .dropdownMI {
+  position: absolute;
   top: 900px;
   left: 40px;
   z-index:10;
