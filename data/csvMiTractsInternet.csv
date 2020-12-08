@@ -4,11 +4,9 @@ GEO_ID,NAME,totalHHs,hascomputer,dialup,broadband,nointernet,nocomputer,totalpop
 1400000US26001970400,"Census Tract 9704, Alcona County, Michigan",1290,976,21,779,176,314,2426,47.8,9.5,41.8
 1400000US26001970500,"Census Tract 9705, Alcona County, Michigan",1028,801,24,633,144,227,1804,36.4,10.7,28.8
 1400000US26001970600,"Census Tract 9706, Alcona County, Michigan",679,569,5,482,82,110,1319,41.1,11.6,54.3
-1400000US26001990000,"Census Tract 9900, Alcona County, Michigan",0,0,0,0,0,0,0,-,-,-
 1400000US26003000100,"Census Tract 1, Alger County, Michigan",1294,1035,5,882,148,259,2988,45,2.5,27
 1400000US26003000200,"Census Tract 2, Alger County, Michigan",1032,856,28,752,76,176,2375,54,10.6,58.3
 1400000US26003000300,"Census Tract 3, Alger County, Michigan",768,631,12,538,81,137,2590,27.1,7,33.3
-1400000US26003990000,"Census Tract 9900, Alger County, Michigan",0,0,0,0,0,0,0,-,-,-
 1400000US26005030200,"Census Tract 302, Allegan County, Michigan",1253,1230,22,1166,42,23,2536,63.5,1.2,29.2
 1400000US26005030300,"Census Tract 303, Allegan County, Michigan",2685,2305,20,2042,243,380,5778,71.3,1.3,24.1
 1400000US26005030401,"Census Tract 304.01, Allegan County, Michigan",2605,2340,0,2225,115,265,5889,74.7,2.6,52.4
@@ -33,7 +31,6 @@ GEO_ID,NAME,totalHHs,hascomputer,dialup,broadband,nointernet,nocomputer,totalpop
 1400000US26005032401,"Census Tract 324.01, Allegan County, Michigan",640,546,0,510,36,94,1299,72.9,5,55.8
 1400000US26005032402,"Census Tract 324.02, Allegan County, Michigan",1450,1282,10,1170,102,168,3177,72,2.6,61.4
 1400000US26005032600,"Census Tract 326, Allegan County, Michigan",682,632,0,588,44,50,1301,60.5,1.9,65.5
-1400000US26005990000,"Census Tract 9900, Allegan County, Michigan",0,0,0,0,0,0,0,-,-,-
 1400000US26007000100,"Census Tract 1, Alpena County, Michigan",1854,1507,18,1319,170,347,3731,50.2,6.6,35.8
 1400000US26007000200,"Census Tract 2, Alpena County, Michigan",1697,1426,0,1215,211,271,3396,57.9,4.9,41.7
 1400000US26007000300,"Census Tract 3, Alpena County, Michigan",1503,1286,0,1130,156,217,2905,59.4,3.5,79.2
@@ -43,7 +40,6 @@ GEO_ID,NAME,totalHHs,hascomputer,dialup,broadband,nointernet,nocomputer,totalpop
 1400000US26007000700,"Census Tract 7, Alpena County, Michigan",1379,1083,12,936,135,296,2462,57.4,8.9,74.5
 1400000US26007000800,"Census Tract 8, Alpena County, Michigan",1383,1214,12,1075,127,169,2424,60.5,5.1,42.6
 1400000US26007000900,"Census Tract 9, Alpena County, Michigan",1269,1086,10,964,112,183,2348,54,5.2,64.2
-1400000US26007990000,"Census Tract 9900, Alpena County, Michigan",0,0,0,0,0,0,0,-,-,-
 1400000US26009960100,"Census Tract 9601, Antrim County, Michigan",1151,1043,6,881,156,108,2283,52.3,4,48.1
 1400000US26009960200,"Census Tract 9602, Antrim County, Michigan",1307,1124,9,887,228,183,2710,58.1,6.4,36.2
 1400000US26009960300,"Census Tract 9603, Antrim County, Michigan",1244,1145,2,1029,114,99,2377,50.1,5.4,40.1
@@ -51,17 +47,13 @@ GEO_ID,NAME,totalHHs,hascomputer,dialup,broadband,nointernet,nocomputer,totalpop
 1400000US26009960500,"Census Tract 9605, Antrim County, Michigan",1402,1247,11,1115,121,155,2846,53.8,7.6,44.8
 1400000US26009960600,"Census Tract 9606, Antrim County, Michigan",1508,1386,9,1200,177,122,2774,52.3,3.9,67.9
 1400000US26009960700,"Census Tract 9607, Antrim County, Michigan",1845,1537,21,1311,205,308,3823,57.2,5.9,51.4
-1400000US26009990000,"Census Tract 9900, Antrim County, Michigan",0,0,0,0,0,0,0,-,-,-
 1400000US26011970100,"Census Tract 9701, Arenac County, Michigan",1042,793,16,655,122,249,2016,48,11.7,46.3
 1400000US26011970200,"Census Tract 9702, Arenac County, Michigan",1353,1057,8,841,208,296,2711,49.9,9,45
 1400000US26011970300,"Census Tract 9703, Arenac County, Michigan",1131,890,9,738,143,241,2166,55.6,7.4,49.8
 1400000US26011970400,"Census Tract 9704, Arenac County, Michigan",1368,1087,27,937,123,281,2407,41.6,11.5,33.2
 1400000US26011970500,"Census Tract 9705, Arenac County, Michigan",1790,1405,16,1180,209,385,3456,52.9,9.2,38.5
-1400000US26011990000,"Census Tract 9900, Arenac County, Michigan",0,0,0,0,0,0,0,-,-,-
-1400000US26011990100,"Census Tract 9901, Arenac County, Michigan",0,0,0,0,0,0,0,-,-,-
 1400000US26013000100,"Census Tract 1, Baraga County, Michigan",1709,1405,39,1243,123,304,3348,49.2,4.1,51
 1400000US26013000200,"Census Tract 2, Baraga County, Michigan",1327,1019,15,894,110,308,3813,34.5,9.2,51.3
-1400000US26013990100,"Census Tract 9901, Baraga County, Michigan",0,0,0,0,0,0,0,-,-,-
 1400000US26015010100,"Census Tract 101, Barry County, Michigan",2403,2062,11,1846,205,341,4841,60.4,6.6,41.4
 1400000US26015010200,"Census Tract 102, Barry County, Michigan",2052,1819,43,1569,207,233,4208,68.5,5.3,60.4
 1400000US26015010300,"Census Tract 103, Barry County, Michigan",2866,2536,35,2380,121,330,6006,66.6,3.5,27.2
@@ -99,13 +91,11 @@ GEO_ID,NAME,totalHHs,hascomputer,dialup,broadband,nointernet,nocomputer,totalpop
 1400000US26017286400,"Census Tract 2864, Bay County, Michigan",973,751,10,636,105,222,2017,54.9,5.7,46.3
 1400000US26017286500,"Census Tract 2865, Bay County, Michigan",777,601,0,523,78,176,1688,39.5,14.7,41.3
 1400000US26017286600,"Census Tract 2866, Bay County, Michigan",2028,1713,0,1633,80,315,3964,61.2,12,49.8
-1400000US26017990000,"Census Tract 9900, Bay County, Michigan",0,0,0,0,0,0,0,-,-,-
 1400000US26019000100,"Census Tract 1, Benzie County, Michigan",2736,2386,14,2254,118,350,5751,64.6,3.2,53.2
 1400000US26019000200,"Census Tract 2, Benzie County, Michigan",1234,1150,7,1007,136,84,2822,55.7,4.7,46.2
 1400000US26019000300,"Census Tract 3, Benzie County, Michigan",819,752,18,671,63,67,1691,43.7,7,36.6
 1400000US26019000400,"Census Tract 4, Benzie County, Michigan",849,709,3,655,51,140,1844,43.7,7.4,39.6
 1400000US26019000500,"Census Tract 5, Benzie County, Michigan",1095,936,19,781,136,159,2612,56.7,10.8,43.9
-1400000US26019990000,"Census Tract 9900, Benzie County, Michigan",0,0,0,0,0,0,0,-,-,-
 1400000US26021000300,"Census Tract 3, Berrien County, Michigan",744,547,0,425,122,197,1561,62.8,17.4,52.2
 1400000US26021000400,"Census Tract 4, Berrien County, Michigan",1258,872,0,560,312,386,1758,53.6,13,52.3
 1400000US26021000500,"Census Tract 5, Berrien County, Michigan",567,370,0,289,81,197,1170,50.7,25.1,46.9
@@ -154,7 +144,6 @@ GEO_ID,NAME,totalHHs,hascomputer,dialup,broadband,nointernet,nocomputer,totalpop
 1400000US26021021200,"Census Tract 212, Berrien County, Michigan",661,509,0,419,90,152,1305,55,6.4,41.7
 1400000US26021021300,"Census Tract 213, Berrien County, Michigan",1166,1089,8,902,179,77,4456,63.1,4.9,56.7
 1400000US26021021400,"Census Tract 214, Berrien County, Michigan",1521,1365,6,1142,217,156,3304,62.9,8.2,65.2
-1400000US26021990000,"Census Tract 9900, Berrien County, Michigan",0,0,0,0,0,0,0,-,-,-
 1400000US26023950100,"Census Tract 9501, Branch County, Michigan",1520,1235,9,1074,152,285,2982,56.6,3.4,23.4
 1400000US26023950200,"Census Tract 9502, Branch County, Michigan",1437,1236,20,1094,122,201,2922,55.6,11.9,47.7
 1400000US26023950300,"Census Tract 9503, Branch County, Michigan",1496,1284,28,1072,184,212,2970,56.3,4.9,39.8
@@ -230,7 +219,6 @@ GEO_ID,NAME,totalHHs,hascomputer,dialup,broadband,nointernet,nocomputer,totalpop
 1400000US26029001300,"Census Tract 13, Charlevoix County, Michigan",733,667,0,561,106,66,1219,54,5.6,42.9
 1400000US26029001400,"Census Tract 14, Charlevoix County, Michigan",564,501,5,446,50,63,1074,69.6,1.5,42.6
 1400000US26029001500,"Census Tract 15, Charlevoix County, Michigan",1360,1165,15,937,213,195,2196,59.2,5.5,67.3
-1400000US26029990000,"Census Tract 9900, Charlevoix County, Michigan",0,0,0,0,0,0,0,-,-,-
 1400000US26031960100,"Census Tract 9601, Cheboygan County, Michigan",1294,1084,17,895,172,210,2600,57.1,6.9,60.9
 1400000US26031960200,"Census Tract 9602, Cheboygan County, Michigan",1234,1092,22,954,116,142,2357,64.8,9,59
 1400000US26031960300,"Census Tract 9603, Cheboygan County, Michigan",1971,1482,36,1224,222,489,3720,47.8,8.6,33.2
@@ -239,7 +227,6 @@ GEO_ID,NAME,totalHHs,hascomputer,dialup,broadband,nointernet,nocomputer,totalpop
 1400000US26031960600,"Census Tract 9606, Cheboygan County, Michigan",1175,1022,31,855,136,153,2149,45.4,5,81.3
 1400000US26031960700,"Census Tract 9607, Cheboygan County, Michigan",1377,1116,14,930,172,261,2544,56.6,9.2,38.3
 1400000US26031960800,"Census Tract 9608, Cheboygan County, Michigan",1408,1158,6,971,181,250,3013,52.4,9.6,43
-1400000US26031990000,"Census Tract 9900, Cheboygan County, Michigan",0,0,0,0,0,0,0,-,-,-
 1400000US26033970100,"Census Tract 9701, Chippewa County, Michigan",1208,1065,9,979,77,143,2736,54.5,8.4,50
 1400000US26033970200,"Census Tract 9702, Chippewa County, Michigan",1398,1216,0,1078,138,182,2855,64,14.9,73.1
 1400000US26033970300,"Census Tract 9703, Chippewa County, Michigan",1646,1307,13,1077,217,339,3698,59.8,7.6,48.9
@@ -251,11 +238,6 @@ GEO_ID,NAME,totalHHs,hascomputer,dialup,broadband,nointernet,nocomputer,totalpop
 1400000US26033970900,"Census Tract 9709, Chippewa County, Michigan",1105,946,4,838,104,159,3712,38,16,47.4
 1400000US26033971000,"Census Tract 9710, Chippewa County, Michigan",1224,1014,22,858,134,210,2350,52.6,8,46.4
 1400000US26033971100,"Census Tract 9711, Chippewa County, Michigan",790,648,32,561,55,142,1449,40.6,17.1,41.4
-1400000US26033980100,"Census Tract 9801, Chippewa County, Michigan",0,0,0,0,0,0,0,-,-,-
-1400000US26033980200,"Census Tract 9802, Chippewa County, Michigan",0,0,0,0,0,0,1467,0,-,-
-1400000US26033980300,"Census Tract 9803, Chippewa County, Michigan",0,0,0,0,0,0,177,0,-,-
-1400000US26033990000,"Census Tract 9900, Chippewa County, Michigan",0,0,0,0,0,0,0,-,-,-
-1400000US26033990100,"Census Tract 9901, Chippewa County, Michigan",0,0,0,0,0,0,0,-,-,-
 1400000US26035000100,"Census Tract 1, Clare County, Michigan",767,610,3,478,129,157,1488,39.6,10.7,39.7
 1400000US26035000200,"Census Tract 2, Clare County, Michigan",519,425,2,341,82,94,1006,41.7,10,36.2
 1400000US26035000300,"Census Tract 3, Clare County, Michigan",1027,798,5,598,195,229,1990,39.1,14.6,48
@@ -305,8 +287,6 @@ GEO_ID,NAME,totalHHs,hascomputer,dialup,broadband,nointernet,nocomputer,totalpop
 1400000US26041970900,"Census Tract 9709, Delta County, Michigan",1288,1108,0,972,136,180,2283,55.2,6.3,35.1
 1400000US26041971000,"Census Tract 9710, Delta County, Michigan",1281,994,0,847,147,287,2099,61.1,6.3,61.1
 1400000US26041971100,"Census Tract 9711, Delta County, Michigan",1501,1306,0,1159,147,195,2668,52.2,2.4,45.5
-1400000US26041990000,"Census Tract 9900, Delta County, Michigan",0,0,0,0,0,0,0,-,-,-
-1400000US26041990100,"Census Tract 9901, Delta County, Michigan",0,0,0,0,0,0,0,-,-,-
 1400000US26043950100,"Census Tract 9501, Dickinson County, Michigan",694,516,5,435,76,178,1409,53.3,2.3,39.4
 1400000US26043950200,"Census Tract 9502, Dickinson County, Michigan",1811,1611,20,1460,131,200,3522,58.7,2.9,33.3
 1400000US26043950300,"Census Tract 9503, Dickinson County, Michigan",2183,1821,16,1490,315,362,3989,57,5.7,25
@@ -350,7 +330,6 @@ GEO_ID,NAME,totalHHs,hascomputer,dialup,broadband,nointernet,nocomputer,totalpop
 1400000US26047970600,"Census Tract 9706, Emmet County, Michigan",2095,1897,4,1743,150,198,4433,68.6,3.2,42.6
 1400000US26047970700,"Census Tract 9707, Emmet County, Michigan",1804,1551,8,1444,99,253,3158,64.5,2.1,65
 1400000US26047970800,"Census Tract 9708, Emmet County, Michigan",2174,1855,11,1700,144,319,3412,65,4,44
-1400000US26047990000,"Census Tract 9900, Emmet County, Michigan",0,0,0,0,0,0,0,-,-,-
 1400000US26049000100,"Census Tract 1, Genesee County, Michigan",1048,724,0,525,199,324,2064,42.5,31.1,50.2
 1400000US26049000200,"Census Tract 2, Genesee County, Michigan",656,432,7,292,133,224,1103,48.1,26.4,49
 1400000US26049000300,"Census Tract 3, Genesee County, Michigan",1137,768,21,468,279,369,2105,51.5,33.1,62.2
@@ -481,7 +460,6 @@ GEO_ID,NAME,totalHHs,hascomputer,dialup,broadband,nointernet,nocomputer,totalpop
 1400000US26049013500,"Census Tract 135, Genesee County, Michigan",2136,1451,0,1230,221,685,4315,48.8,18,40.1
 1400000US26049013600,"Census Tract 136, Genesee County, Michigan",767,469,0,362,107,298,1387,45.9,37.2,32.5
 1400000US26049980000,"Census Tract 9800, Genesee County, Michigan",9,5,0,5,0,4,14,71.4,0,100
-1400000US26049980100,"Census Tract 9801, Genesee County, Michigan",0,0,0,0,0,0,0,-,-,-
 1400000US26051000100,"Census Tract 1, Gladwin County, Michigan",1395,1081,39,883,159,314,2520,25,4.3,9.4
 1400000US26051000200,"Census Tract 2, Gladwin County, Michigan",715,571,3,513,55,144,1283,32.6,8.6,52.8
 1400000US26051000300,"Census Tract 3, Gladwin County, Michigan",903,634,19,537,78,269,1624,41.6,3.6,21.7
@@ -498,7 +476,6 @@ GEO_ID,NAME,totalHHs,hascomputer,dialup,broadband,nointernet,nocomputer,totalpop
 1400000US26053950500,"Census Tract 9505, Gogebic County, Michigan",1075,754,0,600,154,321,1730,49.5,1.6,35.8
 1400000US26053950600,"Census Tract 9506, Gogebic County, Michigan",1411,1155,14,921,220,256,2655,58.5,10.5,62
 1400000US26053950700,"Census Tract 9507, Gogebic County, Michigan",973,789,11,650,128,184,1950,56.4,6.2,52
-1400000US26053990000,"Census Tract 9900, Gogebic County, Michigan",0,0,0,0,0,0,0,-,-,-
 1400000US26055550101,"Census Tract 5501.01, Grand Traverse County, Michigan",2394,2307,0,2195,112,87,4852,73.1,3.4,27.9
 1400000US26055550102,"Census Tract 5501.02, Grand Traverse County, Michigan",1528,1350,0,1250,100,178,2962,58.4,1.7,26.9
 1400000US26055550200,"Census Tract 5502, Grand Traverse County, Michigan",1667,1567,18,1413,136,100,3644,61.6,5.8,41.8
@@ -515,11 +492,9 @@ GEO_ID,NAME,totalHHs,hascomputer,dialup,broadband,nointernet,nocomputer,totalpop
 1400000US26055551300,"Census Tract 5513, Grand Traverse County, Michigan",3702,3231,0,2799,432,471,6632,65.4,9.8,63.9
 1400000US26055551400,"Census Tract 5514, Grand Traverse County, Michigan",2189,1859,13,1642,204,330,4390,61.8,3.3,51.7
 1400000US26055551500,"Census Tract 5515, Grand Traverse County, Michigan",1345,1227,23,1126,78,118,2527,63.8,3.7,42.1
-1400000US26055990000,"Census Tract 9900, Grand Traverse County, Michigan",0,0,0,0,0,0,0,-,-,-
 1400000US26057000100,"Census Tract 1, Gratiot County, Michigan",1616,1340,13,1103,224,276,3154,54.4,5.9,39.1
 1400000US26057000200,"Census Tract 2, Gratiot County, Michigan",2055,1681,18,1457,206,374,3995,57.2,5.5,26.3
 1400000US26057000300,"Census Tract 3, Gratiot County, Michigan",1631,1318,5,1077,236,313,3201,56.4,6.3,56.5
-1400000US26057000400,"Census Tract 4, Gratiot County, Michigan",0,0,0,0,0,0,3707,0,-,-
 1400000US26057000500,"Census Tract 5, Gratiot County, Michigan",2091,1692,16,1290,386,399,4387,55.1,15.7,66.2
 1400000US26057000600,"Census Tract 6, Gratiot County, Michigan",1696,1535,7,1260,268,161,3572,64.9,5.6,49.1
 1400000US26057000700,"Census Tract 7, Gratiot County, Michigan",1385,1203,21,888,294,182,2586,54.1,5.3,26.2
@@ -548,8 +523,6 @@ GEO_ID,NAME,totalHHs,hascomputer,dialup,broadband,nointernet,nocomputer,totalpop
 1400000US26061000800,"Census Tract 8, Houghton County, Michigan",1949,1756,11,1555,190,193,6215,45.9,6.1,52
 1400000US26061000900,"Census Tract 9, Houghton County, Michigan",1869,1657,7,1519,131,212,3958,64.5,4.1,37.6
 1400000US26061001000,"Census Tract 10, Houghton County, Michigan",1130,976,10,899,67,154,2280,54.7,7.6,46
-1400000US26061990000,"Census Tract 9900, Houghton County, Michigan",0,0,0,0,0,0,0,-,-,-
-1400000US26061990100,"Census Tract 9901, Houghton County, Michigan",0,0,0,0,0,0,0,-,-,-
 1400000US26063950100,"Census Tract 9501, Huron County, Michigan",680,570,5,486,79,110,1192,45.1,15.3,41.2
 1400000US26063950200,"Census Tract 9502, Huron County, Michigan",922,754,4,667,83,168,1764,50.9,5.6,43.2
 1400000US26063950300,"Census Tract 9503, Huron County, Michigan",971,796,4,699,93,175,1786,58.6,3.3,47.9
@@ -562,7 +535,6 @@ GEO_ID,NAME,totalHHs,hascomputer,dialup,broadband,nointernet,nocomputer,totalpop
 1400000US26063951000,"Census Tract 9510, Huron County, Michigan",1615,1238,16,1044,178,377,2976,52.9,3.5,40
 1400000US26063951100,"Census Tract 9511, Huron County, Michigan",827,717,3,602,112,110,1719,61.9,3.3,59.7
 1400000US26063951200,"Census Tract 9512, Huron County, Michigan",1733,1343,3,1174,166,390,3276,54.5,6.4,46
-1400000US26063990000,"Census Tract 9900, Huron County, Michigan",0,0,0,0,0,0,0,-,-,-
 1400000US26065000100,"Census Tract 1, Ingham County, Michigan",773,667,0,487,180,106,1500,66.1,7.4,57
 1400000US26065000400,"Census Tract 4, Ingham County, Michigan",1100,1006,0,851,155,94,2118,68,8.6,78.3
 1400000US26065000600,"Census Tract 6, Ingham County, Michigan",862,796,0,699,97,66,1510,71.4,9.7,64.7
@@ -599,11 +571,6 @@ GEO_ID,NAME,totalHHs,hascomputer,dialup,broadband,nointernet,nocomputer,totalpop
 1400000US26065004302,"Census Tract 43.02, Ingham County, Michigan",1021,1006,0,788,218,15,2781,52.8,13.4,58.3
 1400000US26065004402,"Census Tract 44.02, Ingham County, Michigan",808,808,0,166,642,0,1394,59.4,14.7,55.3
 1400000US26065004403,"Census Tract 44.03, Ingham County, Michigan",581,577,0,423,154,4,1431,61.9,7.6,58.5
-1400000US26065004490,"Census Tract 44.90, Ingham County, Michigan",0,0,0,0,0,0,3913,37.9,17.1,-
-1400000US26065004491,"Census Tract 44.91, Ingham County, Michigan",0,0,0,0,0,0,1228,43.2,13.6,-
-1400000US26065004492,"Census Tract 44.92, Ingham County, Michigan",0,0,0,0,0,0,3417,48.7,21.7,-
-1400000US26065004493,"Census Tract 44.93, Ingham County, Michigan",0,0,0,0,0,0,1727,42.7,9.9,-
-1400000US26065004494,"Census Tract 44.94, Ingham County, Michigan",0,0,0,0,0,0,3360,40,12.9,-
 1400000US26065004500,"Census Tract 45, Ingham County, Michigan",1719,1667,0,1467,200,52,3257,76.3,5.4,67.5
 1400000US26065004600,"Census Tract 46, Ingham County, Michigan",1864,1744,0,1660,84,120,3660,57.8,5.3,48.4
 1400000US26065004700,"Census Tract 47, Ingham County, Michigan",1450,1222,9,1120,93,228,2387,54.6,6.4,29.3
@@ -642,8 +609,6 @@ GEO_ID,NAME,totalHHs,hascomputer,dialup,broadband,nointernet,nocomputer,totalpop
 1400000US26065007000,"Census Tract 70, Ingham County, Michigan",2592,2304,0,2153,151,288,4729,60.4,7.6,43.4
 1400000US26065980000,"Census Tract 9800, Ingham County, Michigan",4,4,0,4,0,0,869,48.1,7.9,-
 1400000US26065980100,"Census Tract 9801, Ingham County, Michigan",2,2,0,2,0,0,5,40,0,-
-1400000US26065980200,"Census Tract 9802, Ingham County, Michigan",0,0,0,0,0,0,0,-,-,-
-1400000US26065980300,"Census Tract 9803, Ingham County, Michigan",0,0,0,0,0,0,0,-,-,-
 1400000US26067030100,"Census Tract 301, Ionia County, Michigan",2480,2094,23,1715,356,386,5153,62.2,7.3,50.4
 1400000US26067030200,"Census Tract 302, Ionia County, Michigan",1027,965,6,891,68,62,2189,66.9,6.4,66.3
 1400000US26067030300,"Census Tract 303, Ionia County, Michigan",1173,986,0,907,79,187,2114,58.8,6.6,45.5
@@ -656,7 +621,6 @@ GEO_ID,NAME,totalHHs,hascomputer,dialup,broadband,nointernet,nocomputer,totalpop
 1400000US26067031700,"Census Tract 317, Ionia County, Michigan",1626,1520,0,1421,99,106,3526,63.2,8.2,48.3
 1400000US26067031900,"Census Tract 319, Ionia County, Michigan",2338,2112,26,1711,375,226,5096,59.1,2.5,68.2
 1400000US26067032100,"Census Tract 321, Ionia County, Michigan",674,595,0,496,99,79,1507,54.6,8.7,34.7
-1400000US26067982200,"Census Tract 9822, Ionia County, Michigan",0,0,0,0,0,0,3220,0,-,-
 1400000US26069000100,"Census Tract 1, Iosco County, Michigan",1201,1015,27,879,109,186,2091,41.3,5.4,37.3
 1400000US26069000200,"Census Tract 2, Iosco County, Michigan",1782,1488,37,1331,120,294,3340,45.9,8.7,37.3
 1400000US26069000300,"Census Tract 3, Iosco County, Michigan",1196,1053,8,945,100,143,2314,49.4,8.2,39.8
@@ -666,7 +630,6 @@ GEO_ID,NAME,totalHHs,hascomputer,dialup,broadband,nointernet,nocomputer,totalpop
 1400000US26069000700,"Census Tract 7, Iosco County, Michigan",1175,946,10,812,124,229,2271,49.1,10.2,58
 1400000US26069000800,"Census Tract 8, Iosco County, Michigan",857,664,15,603,46,193,1537,35.2,6.3,29.4
 1400000US26069000900,"Census Tract 9, Iosco County, Michigan",932,716,24,631,61,216,1591,42.4,9.3,57.5
-1400000US26069990000,"Census Tract 9900, Iosco County, Michigan",0,0,0,0,0,0,0,-,-,-
 1400000US26071000100,"Census Tract 1, Iron County, Michigan",1073,892,19,695,178,181,2021,49,7.4,70.7
 1400000US26071000200,"Census Tract 2, Iron County, Michigan",741,606,15,476,115,135,1260,48.4,4.6,39.7
 1400000US26071000300,"Census Tract 3, Iron County, Michigan",1316,1058,16,772,270,258,2338,50.3,8.3,47
@@ -707,7 +670,6 @@ GEO_ID,NAME,totalHHs,hascomputer,dialup,broadband,nointernet,nocomputer,totalpop
 1400000US26075005500,"Census Tract 55, Jackson County, Michigan",2528,2063,0,1583,480,465,3954,57.7,7.2,41
 1400000US26075005600,"Census Tract 56, Jackson County, Michigan",3050,2783,0,2375,408,267,5679,56.7,5.6,50.3
 1400000US26075005700,"Census Tract 57, Jackson County, Michigan",1228,1086,0,982,104,142,2438,61.9,8.7,24.6
-1400000US26075005800,"Census Tract 58, Jackson County, Michigan",0,0,0,0,0,0,5052,0,-,-
 1400000US26075005900,"Census Tract 59, Jackson County, Michigan",1054,836,0,639,197,218,3753,23.9,12.5,31.3
 1400000US26075006000,"Census Tract 60, Jackson County, Michigan",2907,2453,0,2234,219,454,5579,64.4,7.6,40
 1400000US26075006100,"Census Tract 61, Jackson County, Michigan",2829,2440,0,2178,262,389,5360,61.5,10.8,47.8
@@ -916,8 +878,6 @@ GEO_ID,NAME,totalHHs,hascomputer,dialup,broadband,nointernet,nocomputer,totalpop
 1400000US26081014806,"Census Tract 148.06, Kent County, Michigan",1949,1856,6,1761,89,93,4334,73.3,1.7,80
 1400000US26081014807,"Census Tract 148.07, Kent County, Michigan",2906,2722,27,2574,121,184,6327,73.3,2.5,71.6
 1400000US26083000100,"Census Tract 1, Keweenaw County, Michigan",1081,869,6,719,144,212,1849,48.5,5.9,30.5
-1400000US26083980100,"Census Tract 9801, Keweenaw County, Michigan",0,0,0,0,0,0,3,33.3,100,-
-1400000US26083990100,"Census Tract 9901, Keweenaw County, Michigan",0,0,0,0,0,0,0,-,-,-
 1400000US26085960100,"Census Tract 9601, Lake County, Michigan",1052,798,16,626,156,254,2331,34.4,9.1,33.8
 1400000US26085961100,"Census Tract 9611, Lake County, Michigan",1340,1021,3,805,213,319,2915,41.6,14.7,36.4
 1400000US26085961200,"Census Tract 9612, Lake County, Michigan",1022,773,10,614,149,249,2283,37.4,12.6,30.1
@@ -933,7 +893,6 @@ GEO_ID,NAME,totalHHs,hascomputer,dialup,broadband,nointernet,nocomputer,totalpop
 1400000US26087334000,"Census Tract 3340, Lapeer County, Michigan",942,864,11,796,57,78,2182,51.4,7.9,35.3
 1400000US26087334500,"Census Tract 3345, Lapeer County, Michigan",828,754,0,657,97,74,1817,58.7,5.1,36.8
 1400000US26087336000,"Census Tract 3360, Lapeer County, Michigan",2043,1823,0,1676,147,220,4304,56.4,4.1,40.6
-1400000US26087336500,"Census Tract 3365, Lapeer County, Michigan",0,0,0,0,0,0,1213,0,-,-
 1400000US26087337000,"Census Tract 3370, Lapeer County, Michigan",1641,1409,18,1179,212,232,2620,48.3,10.2,43.3
 1400000US26087337500,"Census Tract 3375, Lapeer County, Michigan",1881,1491,0,1317,174,390,3311,57.5,13,43.1
 1400000US26087338000,"Census Tract 3380, Lapeer County, Michigan",1888,1725,7,1517,201,163,4280,58.6,5.1,37
@@ -952,7 +911,6 @@ GEO_ID,NAME,totalHHs,hascomputer,dialup,broadband,nointernet,nocomputer,totalpop
 1400000US26089970400,"Census Tract 9704, Leelanau County, Michigan",748,698,11,627,60,50,1384,42.3,2.9,21.1
 1400000US26089970500,"Census Tract 9705, Leelanau County, Michigan",1989,1831,30,1674,127,158,4104,61.5,6.4,50.6
 1400000US26089970600,"Census Tract 9706, Leelanau County, Michigan",2135,1932,0,1891,41,203,4463,57.6,5.5,42.7
-1400000US26089990000,"Census Tract 9900, Leelanau County, Michigan",0,0,0,0,0,0,0,-,-,-
 1400000US26091060100,"Census Tract 601, Lenawee County, Michigan",1399,1300,21,1148,131,99,2977,64.6,3.9,61.9
 1400000US26091060301,"Census Tract 603.01, Lenawee County, Michigan",1912,1742,20,1618,104,170,3879,63.5,3.8,33.9
 1400000US26091060302,"Census Tract 603.02, Lenawee County, Michigan",1763,1628,48,1464,116,135,3380,58.7,6.5,52.7
@@ -1039,14 +997,11 @@ GEO_ID,NAME,totalHHs,hascomputer,dialup,broadband,nointernet,nocomputer,totalpop
 1400000US26093744900,"Census Tract 7449, Livingston County, Michigan",1232,1164,0,1096,68,68,2500,64.6,2.9,21.1
 1400000US26095960100,"Census Tract 9601, Luce County, Michigan",1382,1090,31,971,88,292,3760,37.5,3.9,51.2
 1400000US26095960200,"Census Tract 9602, Luce County, Michigan",808,660,12,543,105,148,1690,49,8.8,47.5
-1400000US26095980000,"Census Tract 9800, Luce County, Michigan",0,0,0,0,0,0,0,-,-,-
-1400000US26095990000,"Census Tract 9900, Luce County, Michigan",0,0,0,0,0,0,0,-,-,-
 1400000US26097950100,"Census Tract 9501, Mackinac County, Michigan",763,669,5,570,94,94,1249,53,8,62.1
 1400000US26097950200,"Census Tract 9502, Mackinac County, Michigan",1082,836,19,646,171,246,2024,51.8,8.3,51.2
 1400000US26097950300,"Census Tract 9503, Mackinac County, Michigan",872,730,26,587,117,142,1548,46.9,8.7,47.3
 1400000US26097950400,"Census Tract 9504, Mackinac County, Michigan",1310,1142,11,927,204,168,2489,59.8,12.6,58.2
 1400000US26097950500,"Census Tract 9505, Mackinac County, Michigan",1257,1039,0,956,83,218,1983,60.2,9.3,64.7
-1400000US26097990000,"Census Tract 9900, Mackinac County, Michigan",0,0,0,0,0,0,0,-,-,-
 1400000US26099206700,"Census Tract 2067, Macomb County, Michigan",1660,1425,8,1318,99,235,3234,64.2,6.1,29
 1400000US26099210000,"Census Tract 2100, Macomb County, Michigan",1574,1455,0,1334,121,119,3574,62.6,3.4,30.1
 1400000US26099211000,"Census Tract 2110, Macomb County, Michigan",2171,1998,0,1851,147,173,4554,68.4,3.3,69.6
@@ -1260,10 +1215,6 @@ GEO_ID,NAME,totalHHs,hascomputer,dialup,broadband,nointernet,nocomputer,totalpop
 1400000US26099268300,"Census Tract 2683, Macomb County, Michigan",1048,723,0,634,89,325,1884,67.9,12.9,68.9
 1400000US26099268400,"Census Tract 2684, Macomb County, Michigan",1302,1045,0,965,80,257,2656,51.8,13.7,34.8
 1400000US26099982000,"Census Tract 9820, Macomb County, Michigan",5,5,0,5,0,0,11,45.5,0,45.5
-1400000US26099982100,"Census Tract 9821, Macomb County, Michigan",0,0,0,0,0,0,0,-,-,-
-1400000US26099982200,"Census Tract 9822, Macomb County, Michigan",0,0,0,0,0,0,26,46.2,50,30
-1400000US26099982300,"Census Tract 9823, Macomb County, Michigan",0,0,0,0,0,0,103,24.3,28,13.7
-1400000US26099990100,"Census Tract 9901, Macomb County, Michigan",0,0,0,0,0,0,0,-,-,-
 1400000US26101000100,"Census Tract 1, Manistee County, Michigan",1323,1072,16,939,117,251,2828,49.4,8.4,45.3
 1400000US26101000200,"Census Tract 2, Manistee County, Michigan",742,657,4,596,57,85,1534,46.8,8.9,39.8
 1400000US26101000300,"Census Tract 3, Manistee County, Michigan",789,697,11,584,102,92,1769,52.4,5.5,40
@@ -1273,7 +1224,6 @@ GEO_ID,NAME,totalHHs,hascomputer,dialup,broadband,nointernet,nocomputer,totalpop
 1400000US26101000700,"Census Tract 7, Manistee County, Michigan",1668,1298,5,1187,106,370,3503,54.3,5.9,39.8
 1400000US26101000800,"Census Tract 8, Manistee County, Michigan",1500,1328,0,1212,116,172,2700,57.4,4.6,40.8
 1400000US26101000900,"Census Tract 9, Manistee County, Michigan",989,854,0,704,150,135,1858,56.9,8.5,62.6
-1400000US26101990000,"Census Tract 9900, Manistee County, Michigan",0,0,0,0,0,0,0,-,-,-
 1400000US26103000100,"Census Tract 1, Marquette County, Michigan",885,783,0,700,83,102,2110,63.5,7,22.7
 1400000US26103000200,"Census Tract 2, Marquette County, Michigan",934,870,0,762,108,64,2037,59.8,11.5,45.1
 1400000US26103000300,"Census Tract 3, Marquette County, Michigan",870,693,0,576,117,177,1858,59.8,12.4,68.4
@@ -1298,7 +1248,6 @@ GEO_ID,NAME,totalHHs,hascomputer,dialup,broadband,nointernet,nocomputer,totalpop
 1400000US26103002600,"Census Tract 26, Marquette County, Michigan",922,787,4,685,98,135,1609,47.3,2.2,34.5
 1400000US26103002800,"Census Tract 28, Marquette County, Michigan",1587,1457,0,1246,211,130,4051,44.4,3.8,55
 1400000US26103002900,"Census Tract 29, Marquette County, Michigan",1734,1501,15,1307,179,233,3504,58.7,4.3,51.3
-1400000US26103990000,"Census Tract 9900, Marquette County, Michigan",0,0,0,0,0,0,0,-,-,-
 1400000US26105950100,"Census Tract 9501, Mason County, Michigan",975,816,21,646,149,159,1957,52.3,5.1,45.4
 1400000US26105950200,"Census Tract 9502, Mason County, Michigan",1506,1323,16,1129,178,183,2929,55.2,5.6,31.4
 1400000US26105950300,"Census Tract 9503, Mason County, Michigan",1648,1503,0,1392,111,145,3170,55,3,24.4
@@ -1307,7 +1256,6 @@ GEO_ID,NAME,totalHHs,hascomputer,dialup,broadband,nointernet,nocomputer,totalpop
 1400000US26105950600,"Census Tract 9506, Mason County, Michigan",1979,1741,30,1500,211,238,4223,59.3,5.7,48.8
 1400000US26105950700,"Census Tract 9507, Mason County, Michigan",1271,1049,11,770,268,222,2387,52.6,6.5,43.4
 1400000US26105950800,"Census Tract 9508, Mason County, Michigan",1118,996,12,866,118,122,2346,58.9,7.7,50
-1400000US26105990000,"Census Tract 9900, Mason County, Michigan",0,0,0,0,0,0,0,-,-,-
 1400000US26107960100,"Census Tract 9601, Mecosta County, Michigan",974,770,14,608,148,204,1973,45.7,5.3,27.1
 1400000US26107960200,"Census Tract 9602, Mecosta County, Michigan",1105,913,22,815,76,192,2330,48,8,41.2
 1400000US26107960300,"Census Tract 9603, Mecosta County, Michigan",1126,953,14,821,118,173,2501,60.7,5.7,42.6
@@ -1326,7 +1274,6 @@ GEO_ID,NAME,totalHHs,hascomputer,dialup,broadband,nointernet,nocomputer,totalpop
 1400000US26109960500,"Census Tract 9605, Menominee County, Michigan",1489,1265,26,1028,211,224,2569,62,4,55.3
 1400000US26109960600,"Census Tract 9606, Menominee County, Michigan",1884,1576,0,1429,147,308,3190,67.2,4.7,68.6
 1400000US26109960700,"Census Tract 9607, Menominee County, Michigan",1585,1174,6,1032,136,411,2613,57.9,5.7,55
-1400000US26109990000,"Census Tract 9900, Menominee County, Michigan",0,0,0,0,0,0,0,-,-,-
 1400000US26111290100,"Census Tract 2901, Midland County, Michigan",1481,1223,9,1032,182,258,2832,66,6.5,79.3
 1400000US26111290200,"Census Tract 2902, Midland County, Michigan",1986,1597,82,1356,159,389,3023,59.4,7,40.1
 1400000US26111290300,"Census Tract 2903, Midland County, Michigan",1659,1572,10,1520,42,87,3023,64.6,2.9,67.3
@@ -1388,7 +1335,6 @@ GEO_ID,NAME,totalHHs,hascomputer,dialup,broadband,nointernet,nocomputer,totalpop
 1400000US26115833700,"Census Tract 8337, Monroe County, Michigan",1136,1002,0,891,111,134,2109,57.9,6.2,44.4
 1400000US26115833800,"Census Tract 8338, Monroe County, Michigan",2072,1936,21,1756,159,136,4165,57.7,0.5,52.6
 1400000US26115833900,"Census Tract 8339, Monroe County, Michigan",2006,1834,0,1784,50,172,4179,65,1,58.6
-1400000US26115990000,"Census Tract 9900, Monroe County, Michigan",0,0,0,0,0,0,0,-,-,-
 1400000US26117970100,"Census Tract 9701, Montcalm County, Michigan",1719,1473,46,1174,253,246,3521,61.7,3.6,44.2
 1400000US26117970200,"Census Tract 9702, Montcalm County, Michigan",1318,1051,6,933,112,267,2760,51.7,7.4,32.9
 1400000US26117970300,"Census Tract 9703, Montcalm County, Michigan",1330,1083,0,881,202,247,2638,55.9,3.3,35.9
@@ -1449,7 +1395,6 @@ GEO_ID,NAME,totalHHs,hascomputer,dialup,broadband,nointernet,nocomputer,totalpop
 1400000US26121004000,"Census Tract 40, Muskegon County, Michigan",724,705,0,603,102,19,1671,64.8,5.7,36
 1400000US26121004200,"Census Tract 42, Muskegon County, Michigan",1614,1270,0,1009,261,344,2961,46.9,21.1,45.7
 1400000US26121004300,"Census Tract 43, Muskegon County, Michigan",776,567,0,403,164,209,1421,51,18.8,36.1
-1400000US26121990000,"Census Tract 9900, Muskegon County, Michigan",0,0,0,0,0,0,0,-,-,-
 1400000US26123970100,"Census Tract 9701, Newaygo County, Michigan",1859,1460,32,1105,323,399,3622,50.7,7.2,46.3
 1400000US26123970300,"Census Tract 9703, Newaygo County, Michigan",1495,1144,21,935,188,351,2978,52.3,5.8,37.9
 1400000US26123970400,"Census Tract 9704, Newaygo County, Michigan",1918,1650,13,1398,239,268,4087,60.7,3.5,52.3
@@ -1798,7 +1743,6 @@ GEO_ID,NAME,totalHHs,hascomputer,dialup,broadband,nointernet,nocomputer,totalpop
 1400000US26125197900,"Census Tract 1979, Oakland County, Michigan",1178,1150,0,1104,46,28,2793,72,1.9,52.2
 1400000US26125198000,"Census Tract 1980, Oakland County, Michigan",1269,1269,6,1219,44,0,3105,67.2,4.9,55.4
 1400000US26125198100,"Census Tract 1981, Oakland County, Michigan",1507,1128,17,995,116,379,2570,47.7,3,6
-1400000US26125981000,"Census Tract 9810, Oakland County, Michigan",0,0,0,0,0,0,0,-,-,-
 1400000US26127010300,"Census Tract 103, Oceana County, Michigan",2558,2151,20,1891,240,407,5265,62.1,5.9,49.2
 1400000US26127010400,"Census Tract 104, Oceana County, Michigan",1474,1256,17,982,257,218,3004,56.7,9.5,59.9
 1400000US26127010500,"Census Tract 105, Oceana County, Michigan",1124,918,19,693,206,206,2561,57.3,10,39.2
@@ -1806,7 +1750,6 @@ GEO_ID,NAME,totalHHs,hascomputer,dialup,broadband,nointernet,nocomputer,totalpop
 1400000US26127010800,"Census Tract 108, Oceana County, Michigan",1225,1121,9,937,175,104,2474,47.6,4,39.6
 1400000US26127010900,"Census Tract 109, Oceana County, Michigan",1024,874,12,730,132,150,2067,54.6,7,44.9
 1400000US26127011000,"Census Tract 110, Oceana County, Michigan",692,613,6,501,106,79,1397,48.6,6.5,65.9
-1400000US26127990000,"Census Tract 9900, Oceana County, Michigan",0,0,0,0,0,0,0,-,-,-
 1400000US26129950100,"Census Tract 9501, Ogemaw County, Michigan",1022,804,15,679,110,218,1944,43.9,12.8,40.3
 1400000US26129950200,"Census Tract 9502, Ogemaw County, Michigan",1359,1149,28,936,185,210,2666,52.1,7.6,47.3
 1400000US26129950300,"Census Tract 9503, Ogemaw County, Michigan",790,657,24,556,77,133,1408,39.5,6.8,39.1
@@ -1817,7 +1760,6 @@ GEO_ID,NAME,totalHHs,hascomputer,dialup,broadband,nointernet,nocomputer,totalpop
 1400000US26131970100,"Census Tract 9701, Ontonagon County, Michigan",811,569,7,466,96,242,1504,41.4,7.6,28.9
 1400000US26131970200,"Census Tract 9702, Ontonagon County, Michigan",1230,982,16,799,167,248,2235,43.9,6.2,41.9
 1400000US26131970300,"Census Tract 9703, Ontonagon County, Michigan",835,695,17,572,106,140,1581,39.5,8.3,59
-1400000US26131990100,"Census Tract 9901, Ontonagon County, Michigan",0,0,0,0,0,0,0,-,-,-
 1400000US26133970100,"Census Tract 9701, Osceola County, Michigan",1648,1294,29,989,276,354,3254,52.2,7.8,33.7
 1400000US26133970200,"Census Tract 9702, Osceola County, Michigan",1532,1278,16,996,266,254,3294,58.5,5,42.2
 1400000US26133970300,"Census Tract 9703, Osceola County, Michigan",1221,969,11,748,210,252,2446,46.5,8.6,34.8
@@ -1888,14 +1830,12 @@ GEO_ID,NAME,totalHHs,hascomputer,dialup,broadband,nointernet,nocomputer,totalpop
 1400000US26139025500,"Census Tract 255, Ottawa County, Michigan",1566,1306,8,1210,88,260,3101,63.9,0.8,100
 1400000US26139025700,"Census Tract 257, Ottawa County, Michigan",2306,1922,0,1801,121,384,4374,65.9,3.6,55.7
 1400000US26139025800,"Census Tract 258, Ottawa County, Michigan",2033,1719,0,1553,166,314,4334,76.5,6.4,75.1
-1400000US26139990000,"Census Tract 9900, Ottawa County, Michigan",0,0,0,0,0,0,0,-,-,-
 1400000US26141950100,"Census Tract 9501, Presque Isle County, Michigan",895,723,18,625,80,172,1606,38.3,6.2,43.2
 1400000US26141950200,"Census Tract 9502, Presque Isle County, Michigan",1127,926,28,782,116,201,2093,54.5,14.8,60.3
 1400000US26141950300,"Census Tract 9503, Presque Isle County, Michigan",879,689,25,569,95,190,1827,45.6,6.5,40.7
 1400000US26141950400,"Census Tract 9504, Presque Isle County, Michigan",1036,812,11,656,145,224,1968,48.7,11.9,40.8
 1400000US26141950500,"Census Tract 9505, Presque Isle County, Michigan",1194,906,21,777,108,288,2295,46.8,5.4,36.9
 1400000US26141950600,"Census Tract 9506, Presque Isle County, Michigan",677,611,13,479,119,66,1245,40,4.4,21.4
-1400000US26141990000,"Census Tract 9900, Presque Isle County, Michigan",0,0,0,0,0,0,0,-,-,-
 1400000US26143970100,"Census Tract 9701, Roscommon County, Michigan",856,654,14,543,97,202,1636,31.9,17.6,36.2
 1400000US26143970200,"Census Tract 9702, Roscommon County, Michigan",764,611,5,572,34,153,1633,41.1,13.9,31.6
 1400000US26143970300,"Census Tract 9703, Roscommon County, Michigan",1245,1121,5,1002,114,124,2477,45.2,10.9,32.8
@@ -2011,7 +1951,6 @@ GEO_ID,NAME,totalHHs,hascomputer,dialup,broadband,nointernet,nocomputer,totalpop
 1400000US26147657200,"Census Tract 6572, St. Clair County, Michigan",2004,1803,7,1547,249,201,4432,64.8,5.8,58.3
 1400000US26147658100,"Census Tract 6581, St. Clair County, Michigan",954,828,5,783,40,126,2099,62.9,3.6,36.9
 1400000US26147658500,"Census Tract 6585, St. Clair County, Michigan",1390,1245,20,1092,133,145,3043,64.5,3.7,33.7
-1400000US26147990000,"Census Tract 9900, St. Clair County, Michigan",0,0,0,0,0,0,0,-,-,-
 1400000US26149040100,"Census Tract 401, St. Joseph County, Michigan",1337,1223,0,1201,22,114,2719,69.7,2.9,55.7
 1400000US26149040200,"Census Tract 402, St. Joseph County, Michigan",659,535,7,442,86,124,1333,71,6.3,79.2
 1400000US26149040300,"Census Tract 403, St. Joseph County, Michigan",1231,1129,0,978,151,102,2128,63.9,4.2,59.4
@@ -2041,11 +1980,9 @@ GEO_ID,NAME,totalHHs,hascomputer,dialup,broadband,nointernet,nocomputer,totalpop
 1400000US26151971000,"Census Tract 9710, Sanilac County, Michigan",1714,1462,7,1168,287,252,3374,62.4,7.3,57.1
 1400000US26151971100,"Census Tract 9711, Sanilac County, Michigan",1383,1100,10,928,162,283,2844,58.8,8.9,41.6
 1400000US26151971200,"Census Tract 9712, Sanilac County, Michigan",2022,1695,38,1394,263,327,4099,59.8,7.8,39.9
-1400000US26151990000,"Census Tract 9900, Sanilac County, Michigan",0,0,0,0,0,0,0,-,-,-
 1400000US26153000100,"Census Tract 1, Schoolcraft County, Michigan",985,809,28,655,126,176,2021,49.9,9,38.8
 1400000US26153000200,"Census Tract 2, Schoolcraft County, Michigan",1051,870,19,765,86,181,2170,46.3,9.5,45.5
 1400000US26153000300,"Census Tract 3, Schoolcraft County, Michigan",1315,1027,11,831,185,288,2653,42.3,12.1,37.8
-1400000US26153990000,"Census Tract 9900, Schoolcraft County, Michigan",0,0,0,0,0,0,0,-,-,-
 1400000US26155030100,"Census Tract 301, Shiawassee County, Michigan",2292,1923,23,1699,201,369,4854,58.9,5.5,45.8
 1400000US26155030200,"Census Tract 302, Shiawassee County, Michigan",1406,1217,17,1061,139,189,2911,59.3,6,57.6
 1400000US26155030300,"Census Tract 303, Shiawassee County, Michigan",2114,1786,16,1520,250,328,4214,58.5,5,51.7
@@ -2076,7 +2013,6 @@ GEO_ID,NAME,totalHHs,hascomputer,dialup,broadband,nointernet,nocomputer,totalpop
 1400000US26157001100,"Census Tract 11, Tuscola County, Michigan",1322,1124,13,899,212,198,2666,49.7,5.4,34.3
 1400000US26157001200,"Census Tract 12, Tuscola County, Michigan",1814,1620,23,1362,235,194,3731,56.7,6.4,38.2
 1400000US26157001300,"Census Tract 13, Tuscola County, Michigan",1839,1621,16,1399,206,218,3865,55.7,6.9,37.9
-1400000US26157990000,"Census Tract 9900, Tuscola County, Michigan",0,0,0,0,0,0,0,-,-,-
 1400000US26159010100,"Census Tract 101, Van Buren County, Michigan",2701,2250,17,1871,362,451,5312,60,5.5,54.7
 1400000US26159010200,"Census Tract 102, Van Buren County, Michigan",2345,1914,5,1536,373,431,4854,61.5,4.6,51
 1400000US26159010300,"Census Tract 103, Van Buren County, Michigan",1220,918,0,819,99,302,2019,54.6,7.5,24.4
@@ -2092,7 +2028,6 @@ GEO_ID,NAME,totalHHs,hascomputer,dialup,broadband,nointernet,nocomputer,totalpop
 1400000US26159011800,"Census Tract 118, Van Buren County, Michigan",2825,2485,8,2065,412,340,5636,59,6.7,48.1
 1400000US26159011900,"Census Tract 119, Van Buren County, Michigan",1916,1751,16,1684,51,165,4131,72.2,2.2,45.5
 1400000US26159012000,"Census Tract 120, Van Buren County, Michigan",2274,1920,30,1605,285,354,4928,58.9,8.3,47
-1400000US26159990000,"Census Tract 9900, Van Buren County, Michigan",0,0,0,0,0,0,0,-,-,-
 1400000US26161400100,"Census Tract 4001, Washtenaw County, Michigan",1377,1327,0,1146,181,50,2377,60.9,7,59.3
 1400000US26161400200,"Census Tract 4002, Washtenaw County, Michigan",81,81,0,48,33,0,6093,30.4,9.6,67.4
 1400000US26161400300,"Census Tract 4003, Washtenaw County, Michigan",1943,1943,0,1549,394,0,7128,44.5,11.9,39
@@ -2171,7 +2106,6 @@ GEO_ID,NAME,totalHHs,hascomputer,dialup,broadband,nointernet,nocomputer,totalpop
 1400000US26161421100,"Census Tract 4211, Washtenaw County, Michigan",1393,1255,0,1218,37,138,2771,72.2,3.5,45.2
 1400000US26161421900,"Census Tract 4219, Washtenaw County, Michigan",10,10,0,10,0,0,1335,1,0,-
 1400000US26161422200,"Census Tract 4222, Washtenaw County, Michigan",2502,2383,0,2252,131,119,5933,65.3,2.8,33.3
-1400000US26161422900,"Census Tract 4229, Washtenaw County, Michigan",0,0,0,0,0,0,2200,1.6,34.3,15.7
 1400000US26161423400,"Census Tract 4234, Washtenaw County, Michigan",2765,2473,0,2405,68,292,5392,67.7,6.2,48.2
 1400000US26161423600,"Census Tract 4236, Washtenaw County, Michigan",1014,980,10,891,79,34,2146,73.6,2.9,47.7
 1400000US26161425000,"Census Tract 4250, Washtenaw County, Michigan",1570,1530,7,1487,36,40,3753,73.7,2.2,54.3
@@ -2793,17 +2727,9 @@ GEO_ID,NAME,totalHHs,hascomputer,dialup,broadband,nointernet,nocomputer,totalpop
 1400000US26163598000,"Census Tract 5980, Wayne County, Michigan",1373,1144,0,1024,120,229,2653,70.7,4.3,30.4
 1400000US26163599000,"Census Tract 5990, Wayne County, Michigan",1997,1928,18,1527,383,69,4107,65.7,3.4,66.2
 1400000US26163599100,"Census Tract 5991, Wayne County, Michigan",1626,1463,6,1278,179,163,3416,61.9,7.3,55.7
-1400000US26163985000,"Census Tract 9850, Wayne County, Michigan",0,0,0,0,0,0,0,-,-,-
 1400000US26163985100,"Census Tract 9851, Wayne County, Michigan",125,116,0,101,15,9,161,93.2,0,61.5
-1400000US26163985200,"Census Tract 9852, Wayne County, Michigan",0,0,0,0,0,0,0,-,-,-
 1400000US26163985300,"Census Tract 9853, Wayne County, Michigan",159,159,0,133,26,0,235,96.2,8.4,84.2
 1400000US26163985400,"Census Tract 9854, Wayne County, Michigan",4,4,0,0,4,0,4,100,100,100
-1400000US26163985500,"Census Tract 9855, Wayne County, Michigan",0,0,0,0,0,0,0,-,-,-
-1400000US26163985600,"Census Tract 9856, Wayne County, Michigan",0,0,0,0,0,0,0,-,-,-
-1400000US26163985700,"Census Tract 9857, Wayne County, Michigan",0,0,0,0,0,0,0,-,-,-
-1400000US26163985900,"Census Tract 9859, Wayne County, Michigan",0,0,0,0,0,0,0,-,-,-
-1400000US26163990100,"Census Tract 9901, Wayne County, Michigan",0,0,0,0,0,0,0,-,-,-
-1400000US26163990200,"Census Tract 9902, Wayne County, Michigan",0,0,0,0,0,0,0,-,-,-
 1400000US26165380100,"Census Tract 3801, Wexford County, Michigan",1826,1401,7,1104,290,425,3886,55.6,6.4,38.7
 1400000US26165380200,"Census Tract 3802, Wexford County, Michigan",1752,1563,34,1266,263,189,3486,60.4,7.7,53.3
 1400000US26165380300,"Census Tract 3803, Wexford County, Michigan",1092,878,30,658,190,214,2197,50.3,8.3,48.2
