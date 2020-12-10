@@ -418,14 +418,9 @@ function setPieChart(csvData, colorScale){
 };
 
 function makeLegend(color) {
-    //make legend here?
-    console.log("hello");
-    
-    var width = "100px";
-    var height = "100px";
-    
+       
     var svg = d3.select("body").append("svg")
-        .attr("width", 100)
+        .attr("width", 145)
         .attr("height", 100)
         .attr("class", "legend");
         //.append("g");
@@ -456,12 +451,14 @@ function makeLegend(color) {
                 return i * 20;
             })
         .attr("dy", "0.85em") //place text one line *below* the x,y point
-        .text("test");
-        //.text(function(d,i) {
-           // var extent = color.invertExtent(d);
-            //extent will be a two-element array, format it however you want:
-           // var format = d3.format("0.2f");
-           // return format(+extent[0]) + " - " + format(+extent[1]);
+        //.text("test");
+        .text(function(d,i) {
+           var extent = color.invertExtent(d);
+            //extent will be a two-element array
+           var format = d3.format("0.2f");
+           return format(+extent[0]) + " - " + format(+extent[1]);
+        });
+    
     
 };
     
