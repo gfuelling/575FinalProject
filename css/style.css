@@ -150,3 +150,11 @@ option {
     font-family: "Oswald";
     font-size: 15px;
 }
+
+.legend {
+    position: absolute;
+    top: 400px;
+    left: 40px;
+    font-family: "Oswald";
+    font-size: 13px;
+}

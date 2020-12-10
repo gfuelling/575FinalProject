@@ -72,11 +72,12 @@ async function drawMap(){
 		setEnumerationUnits(usCounties,map,path,colorScale);
 		//create dropdown
 		createDropdown(internetCounties);
-		//create side panel
+        //create side panel
 		sidePanel();
 		//create chart
 		//setChart(internetCounties,colorScale);
-
+        //make legend
+        makeLegend(colorScale);
         //create pie chart
         setPieChart(internetCounties,colorScale);
 
@@ -128,6 +129,7 @@ async function drawDetroitMap(){
 		setDetroitEnumerationUnits(miTracts,map,path,colorScale);
 		//create dropdown
 		createDropdown(internetMiTracts);
+        
 		//create side panel
 		//sidePanel();
 		//create chart
@@ -161,9 +163,10 @@ function makeColorScale(csvData){
 	};
 	//pass array of expressed values as domain
 	color.domain(domainArray);
-	//console.log("domain array: ",domainArray);
+	
 	return color; //return the color scale generator
-};
+    
+    };
 function choropleth(d, colorScale){
 	//get data value
 	var value = parseFloat(d[expressed]);
@@ -173,6 +176,9 @@ function choropleth(d, colorScale){
 	} else {
 		return "#ccc";
 	};
+    
+   
+    
 };
 function joinData(geoJson, csvData){
 	//loop through csv to assign each csv values to json county
@@ -365,7 +371,7 @@ function setPieChart(csvData, colorScale){
 
     var radius = Math.min(chartWidth, chartHeight) /2;
 
-    //change this color scale so it doesn't match maps
+    //change this color scale so it doesn't match maps... could be confusing 
     var color = d3.scaleOrdinal()
         .range([
 		"#52212C",
@@ -388,16 +394,12 @@ function setPieChart(csvData, colorScale){
         .sort(null)
         .value(function(d) {return d.value; });
 
-   var svg = d3.select("body").append("svg")
+    var svg = d3.select("body").append("svg")
         .attr("width", chartWidth)
         .attr("height", chartHeight)
         .append("g")
         .attr("transform", "translate(" + chartWidth / 2 + "," + chartHeight / 2 + ")");
 
-    //get data to give to selectAll function to convert to pie
-    //data should be how many are in each class
-    
-         
     var g = svg.selectAll(".arc")
             .data(pie(data))
             .enter().append("g")
@@ -412,12 +414,57 @@ function setPieChart(csvData, colorScale){
             .attr("dy", ".35em")
             .text(function(d) { return d.data.label; })
             .attr("class", "pieText");
-
-
     
 };
 
+function makeLegend(color) {
+    //make legend here?
+    console.log("hello");
+    
+    var width = "100px";
+    var height = "100px";
+    
+    var svg = d3.select("body").append("svg")
+        .attr("width", 100)
+        .attr("height", 100)
+        .attr("class", "legend");
+        //.append("g");
+        
+    
+    var legend = svg.selectAll('g.legendEntry')
+        .data(color.range().reverse())
+        .enter()
+        .append('g').attr('class', 'legendEntry');
 
+    legend
+        .append('rect')
+        .attr("x", 0)
+        .attr("y", function(d, i) {
+            return i * 20;
+        })
+        .attr("width", 10)
+        .attr("height", 10)
+        .style("stroke", "black")
+        .style("stroke-width", 1)
+        .style("fill", function(d){return d;}); 
+       //the data objects are the fill colors
+    
+    legend  
+        .append('text')
+        .attr("x", 25) //leave 5 pixel space after the <rect>
+        .attr("y", function(d, i) {
+                return i * 20;
+            })
+        .attr("dy", "0.85em") //place text one line *below* the x,y point
+        .text("test");
+        //.text(function(d,i) {
+           // var extent = color.invertExtent(d);
+            //extent will be a two-element array, format it however you want:
+           // var format = d3.format("0.2f");
+           // return format(+extent[0]) + " - " + format(+extent[1]);
+    
+};
+    
 
 
 function createDropdown(csvData){
