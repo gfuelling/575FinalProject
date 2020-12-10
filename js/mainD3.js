@@ -7,7 +7,7 @@ var attrStrArray = ["LABEL"];
 //array of csv fields formatted for dropdown options
 var chartTitleArray = ["Has Computer","Dialup","Broadband","No Internet","No Computer", "Total Population 16+","Labor Participation Rate","Unemployment Rate","Pop 20+ Below Poverty Level"];
 //array of csv fields formatted for popups
-var chartPopupArray = ["households have a computer","households have dialup","households have broadband","households have no internet","households have no computer", "= Total Population 16+","% Labor Participation","% Unemployment","Pop 20+ Below Poverty Level"];
+var chartPopupArray = ["households have a computer","households have dialup","households have broadband","households have no internet","households have no computer", ": Total Population 16+","% Labor Participation","% Unemployment","Pop 20+ Below Poverty Level"];
 var expressed = attrIntArray[0];
 var chartTitleExpressed = chartTitleArray[0];
 var chartWidth = window.innerWidth *0.54,
@@ -24,14 +24,15 @@ var yScale = d3.scaleLinear()
 					.domain([0, 50]);
 //begin script when window loads
 window.onload = drawMap();
-window.onload = createFirstPara();
+window.onload = createDetroitTitle();
 window.onload = drawDetroitMap();
+window.onload = createSeattleTitle();
 
 //MAIN COUNTRYWIDE FUNCTION
 async function drawMap(){
 	//set up header div and title
 	//map frame dimensions
-	 var width = window.innerWidth * 0.7,
+	 var width = window.innerWidth,
 	 	height = 460;
 	//create new svg container for the map
 	var map = d3.select("body")
@@ -119,10 +120,6 @@ async function drawDetroitMap(){
 	function callback(error,internetMiTracts, miTracts){
 		//translate counties TopoJSON
 		miTracts = topojson.feature(miTracts, miTracts.objects.miTracts).features;
-		//use turf library to draw geometry in clockwise to correct data display issues
-		// miCounties.forEach(function(feature){
-		// 	feature.geometry = turf.rewind(feature.geometry, {reverse:true});
-		// })
 		//join csv data to geojson enumeration units
 		miTracts = joinDetroitData(miTracts,internetMiTracts);
 		//create color scale for enumeration units
@@ -422,9 +419,9 @@ function setPieChart(csvData, colorScale){
 
 function createDropdown(csvData){
 	//determine the census data level for to differentiate .attr("class")
-    
+
     var censusLevel = csvData[0].GEO_ID.substring(0,2);
-   
+
 	//add select element
 	var dropdown = d3.select("body")
 				.append("select")
@@ -440,7 +437,7 @@ function createDropdown(csvData){
 					}
 				})
 				.on("change", function(){
-                    //this is the issue with the labels. Both of the dropdowns made have this capability, which is called in the set label function. So both of them call changeAttribute(), which changes the value of expressed, which affects the setLabel function. 
+                    //this is the issue with the labels. Both of the dropdowns made have this capability, which is called in the set label function. So both of them call changeAttribute(), which changes the value of expressed, which affects the setLabel function.
                     var attribute = this.value
                     console.log(attribute)
 					changeAttribute(this.value, csvData)
@@ -619,7 +616,7 @@ function moveLabel(){
 		.node()
         .getBoundingClientRect()
 		.width;
-    
+
 	//use coords of mousemove event to set label coords
 	var x1 = d3.event.clientX + 10,
 			y1 = d3.event.clientY - 75,
@@ -649,10 +646,16 @@ function setDataSources(){
 			.attr("class","dataSources")
 			.text("Data sources: Counties: US Census, Internet and Poverty statistics: ACS 2018 5-Year Estimates, United States Census. Created by Garrett Fuelling, Cassandra Verras, Danielle Wyenberg, December 2020.")
 };
-function createFirstPara(){
+function createDetroitTitle(){
 	var firstPara = d3.select("body")
 		.append("div")
-		.attr("class","firstPara")
-		.text("The blah blah blah is blah blah blah imagine really enlightening text here testing testing when are we getting our lab 2 grades, when can we see other peoples lab two?? testing testing should we / can we write from a text file for this portion? How is that usually done? Should this actually be in a side scrolling panel?")
+		.attr("class","studyAreaTitle")
+		.text("Case Study: Detroit, Michigan")
+}
+function createSeattleTitle(){
+	var firstPara = d3.select("body")
+		.append("div")
+		.attr("class","studyAreaTitle")
+		.text("Case Study: Seattle, Washington")
 }
 })(); //run anonymous function

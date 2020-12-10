@@ -3,7 +3,7 @@ body{
   background: #36454f;
   /* background: #4a4747 */
 }
-#map1{
+/* #map1{
     width: 75%;
     height: 500px;
     margin: 10px;
@@ -28,7 +28,7 @@ body{
     margin:auto;
     border-style: solid;
     border-width: 2px
-}
+} */
 #title{
   width: 100%;
   height: 80px;
@@ -79,7 +79,7 @@ body{
 }
 .dropdownMI {
   position: absolute;
-  top: 900px;
+  top: 625px;
   left: 40px;
   z-index:10;
   font-family: "Oswald";
@@ -99,13 +99,14 @@ body{
   stroke: seashell;
   stroke-width: .6;
 } */
-.firstPara {
+.studyAreaTitle {
   padding-left: 20px;
   padding-top: 10px;
   padding-bottom: 10px;
   font-family: times;
   color: seashell;
-  font-size: 18px;
+  font-size: 24px;
+  font-family: "Poppins"
 }
 .counties {
   stroke: white;
