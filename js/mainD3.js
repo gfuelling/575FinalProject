@@ -356,14 +356,16 @@ function setChart(csvData, colorScale){
 function setPieChart(csvData, colorScale){
     
     //csv data totals
-    var data = [{"label" : "Dialup", "value" : 547104 } ,
+    var data = [
                 {"label" : "Broadband" , "value": 96128868 } ,
                 {"label" : "No Internet", "value": 10383777} ,
-                {"label": "No Computer", "value" : 13875454}];
+                {"label": "No Computer", "value" : 13875454},
+                {"label" : "Dialup", "value" : 547104 }            
+    ];
 
     var radius = Math.min(chartWidth, chartHeight) /2;
 
-    //change this color scale so it doesn't match ma
+    //change this color scale so it doesn't match maps
     var color = d3.scaleOrdinal()
         .range([
 		"#52212C",
@@ -378,8 +380,8 @@ function setPieChart(csvData, colorScale){
         .innerRadius(0);
 
     var labelArc = d3.arc()
-        .outerRadius(radius-40)
-        .innerRadius(radius-40);
+        .outerRadius(radius-30)
+        .innerRadius(radius-30);
 
     //process the data for pie chart - when called, adds start and end angle to array
     var pie = d3.pie()
@@ -406,9 +408,10 @@ function setPieChart(csvData, colorScale){
             .style("fill", function(d) {return color(d.data.value); });
 
     g.append("text")
-            .attr("transform", function(d) { return "translate(" + labelArc.centroid(d) + ")"; })
+            .attr("transform", function(d) { return "translate(" + (labelArc.centroid(d)) + ")"; })
             .attr("dy", ".35em")
-            .text(function(d) { return d.data.label; });
+            .text(function(d) { return d.data.label; })
+            .attr("class", "pieText");
 
 
     

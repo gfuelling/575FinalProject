@@ -145,3 +145,8 @@ option {
   font-size: 20px;
   color: #36454F;
 }
+
+.pieText {
+    font-family: "Oswald";
+    font-size: 15px;
+}
