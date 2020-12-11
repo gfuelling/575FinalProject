@@ -1,13 +1,13 @@
 //anonymous funcion
 (function(){
 	//array of integer csv fields
-var attrIntArray = ["hascomputer","dialup","broadband","nointernet","nocomputer","totalpopover16","laborforceparticipationrate","unemploymentrate","popabove20underpovertylevel"];
+var attrIntArray = ["hascomputerPerc","dialupPerc","broadbandPerc","nointernetPerc","nocomputerPerc","totalpopover16","laborforceparticipationrate","unemploymentrate","popabove20underpovertylevel"];
 //array of string csv fields
 var attrStrArray = ["LABEL"];
 //array of csv fields formatted for dropdown options
 var chartTitleArray = ["Has Computer","Dialup","Broadband","No Internet","No Computer", "Total Population 16+","Labor Participation Rate","Unemployment Rate","Pop 20+ Below Poverty Level"];
 //array of csv fields formatted for popups
-var chartPopupArray = ["households have a computer","households have dialup","households have broadband","households have no internet","households have no computer", ": Total Population 16+","% Labor Participation","% Unemployment","Pop 20+ Below Poverty Level"];
+var chartPopupArray = ["% households have a computer","% households have dialup","% households have broadband","% households have no internet","% households have no computer", ": Total Population 16+","% Labor Participation","% Unemployment","Pop 20+ Below Poverty Level"];
 var expressed = attrIntArray[0];
 var chartTitleExpressed = chartTitleArray[0];
 var chartWidth = window.innerWidth *0.54,
@@ -32,7 +32,7 @@ window.onload = createSeattleTitle();
 async function drawMap(){
 	//set up header div and title
 	//map frame dimensions
-	 var width = window.innerWidth,
+	 var width = window.innerWidth * .65,
 	 	height = 460;
 	//create new svg container for the map
 	var map = d3.select("body")
@@ -89,7 +89,7 @@ async function drawMap(){
 async function drawDetroitMap(){
 	//set up header div and title
 	//map frame dimensions
-	 var width = window.innerWidth * 0.7,
+	 var width = window.innerWidth * 0.65,
 	 	height = 460;
 	//create new svg container for the map
 	var map = d3.select("body")
@@ -129,12 +129,12 @@ async function drawDetroitMap(){
 		setDetroitEnumerationUnits(miTracts,map,path,colorScale);
 		//create dropdown
 		createDropdown(internetMiTracts);
-        
+
 		//create side panel
 		//sidePanel();
 		//create chart
 		//setChart(internetCounties,colorScale);
-
+				makeLegend();
         //create pie chart
         //setPieChart();
 
@@ -143,7 +143,7 @@ async function drawDetroitMap(){
 	};
 };
 function makeColorScale(csvData){
-   
+
 	//create color scale array
 	var colorClasses = [
 		"#52212C",
@@ -163,9 +163,9 @@ function makeColorScale(csvData){
 	};
 	//pass array of expressed values as domain
 	color.domain(domainArray);
-	
+
 	return color; //return the color scale generator
-    
+
     };
 function choropleth(d, colorScale){
 	//get data value
@@ -176,9 +176,9 @@ function choropleth(d, colorScale){
 	} else {
 		return "#ccc";
 	};
-    
-   
-    
+
+
+
 };
 function joinData(geoJson, csvData){
 	//loop through csv to assign each csv values to json county
@@ -360,18 +360,18 @@ function setChart(csvData, colorScale){
 };
 
 function setPieChart(csvData, colorScale){
-    
+
     //csv data totals
     var data = [
                 {"label" : "Broadband" , "value": 96128868 } ,
                 {"label" : "No Internet", "value": 10383777} ,
                 {"label": "No Computer", "value" : 13875454},
-                {"label" : "Dialup", "value" : 547104 }            
+                {"label" : "Dialup", "value" : 547104 }
     ];
 
     var radius = Math.min(chartWidth, chartHeight) /2;
 
-    //change this color scale so it doesn't match maps... could be confusing 
+    //change this color scale so it doesn't match maps... could be confusing
     var color = d3.scaleOrdinal()
         .range([
 		"#52212C",
@@ -414,18 +414,18 @@ function setPieChart(csvData, colorScale){
             .attr("dy", ".35em")
             .text(function(d) { return d.data.label; })
             .attr("class", "pieText");
-    
+
 };
 
 function makeLegend(color) {
-       
+
     var svg = d3.select("body").append("svg")
         .attr("width", 145)
         .attr("height", 100)
         .attr("class", "legend");
         //.append("g");
-        
-    
+
+
     var legend = svg.selectAll('g.legendEntry')
         .data(color.range().reverse())
         .enter()
@@ -441,10 +441,10 @@ function makeLegend(color) {
         .attr("height", 10)
         .style("stroke", "black")
         .style("stroke-width", 1)
-        .style("fill", function(d){return d;}); 
+        .style("fill", function(d){return d;});
        //the data objects are the fill colors
-    
-    legend  
+
+    legend
         .append('text')
         .attr("x", 25) //leave 5 pixel space after the <rect>
         .attr("y", function(d, i) {
@@ -458,10 +458,10 @@ function makeLegend(color) {
            var format = d3.format("0.2f");
            return format(+extent[0]) + " - " + format(+extent[1]);
         });
-    
-    
+
+
 };
-    
+
 
 
 function createDropdown(csvData){
@@ -680,12 +680,12 @@ function moveLabel(){
 		.style("top", y + "px");
 };
 //create side panel
-function sidePanel(){
-	var panel = d3.select("body")
-			.append("div")
-			.attr("class","sidePanel")
-			.text("TESTING");
-}
+// function sidePanel(){
+// 	var panel = d3.select("body")
+// 			.append("div")
+// 			.attr("class","sidePanel")
+// 			.text("TESTING");
+// }
 //set bottom div and data sources
 function setDataSources(){
 	var dataSources = d3.select("body")
