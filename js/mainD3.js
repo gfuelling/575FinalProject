@@ -132,7 +132,7 @@ async function drawDetroitMap(){
 		//sidePanel();
 		//create chart
 		//setChart(internetCounties,colorScale);
-				makeLegend();
+				//makeLegend();
         //create pie chart
         setChart(internetMiTracts, colorScale);
 
@@ -190,7 +190,7 @@ async function drawSeattleMap(){
 		//sidePanel();
 		//create chart
 		//setChart(internetCounties,colorScale);
-				makeLegend();
+				//makeLegend();
         //create pie chart
         //setPieChart();
 
@@ -491,7 +491,7 @@ function setPieChart(csvData, colorScale){
                 {"label" : "Dialup", "value" : 547104 }
     ];
 
-    var radius = Math.min(chartWidth, chartHeight) /2;
+    var radius = Math.min(chartWidth, chartHeight) /4;  // can edit this denominator for easy resizing
 
     //change this color scale so it doesn't match maps... could be confusing
     var color = d3.scaleOrdinal()
@@ -568,17 +568,18 @@ function makeLegend(color) {
 
     legend
         .append('text')
-        .attr("x", 25) //leave 5 pixel space after the <rect>
+        .attr("x", 25) //leave x pixel space after the <rect>
         .attr("y", function(d, i) {
                 return i * 20;
             })
-        .attr("dy", "0.85em") //place text one line *below* the x,y point
+        .attr("dy", "0.85em") //place text one line below the x,y point
         //.text("test");
         .text(function(d,i) {
            var extent = color.invertExtent(d);
             //extent will be a two-element array
            var format = d3.format("0.2f");
-           return format(+extent[0]) + " - " + format(+extent[1]);
+           //return format(+extent[0]) + " - " + format(+extent[1]);  //this shows lower value - higher value
+            return "< " + format(+extent[1]) + "%";
         });
 
 
