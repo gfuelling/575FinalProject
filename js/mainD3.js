@@ -31,7 +31,8 @@ window.onload = createSeattleTitle();
 window.onload = drawDetroitMap();
 window.onload = drawSeattleMap();
 window.onload = conclusionText();
-window.onload = drawToggleMap();
+// window.onload = drawToggleMap();
+window.onload = setLeaflet();
 
 //MAIN COUNTRYWIDE FUNCTION
 async function drawMap(){
@@ -40,7 +41,7 @@ async function drawMap(){
 	 var width = window.innerWidth * .65,
 	 	height = 460;
 	//create new svg container for the map
-	var map = d3.select("body")
+	var map = d3.select("#inner")
 		.append("svg")
 		.attr("class", "map")
 		.attr("width", width)
@@ -61,14 +62,8 @@ async function drawMap(){
     .await(callback);
 	//callback function
 	function callback(error, internetCounties, counties){
-		//call graticule generator
-		//setGraticule(map,path);
 		//translate counties TopoJSON
 		usCounties = topojson.feature(counties, counties.objects.usCounties_Contig).features;
-		//use turf library to draw geometry in clockwise to correct data display issues
-		// miCounties.forEach(function(feature){
-		// 	feature.geometry = turf.rewind(feature.geometry, {reverse:true});
-		// })
 		//join csv data to geojson enumeration units
 		usCounties = joinData(usCounties,internetCounties);
 		//create color scale for enumeration units
@@ -95,7 +90,7 @@ async function drawDetroitMap(){
 	 var width = window.innerWidth * 0.45,
 	 	height = localMapHeights;
 	//create new svg container for the map
-	var map = d3.select("body")
+	var map = d3.select("#inner")
 		.append("svg")
 		.attr("class", "map")
 		.attr("width", width)
@@ -149,7 +144,7 @@ async function drawSeattleMap(){
 	 var width = window.innerWidth * 0.45,
 	 	height = localMapHeights;
 	//create new svg container for the map
-	var map = d3.select("body")
+	var map = d3.select("#inner")
 		.append("svg")
 		.attr("class", "map")
 		.attr("width", width)
@@ -193,97 +188,180 @@ async function drawSeattleMap(){
 		//create chart
 		//setChart(internetCounties,colorScale);
 		//makeLegend();
-        
+
 
 		//create bottom div and sources
 		//setDataSources();
 	};
 };
-async function drawToggleMap(){
-	console.log("in toggle map");
-	var width = 700;
-    var height = 580;
+async function setLeaflet(){
+	const mymap = L.map('mapid').setView([42.35,-83.1],11);
 
-    var svg = d3.select( "body" )
-        .append( "svg" )
-        .attr( "width", width )
-        .attr( "height", height );
+	L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+    maxZoom: 15,
+    minZoom: 8,
+    id: 'mapbox/light-v10',
+    tileSize: 512,
+    zoomOffset: -1,
+    accessToken: 'pk.eyJ1IjoidmVycmFzY3V3IiwiYSI6ImNraW02aXBtaDBxZW8zMG8xa2UyamNiOTEifQ.GrRWy2WOPt3vBjK-Cah1AQ'
+}).addTo(mymap);
 
-    var g = svg.append( "g" );
+function getData(map){
 
-    var albersProjection = d3.geoAlbers()
-        .scale( 30000 )
-        .rotate( [-2,0] )
-        .center( [-54, 42.5] )
-        .translate( [width/2,height/2] );
-
-    var geoPath = d3.geoPath()
-        .projection( albersProjection );
-
-		d3.queue()
-			.defer(d3.json,"data/Parks.geojson")
-			.await(callback);
-
-		function callback(error, parks){
-
-			parks = topojson.feature(parks, parks.objects.Parks).Features;
-
-			g.selectAll( "path" )
-	        .data( parks )
-	        .enter()
-	        .append( "path" )
-	        .attr( "fill", "#ccc" )
-	        .attr( "stroke", "#fff")
-	        .attr( "d", geoPath )
-	        .attr( "class", "parks")
-	        .attr( "visibility", "hidden");
-
-	    // var rodents = svg.append( "g" );
-			//
-	    // rodents.selectAll( "path" )
-	    //     .data( rodents_json.features )
-	    //     .enter()
-	    //     .append( "path" )
-	    //     .attr( "fill", "#900" )
-	    //     .attr( "stroke", "#999" )
-	    //     .attr( "d", geoPath )
-	    //     .attr( "class", "incident")
-	    //     .attr( "visibility", "hidden");
-
-	    var hoodsCheckbox = document.querySelector('input[id="hoods_toggle"]');
-	    //var rodentsCheckbox = document.querySelector('input[id="rodent_toggle"]');
-
-	    hoodsCheckbox.onchange = function() {
-	      if(this.checked) {
-	        d3.selectAll(".neighborhoods").attr("visibility", "visible");
-	      } else {
-	        d3.selectAll(".neighborhoods").attr("visibility", "hidden");
-	      }
-	    };
-
-	    rodentsCheckbox.onchange = function() {
-	      if(this.checked) {
-	        d3.selectAll(".incident").attr("visibility", "visible");
-	      } else {
-	        d3.selectAll(".incident").attr("visibility", "hidden");
-	      }
-	    };
-	}
+	//load data
+	$.ajax("data/Libraries.geojson", {
+		dataType: "json",
+		success: function(response){
 		}
+	}).done(function(data){
+		//setup functions that run on successful data import
+		createLibraries(data,mymap);
+	}).fail(function() { alert("There was a problem loading libraries data.")});
+};
+function createLibraries(data,map){
+	var libsGroup = L.layerGroup();
+	//difine parks data
+	libs = L.geoJson(data, {
+		pointToLayer: function(feature, latlng) {
+			return L.circleMarker(latlng, {
+				fillColor: "black",
+				color: "#000000",
+				weight: 1,
+				fillOpacity: 0.6
+			});
+		},
+		//create popup for each feature
+		onEachFeature: function (feature,layer){
+			var props = layer.feature.properties;
+			popupContent = "<p><b>" + props.name + " Library</p></b>"+ "</n>"+ props.address;
+			layer.bindPopup(popupContent, { offset: new L.Point(0,-2)});
+		}
+	});
+	libs.addTo(libsGroup);
+	//create overlay
+	var overlay = {
+		"Libraries":libsGroup
+	};
+	L.control.layers(null,overlay).addTo(mymap);
+};
+function getParkData(map){
+
+	//load data
+	$.ajax("data/Parks.geojson", {
+		dataType: "json",
+		success: function(response){
+		}
+	}).done(function(data){
+		//setup functions that run on successful data import
+		L.geoJSON(data).addTo(mymap);
+	}).fail(function() { alert("There was a problem loading parks data.")});
+};
+// function createParks(data,map){
+// 	var parksGroup = L.layerGroup();
+// 	//difine parks data
+// 	parks = L.geoJson(data, {
+// 		pointToLayer: function(feature, latlng) {
+// 			return L.circleMarker(latlng, {
+// 				fillColor: "black",
+// 				color: "#000000",
+// 				weight: 1,
+// 				fillOpacity: 0.6
+// 			});
+// 		},
+// 		//create popup for each feature
+// 		onEachFeature: function (feature,layer){
+// 			var props = layer.feature.properties;
+// 			popupContent = "<p><b>" + props.NAME + "</p></b>";
+// 			layer.bindPopup(popupContent, { offset: new L.Point(0,-2)});
+// 		}
+// 	});
+// 	parks.addTo(parksGroup);
+// 	//create overlay
+// 	// var overlay = {
+// 	// 	"Libraries":libsGroup
+// 	// };
+// 	// L.control.layers(null,overlay).addTo(mymap);
+//};
+getData();
+ //getParkData();
+};
+// async function drawToggleMap(){
+// 	console.log("in toggle map");
+// 	var width = 700;
+//     var height = 580;
+//
+//     var svg = d3.select( "body" )
+//         .append( "svg" )
+//         .attr( "width", width )
+//         .attr( "height", height );
+//
+//     var g = svg.append( "g" );
+//
+//     var albersProjection = d3.geoAlbers()
+//         .scale( 30000 )
+//         .rotate( [-2,0] )
+//         .center( [-54, 42.5] )
+//         .translate( [width/2,height/2] );
+//
+//     var geoPath = d3.geoPath()
+//         .projection( albersProjection );
+//
+// 		d3.queue()
+// 			.defer(d3.json,"data/Parks.geojson")
+// 			.await(callback);
+//
+// 		function callback(error, parks){
+// 			console.log(parks)
+//
+// 		//	parks = topojson.feature(parks, parks.Object.features).features;
+//
+// 			g.selectAll( "path" )
+// 	        .data( parks )
+// 	        .enter()
+// 	        .append( "path" )
+// 	        .attr( "fill", "#ccc" )
+// 	        .attr( "stroke", "#fff")
+// 	        .attr( "d", geoPath )
+// 	        .attr( "class", "parks")
+// 	        .attr( "visibility", "hidden");
+//
+// 	    // var rodents = svg.append( "g" );
+// 			//
+// 	    // rodents.selectAll( "path" )
+// 	    //     .data( rodents_json.features )
+// 	    //     .enter()
+// 	    //     .append( "path" )
+// 	    //     .attr( "fill", "#900" )
+// 	    //     .attr( "stroke", "#999" )
+// 	    //     .attr( "d", geoPath )
+// 	    //     .attr( "class", "incident")
+// 	    //     .attr( "visibility", "hidden");
+//
+// 	    var hoodsCheckbox = document.querySelector('input[id="hoods_toggle"]');
+// 	    //var rodentsCheckbox = document.querySelector('input[id="rodent_toggle"]');
+//
+// 	    hoodsCheckbox.onchange = function() {
+// 	      if(this.checked) {
+// 	        d3.selectAll(".parks").attr("visibility", "visible");
+// 	      } else {
+// 	        d3.selectAll(".parks").attr("visibility", "hidden");
+// 	      }
+// 	    };
+//
+// 	    rodentsCheckbox.onchange = function() {
+// 	      if(this.checked) {
+// 	        d3.selectAll(".incident").attr("visibility", "visible");
+// 	      } else {
+// 	        d3.selectAll(".incident").attr("visibility", "hidden");
+// 	      }
+// 	    };
+// 	}
+// 		}
 function makeColorScale(csvData){
+	//set color scale
 	var x = d3.interpolatePuBuGn
 	//create color scale array
-	// console.log(d3.interpolateBlues(0));
-	// var colorClasses = [
-	// 	"#52212C",
-	// 	"#9C7981",
-	// 	"#36454F",
-	// 	"#929C5A",
-	// 	"#465200"
-	// ];
-	// var range = [
-	// 	.1,.4,.6,.8,1
-	// ]
 	var colorClasses = [
 		x(.1),
 		x(.4),
@@ -587,7 +665,7 @@ function makeLegend(color) {
 };
 
 function updateLegend(color){
-      
+
      var svg = d3.select("body").append("svg")
         .attr("width", 145)
         .attr("height", 100)
@@ -612,7 +690,7 @@ function updateLegend(color){
         .style("stroke-width", 1)
         .style("fill", function(d){return d;});
        //the data objects are the fill colors
-    
+
     legend
         .append('text')
         .attr("x", 25) //leave x pixel space after the <rect>
@@ -693,9 +771,9 @@ function changeAttribute(attribute, csvData){
 				return choropleth(d.properties, colorScale)
 			});
 	//set legend properties
-    
-    
-    
+
+
+
     //re-sort, resize, and recolor bars
 	var bars = d3.selectAll(".bar")
 		//resort bars
@@ -860,13 +938,13 @@ function setDataSources(){
 			.text("Data sources: Counties: US Census, Internet and Poverty statistics: ACS 2018 5-Year Estimates, United States Census. Created by Garrett Fuelling, Cassandra Verras, Danielle Wyenberg, December 2020.")
 };
 function createDetroitTitle(){
-	var firstPara = d3.select("body")
+	var firstPara = d3.select("#inner")
 		.append("div")
 		.attr("class","miTitle")
 		.text("Case Study: Detroit, Michigan")
 }
 function createSeattleTitle(){
-	var firstPara = d3.select("body")
+	var firstPara = d3.select("#inner")
 		.append("div")
 		.attr("class","waTitle")
 		.text("Case Study: Seattle, Washington")
