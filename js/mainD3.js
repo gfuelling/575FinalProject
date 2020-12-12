@@ -133,9 +133,9 @@ async function drawDetroitMap(){
 		//sidePanel();
 		//create chart
 		//setChart(internetCounties,colorScale);
-				//makeLegend();
-        //create pie chart
-        //setPieChart();
+		
+        //makeLegend();
+        
 
 		//create bottom div and sources
 		//setDataSources();
@@ -191,9 +191,8 @@ async function drawSeattleMap(){
 		//sidePanel();
 		//create chart
 		//setChart(internetCounties,colorScale);
-				//makeLegend();
-        //create pie chart
-        //setPieChart();
+		//makeLegend();
+        
 
 		//create bottom div and sources
 		//setDataSources();
@@ -517,10 +516,53 @@ function makeLegend(color) {
             return "< " + format(+extent[1]) + "%";
         });
 
-
+        //updateLegend(legend, color); //not sure if this is needed
 };
 
+function updateLegend(color){
+      
+     var svg = d3.select("body").append("svg")
+        .attr("width", 145)
+        .attr("height", 100)
+        .attr("class", "legend");
+        //.append("g");
 
+
+    var legend = svg.selectAll('g.legendEntry')
+        .data(color.range().reverse())
+        .enter()
+        .append('g').attr('class', 'legendEntry');
+
+    legend
+        .append('rect')
+        .attr("x", 0)
+        .attr("y", function(d, i) {
+            return i * 20;
+        })
+        .attr("width", 10)
+        .attr("height", 10)
+        .style("stroke", "black")
+        .style("stroke-width", 1)
+        .style("fill", function(d){return d;});
+       //the data objects are the fill colors
+    
+    legend
+        .append('text')
+        .attr("x", 25) //leave x pixel space after the <rect>
+        .attr("y", function(d, i) {
+                return i * 20;
+            })
+        .attr("dy", "0.85em") //place text one line below the x,y point
+        //.text("test");
+        .text(function(d,i) {
+            var extent = color.invertExtent(d);
+            //extent will be a two-element array
+            var format = d3.format("0.2f");
+           //return format(+extent[0]) + " - " + format(+extent[1]);  //this shows lower value - higher value
+            return "< " + format(+extent[1]) + "%";
+        });
+
+}
 
 function createDropdown(csvData){
 	//determine the census data level for to differentiate .attr("class")
@@ -544,7 +586,7 @@ function createDropdown(csvData){
 				.on("change", function(){
                     //this is the issue with the labels. Both of the dropdowns made have this capability, which is called in the set label function. So both of them call changeAttribute(), which changes the value of expressed, which affects the setLabel function.
                     var attribute = this.value
-                    console.log(attribute)
+                    //console.log(attribute)
 					changeAttribute(this.value, csvData)
 //                $(".dropdownMI").change(function(){
 //                        changeAttribute(this.value, csvData)
@@ -568,7 +610,7 @@ function createDropdown(csvData){
 };
 //dropdown change listener handler
 function changeAttribute(attribute, csvData){
-	//get variable to determine census level - counties or tracts
+    //get variable to det;ermine census level - counties or tracts
 	var censusLevel = csvData[0].GEO_ID.substring(0,2);
 	//determine census level - counties or tracts
 	var classType = classType(censusLevel);
@@ -583,7 +625,11 @@ function changeAttribute(attribute, csvData){
 			.style("fill", function(d){
 				return choropleth(d.properties, colorScale)
 			});
-	//re-sort, resize, and recolor bars
+	//set legend properties
+    
+    
+    
+    //re-sort, resize, and recolor bars
 	var bars = d3.selectAll(".bar")
 		//resort bars
 		.sort(function(a,b){
@@ -609,6 +655,8 @@ function changeAttribute(attribute, csvData){
 		}
 
 		updateChart(bars,csvData.length, colorScale);
+        d3.selectAll(".legend").remove();
+        updateLegend(colorScale);
 };
 function updateChart(bars, n, colorScale){
 	//position bars
