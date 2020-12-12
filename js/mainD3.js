@@ -1,11 +1,11 @@
 //anonymous funcion
 (function(){
 	//array of integer csv fields
-var attrIntArray = ["hascomputerPerc","dialupPerc","broadbandPerc","nointernetPerc","nocomputerPerc","totalpopover16","laborforceparticipationrate","unemploymentrate","popabove20underpovertylevel"];
+var attrIntArray = ["hascomputerPerc","dialupPerc","broadbandPerc","nointernetPerc","nocomputerPerc","laborforceparticipationrate","unemploymentrate"];
 //array of string csv fields
 var attrStrArray = ["LABEL"];
 //array of csv fields formatted for dropdown options
-var chartTitleArray = ["Has Computer","Dialup","Broadband","No Internet","No Computer", "Total Population 16+","Labor Participation Rate","Unemployment Rate","Pop 20+ Below Poverty Level"];
+var chartTitleArray = ["Has Computer","Dialup","Broadband","No Internet","No Computer","Labor Participation Rate","Unemployment Rate"];
 //array of csv fields formatted for popups
 var chartPopupArray = ["% households have a computer","% households have dialup","% households have broadband","% households have no internet","% households have no computer", ": Total Population 16+","% Labor Participation","% Unemployment","Pop 20+ Below Poverty Level"];
 var expressed = attrIntArray[0];
@@ -31,6 +31,7 @@ window.onload = createSeattleTitle();
 window.onload = drawDetroitMap();
 window.onload = drawSeattleMap();
 window.onload = conclusionText();
+window.onload = drawToggleMap();
 
 //MAIN COUNTRYWIDE FUNCTION
 async function drawMap(){
@@ -76,8 +77,6 @@ async function drawMap(){
 		setEnumerationUnits(usCounties,map,path,colorScale);
 		//create dropdown
 		createDropdown(internetCounties);
-        //create side panel
-		//sidePanel();
 		//create chart
 		//setChart(internetCounties,colorScale);
         //make legend
@@ -107,7 +106,7 @@ async function drawDetroitMap(){
 		.center([-85, 42.5])
 		.rotate([-2, 0])
 		.parallels([-40, 40])
-		.scale(29000)
+		.scale(32000)
 		.translate([width / 2, height / 2]);
 		//create path
 	var path = d3.geoPath().projection(projection);
@@ -133,9 +132,11 @@ async function drawDetroitMap(){
 		//sidePanel();
 		//create chart
 		//setChart(internetCounties,colorScale);
-		
-        //makeLegend();
-        
+
+				//makeLegend();
+        //create pie chart
+        //setChart(internetMiTracts, colorScale);
+
 
 		//create bottom div and sources
 		//setDataSources();
@@ -185,7 +186,7 @@ async function drawSeattleMap(){
 		//add enumeration units to the map
 		setDetroitEnumerationUnits(waTracts,map,path,colorScale);
 		//create dropdown
-		createDropdown(internetWaTracts);
+		//createDropdown(internetWaTracts);
 
 		//create side panel
 		//sidePanel();
@@ -198,15 +199,97 @@ async function drawSeattleMap(){
 		//setDataSources();
 	};
 };
-function makeColorScale(csvData){
+async function drawToggleMap(){
+	console.log("in toggle map");
+	var width = 700;
+    var height = 580;
 
+    var svg = d3.select( "body" )
+        .append( "svg" )
+        .attr( "width", width )
+        .attr( "height", height );
+
+    var g = svg.append( "g" );
+
+    var albersProjection = d3.geoAlbers()
+        .scale( 30000 )
+        .rotate( [-2,0] )
+        .center( [-54, 42.5] )
+        .translate( [width/2,height/2] );
+
+    var geoPath = d3.geoPath()
+        .projection( albersProjection );
+
+		d3.queue()
+			.defer(d3.json,"data/Parks.geojson")
+			.await(callback);
+
+		function callback(error, parks){
+
+			parks = topojson.feature(parks, parks.objects.Parks).Features;
+
+			g.selectAll( "path" )
+	        .data( parks )
+	        .enter()
+	        .append( "path" )
+	        .attr( "fill", "#ccc" )
+	        .attr( "stroke", "#fff")
+	        .attr( "d", geoPath )
+	        .attr( "class", "parks")
+	        .attr( "visibility", "hidden");
+
+	    // var rodents = svg.append( "g" );
+			//
+	    // rodents.selectAll( "path" )
+	    //     .data( rodents_json.features )
+	    //     .enter()
+	    //     .append( "path" )
+	    //     .attr( "fill", "#900" )
+	    //     .attr( "stroke", "#999" )
+	    //     .attr( "d", geoPath )
+	    //     .attr( "class", "incident")
+	    //     .attr( "visibility", "hidden");
+
+	    var hoodsCheckbox = document.querySelector('input[id="hoods_toggle"]');
+	    //var rodentsCheckbox = document.querySelector('input[id="rodent_toggle"]');
+
+	    hoodsCheckbox.onchange = function() {
+	      if(this.checked) {
+	        d3.selectAll(".neighborhoods").attr("visibility", "visible");
+	      } else {
+	        d3.selectAll(".neighborhoods").attr("visibility", "hidden");
+	      }
+	    };
+
+	    rodentsCheckbox.onchange = function() {
+	      if(this.checked) {
+	        d3.selectAll(".incident").attr("visibility", "visible");
+	      } else {
+	        d3.selectAll(".incident").attr("visibility", "hidden");
+	      }
+	    };
+	}
+		}
+function makeColorScale(csvData){
+	var x = d3.interpolatePuBuGn
 	//create color scale array
+	// console.log(d3.interpolateBlues(0));
+	// var colorClasses = [
+	// 	"#52212C",
+	// 	"#9C7981",
+	// 	"#36454F",
+	// 	"#929C5A",
+	// 	"#465200"
+	// ];
+	// var range = [
+	// 	.1,.4,.6,.8,1
+	// ]
 	var colorClasses = [
-		"#52212C",
-		"#9C7981",
-		"#36454F",
-		"#929C5A",
-		"#465200"
+		x(.1),
+		x(.4),
+		x(.6),
+		x(.8),
+		x(1)
 	];
 	var color = d3.scaleQuantile()//designate quantile scale generator
 								.range(colorClasses);
@@ -329,22 +412,6 @@ function setDetroitEnumerationUnits(geoJson,map,path,colorScale){
 		.on("mousemove", moveLabel);
 		var desc = tracts.append("desc")
 			.text('{"stroke": "#000", "stroke-width": "0.5px"}');
-};
-function setGraticule(map,path){
-	var graticule = d3.geoGraticule()
-	 .step([2, 2]); //place graticule lines every 2 degrees of longitude and latitude
-	//create graticule background
-	var gratBackground = map.append("path")
-	 .datum(graticule.outline()) //bind graticule background
-	 .attr("class", "gratBackground") //assign class for styling
-	 .attr("d", path); //project graticule
- //create graticule lines
- var gratLines = map.selectAll(".gratLines") //select graticule elements that will be created
-	 .data(graticule.lines()) //bind graticule lines to each element to be created
-		 .enter() //create an element for each datum
-	 .append("path") //append each element to the svg as a path element
-	 .attr("class", "gratLines") //assign class for styling
-	 .attr("d", path); //project graticule lines
 };
 function setChart(csvData, colorScale){
 	//create second svg element to hold the bar chart
@@ -474,7 +541,7 @@ function setPieChart(csvData, colorScale){
 };
 
 function makeLegend(color) {
-    
+
     var svg = d3.select("body").append("svg")
         .attr("width", 145)
         .attr("height", 100)
@@ -729,7 +796,7 @@ function dehighlight(props){
 function setLabel(props){
 	//label content
   var attributeCV = $(".dropdownUS option:selected").val()
-  var formatted = (props[attributeCV]);
+  var formatted = Number(props[attributeCV]).toFixed(1);
   var titleFormatted = chartPopupArray[attrIntArray.indexOf(attributeCV)];
   var labelAttribute = "<h1>" + formatted + " " + titleFormatted + "</h>";
 
@@ -748,7 +815,7 @@ function setLabelGF(props){
 	//label content
   var attributeGF = $(".dropdownMI option:selected").val()
   //console.log(attributeGF)
-  var formatted = (props[attributeGF]);
+  var formatted = Number(props[attributeGF]).toFixed(1);
   var titleFormatted = chartPopupArray[attrIntArray.indexOf(attributeGF)];
 	var labelAttribute = "<h1>" + formatted + " " + titleFormatted + "</h>";
 
