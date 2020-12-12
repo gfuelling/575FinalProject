@@ -18,6 +18,8 @@ var chartWidth = window.innerWidth *0.54,
 		chartInnerWidth = chartWidth - leftPadding - rightPadding,
 		chartInnerHeight = chartHeight - topBottomPadding * 2,
 		translate = "translate(" + leftPadding + ","+ topBottomPadding +")";
+
+var localMapHeights = 750;
 //create a scale to size bar proportionally to fram and for axis
 var yScale = d3.scaleLinear()
 					.range([chartInnerHeight, 0])
@@ -25,8 +27,10 @@ var yScale = d3.scaleLinear()
 //begin script when window loads
 window.onload = drawMap();
 window.onload = createDetroitTitle();
-window.onload = drawDetroitMap();
 window.onload = createSeattleTitle();
+window.onload = drawDetroitMap();
+window.onload = drawSeattleMap();
+window.onload = conclusionText();
 
 //MAIN COUNTRYWIDE FUNCTION
 async function drawMap(){
@@ -89,14 +93,15 @@ async function drawMap(){
 async function drawDetroitMap(){
 	//set up header div and title
 	//map frame dimensions
-	 var width = window.innerWidth * 0.65,
-	 	height = 460;
+	 var width = window.innerWidth * 0.45,
+	 	height = localMapHeights;
 	//create new svg container for the map
 	var map = d3.select("body")
 		.append("svg")
 		.attr("class", "map")
 		.attr("width", width)
-		.attr("height", height);
+		.attr("height", height)
+		.attr("padding-top", 40);
 	//create Albers equal area conic projection centered on Michigan
 	var projection = d3.geoAlbers()
 		.center([-85, 42.5])
@@ -106,12 +111,6 @@ async function drawDetroitMap(){
 		.translate([width / 2, height / 2]);
 		//create path
 	var path = d3.geoPath().projection(projection);
-
-	map.append("text")
-		.attr("x", (width/2))
-		.attr("y", -20)
-		.attr("text-anchor", "middle")
-		.text("Detroit, Michigan");
 	// pull in data
   d3.queue()
     .defer(d3.csv,"data/csvMiTractsInternet.csv")
@@ -129,6 +128,64 @@ async function drawDetroitMap(){
 		setDetroitEnumerationUnits(miTracts,map,path,colorScale);
 		//create dropdown
 		createDropdown(internetMiTracts);
+
+		//create side panel
+		//sidePanel();
+		//create chart
+		//setChart(internetCounties,colorScale);
+				makeLegend();
+        //create pie chart
+        //setPieChart();
+
+		//create bottom div and sources
+		//setDataSources();
+	};
+};
+//MAIN SEATTLE function
+async function drawSeattleMap(){
+	//set up header div and title
+	//map frame dimensions
+	 var width = window.innerWidth * 0.45,
+	 	height = localMapHeights;
+	//create new svg container for the map
+	var map = d3.select("body")
+		.append("svg")
+		.attr("class", "map")
+		.attr("width", width)
+		.attr("height", height)
+		.attr("padding-top", 40);
+	//create Albers equal area conic projection centered on Michigan
+	var projection = d3.geoAlbers()
+		.center([-124, 47.3])
+		.rotate([-2, 0])
+		.parallels([-40, 40])
+		.scale(32000)
+		.translate([width / 2, height / 2]);
+		//create path
+	var path = d3.geoPath().projection(projection);
+
+	map.append("text")
+		.attr("x", (width/2))
+		.attr("y", -20)
+		.attr("text-anchor", "middle")
+		.text("Detroit, Michigan");
+	// pull in data
+  d3.queue()
+    .defer(d3.csv,"data/csvWaTractsInternet.csv")
+    .defer(d3.json,"data/seattleTracts.topojson")
+    .await(callback);
+	//callback function
+	function callback(error,internetWaTracts, waTracts){
+		//translate counties TopoJSON
+		waTracts = topojson.feature(waTracts, waTracts.objects.seattleTracts).features;
+		//join csv data to geojson enumeration units
+		waTracts = joinDetroitData(waTracts,internetWaTracts);
+		//create color scale for enumeration units
+		var colorScale = makeColorScale(internetWaTracts);
+		//add enumeration units to the map
+		setDetroitEnumerationUnits(waTracts,map,path,colorScale);
+		//create dropdown
+		createDropdown(internetWaTracts);
 
 		//create side panel
 		//sidePanel();
@@ -679,13 +736,6 @@ function moveLabel(){
 		.style("left", x + "px")
 		.style("top", y + "px");
 };
-//create side panel
-// function sidePanel(){
-// 	var panel = d3.select("body")
-// 			.append("div")
-// 			.attr("class","sidePanel")
-// 			.text("TESTING");
-// }
 //set bottom div and data sources
 function setDataSources(){
 	var dataSources = d3.select("body")
@@ -696,13 +746,20 @@ function setDataSources(){
 function createDetroitTitle(){
 	var firstPara = d3.select("body")
 		.append("div")
-		.attr("class","studyAreaTitle")
+		.attr("class","miTitle")
 		.text("Case Study: Detroit, Michigan")
 }
 function createSeattleTitle(){
 	var firstPara = d3.select("body")
 		.append("div")
-		.attr("class","studyAreaTitle")
+		.attr("class","waTitle")
 		.text("Case Study: Seattle, Washington")
+}
+//create bottom conclusions
+function conclusionText(){
+	var panel = d3.select("body")
+			.append("div")
+			.attr("class","conclusionText")
+			.text("TESTING for conclusion text");
 }
 })(); //run anonymous function
