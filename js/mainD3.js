@@ -30,7 +30,6 @@ window.onload = createDetroitTitle();
 window.onload = createSeattleTitle();
 window.onload = drawDetroitMap();
 window.onload = drawSeattleMap();
-window.onload = conclusionText();
 window.onload = createDetroitResourcesTitle();
 window.onload = setLeaflet();
 
@@ -960,16 +959,9 @@ function createSeattleTitle(){
 		.text("Case Study: Seattle, Washington")
 }
 function createDetroitResourcesTitle(){
-	var firstPara = d3.select("#inner")
+	var firstPara = d3.select("#mapid")
 		.append("div")
 		.attr("class","miTitle")
 		.text("Community Resources: Detroit, Michigan")
-}
-//create bottom conclusions
-function conclusionText(){
-	var panel = d3.select("body")
-			.append("div")
-			.attr("class","conclusionText")
-			.text("TESTING for conclusion text");
 }
 })(); //run anonymous function
