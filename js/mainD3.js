@@ -122,16 +122,12 @@ async function drawDetroitMap(){
 		setDetroitEnumerationUnits(miTracts,map,path,colorScale);
 		//create dropdown
 		createDropdown(internetMiTracts);
-
+        //create legend
+        createDetroitLegend(colorScale);
 		//create side panel
 		//sidePanel();
 		//create chart
 		//setChart(internetCounties,colorScale);
-
-				//makeLegend();
-        //create pie chart
-        //setChart(internetMiTracts, colorScale);
-
 
 		//create bottom div and sources
 		//setDataSources();
@@ -187,7 +183,8 @@ async function drawSeattleMap(){
 		//sidePanel();
 		//create chart
 		//setChart(internetCounties,colorScale);
-		//makeLegend();
+		//create Seattle Legend
+        //createSeattleLegend();
 
 
 		//create bottom div and sources
@@ -660,8 +657,6 @@ function makeLegend(color) {
            //return format(+extent[0]) + " - " + format(+extent[1]);  //this shows lower value - higher value
             return "< " + format(+extent[1]) + "%";
         });
-
-        //updateLegend(legend, color); //not sure if this is needed
 };
 
 function updateLegend(color){
@@ -709,6 +704,94 @@ function updateLegend(color){
 
 }
 
+function createDetroitLegend(color){
+    
+    var svg = d3.select("body").append("svg")
+        .attr("width", 145)
+        .attr("height", 100)
+        .attr("class", "detroitLegend");
+        //.append("g");
+
+
+    var legend = svg.selectAll('g.legendEntry')
+        .data(color.range().reverse())
+        .enter()
+        .append('g').attr('class', 'legendEntry');
+
+    legend
+        .append('rect')
+        .attr("x", 0)
+        .attr("y", function(d, i) {
+            return i * 20;
+        })
+        .attr("width", 10)
+        .attr("height", 10)
+        .style("stroke", "black")
+        .style("stroke-width", 1)
+        .style("fill", function(d){return d;});
+       //the data objects are the fill colors
+
+    legend
+        .append('text')
+        .attr("x", 25) //leave x pixel space after the <rect>
+        .attr("y", function(d, i) {
+                return i * 20;
+            })
+        .attr("dy", "0.85em") //place text one line below the x,y point
+        //.text("test");
+        .text(function(d,i) {
+           var extent = color.invertExtent(d);
+            //extent will be a two-element array
+           var format = d3.format("0.2f");
+           //return format(+extent[0]) + " - " + format(+extent[1]);  //this shows lower value - higher value
+            return "< " + format(+extent[1]) + "%";
+        });
+};
+
+function createSeattleLegend(color){
+   
+    var svg = d3.select("body").append("svg")
+        .attr("width", 145)
+        .attr("height", 100)
+        .attr("class", "legend");
+        //.append("g");
+
+
+    var legend = svg.selectAll('g.legendEntry')
+        .data(color.range().reverse())
+        .enter()
+        .append('g').attr('class', 'legendEntry');
+
+    legend
+        .append('rect')
+        .attr("x", 0)
+        .attr("y", function(d, i) {
+            return i * 20;
+        })
+        .attr("width", 10)
+        .attr("height", 10)
+        .style("stroke", "black")
+        .style("stroke-width", 1)
+        .style("fill", function(d){return d;});
+       //the data objects are the fill colors
+
+    legend
+        .append('text')
+        .attr("x", 25) //leave x pixel space after the <rect>
+        .attr("y", function(d, i) {
+                return i * 20;
+            })
+        .attr("dy", "0.85em") //place text one line below the x,y point
+        //.text("test");
+        .text(function(d,i) {
+           var extent = color.invertExtent(d);
+            //extent will be a two-element array
+           var format = d3.format("0.2f");
+           //return format(+extent[0]) + " - " + format(+extent[1]);  //this shows lower value - higher value
+            return "< " + format(+extent[1]) + "%";
+        });
+}
+    
 function createDropdown(csvData){
 	//determine the census data level for to differentiate .attr("class")
 

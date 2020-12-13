@@ -155,6 +155,16 @@ option {
     font-size: 13px;
     fill: seashell;
 }
+
+.detroitLegend {
+    position: absolute;
+    top: 800px;
+    left: 40px;
+    font-family: "Oswald";
+    font-size: 13px;
+    fill: seashell;
+}
+
 a:link {
   color: green;
   background-color: transparent;
