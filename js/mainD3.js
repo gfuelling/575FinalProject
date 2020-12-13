@@ -31,7 +31,7 @@ window.onload = createSeattleTitle();
 window.onload = drawDetroitMap();
 window.onload = drawSeattleMap();
 window.onload = conclusionText();
-// window.onload = drawToggleMap();
+window.onload = createDetroitResourcesTitle();
 window.onload = setLeaflet();
 
 //MAIN COUNTRYWIDE FUNCTION
@@ -197,7 +197,7 @@ async function setLeaflet(){
 	L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
     maxZoom: 15,
-    minZoom: 8,
+    minZoom: 11,
     id: 'mapbox/light-v10',
     tileSize: 512,
     zoomOffset: -1,
@@ -205,7 +205,6 @@ async function setLeaflet(){
 }).addTo(mymap);
 
 function getData(map){
-
 	//load data
 	$.ajax("data/Libraries.geojson", {
 		dataType: "json",
@@ -222,8 +221,8 @@ function createLibraries(data,map){
 	libs = L.geoJson(data, {
 		pointToLayer: function(feature, latlng) {
 			return L.circleMarker(latlng, {
-				fillColor: "black",
-				color: "#000000",
+				// fillColor: "darkcyan",
+				color: "darkcyan",
 				weight: 1,
 				fillOpacity: 0.6
 			});
@@ -251,110 +250,41 @@ function getParkData(map){
 		}
 	}).done(function(data){
 		//setup functions that run on successful data import
-		L.geoJSON(data).addTo(mymap);
+		L.geoJson(data, {
+			style: function (feature) {
+				return {color: "olivedrab",
+								weight: 1};
+			}
+		}).bindPopup(function(layer) {
+			return layer.feature.properties.NAME;
+		}).addTo(mymap)
+		//createParks(data,mymap);
 	}).fail(function() { alert("There was a problem loading parks data.")});
 };
-// function createParks(data,map){
-// 	var parksGroup = L.layerGroup();
-// 	//difine parks data
-// 	parks = L.geoJson(data, {
-// 		pointToLayer: function(feature, latlng) {
-// 			return L.circleMarker(latlng, {
-// 				fillColor: "black",
-// 				color: "#000000",
-// 				weight: 1,
-// 				fillOpacity: 0.6
-// 			});
-// 		},
-// 		//create popup for each feature
-// 		onEachFeature: function (feature,layer){
-// 			var props = layer.feature.properties;
-// 			popupContent = "<p><b>" + props.NAME + "</p></b>";
-// 			layer.bindPopup(popupContent, { offset: new L.Point(0,-2)});
-// 		}
-// 	});
-// 	parks.addTo(parksGroup);
-// 	//create overlay
-// 	// var overlay = {
-// 	// 	"Libraries":libsGroup
-// 	// };
-// 	// L.control.layers(null,overlay).addTo(mymap);
-//};
-getData();
- //getParkData();
+function getBoundData(map){
+
+	//load data
+	$.ajax("data/Detroit.geojson", {
+		dataType: "json",
+		success: function(response){
+		}
+	}).done(function(data){
+		//setup functions that run on successful data import
+		L.geoJson(data, {
+			style: function (feature) {
+				return {color: "darkgrey", fillColor: "white", fillOpacity:0,
+								weight: 2};
+			}
+		}).bindPopup(function(layer) {
+			return layer.feature.properties.NAME;
+		}).addTo(mymap)
+		//createParks(data,mymap);
+	}).fail(function() { alert("There was a problem loading Detroit boundary data.")});
 };
-// async function drawToggleMap(){
-// 	console.log("in toggle map");
-// 	var width = 700;
-//     var height = 580;
-//
-//     var svg = d3.select( "body" )
-//         .append( "svg" )
-//         .attr( "width", width )
-//         .attr( "height", height );
-//
-//     var g = svg.append( "g" );
-//
-//     var albersProjection = d3.geoAlbers()
-//         .scale( 30000 )
-//         .rotate( [-2,0] )
-//         .center( [-54, 42.5] )
-//         .translate( [width/2,height/2] );
-//
-//     var geoPath = d3.geoPath()
-//         .projection( albersProjection );
-//
-// 		d3.queue()
-// 			.defer(d3.json,"data/Parks.geojson")
-// 			.await(callback);
-//
-// 		function callback(error, parks){
-// 			console.log(parks)
-//
-// 		//	parks = topojson.feature(parks, parks.Object.features).features;
-//
-// 			g.selectAll( "path" )
-// 	        .data( parks )
-// 	        .enter()
-// 	        .append( "path" )
-// 	        .attr( "fill", "#ccc" )
-// 	        .attr( "stroke", "#fff")
-// 	        .attr( "d", geoPath )
-// 	        .attr( "class", "parks")
-// 	        .attr( "visibility", "hidden");
-//
-// 	    // var rodents = svg.append( "g" );
-// 			//
-// 	    // rodents.selectAll( "path" )
-// 	    //     .data( rodents_json.features )
-// 	    //     .enter()
-// 	    //     .append( "path" )
-// 	    //     .attr( "fill", "#900" )
-// 	    //     .attr( "stroke", "#999" )
-// 	    //     .attr( "d", geoPath )
-// 	    //     .attr( "class", "incident")
-// 	    //     .attr( "visibility", "hidden");
-//
-// 	    var hoodsCheckbox = document.querySelector('input[id="hoods_toggle"]');
-// 	    //var rodentsCheckbox = document.querySelector('input[id="rodent_toggle"]');
-//
-// 	    hoodsCheckbox.onchange = function() {
-// 	      if(this.checked) {
-// 	        d3.selectAll(".parks").attr("visibility", "visible");
-// 	      } else {
-// 	        d3.selectAll(".parks").attr("visibility", "hidden");
-// 	      }
-// 	    };
-//
-// 	    rodentsCheckbox.onchange = function() {
-// 	      if(this.checked) {
-// 	        d3.selectAll(".incident").attr("visibility", "visible");
-// 	      } else {
-// 	        d3.selectAll(".incident").attr("visibility", "hidden");
-// 	      }
-// 	    };
-// 	}
-// 		}
+getData();
+getParkData();
+getBoundData();
+};
 function makeColorScale(csvData){
 	//set color scale
 	var x = d3.interpolatePuBuGn
@@ -390,9 +320,6 @@ function choropleth(d, colorScale){
 	} else {
 		return "#ccc";
 	};
-
-
-
 };
 function joinData(geoJson, csvData){
 	//loop through csv to assign each csv values to json county
@@ -705,7 +632,7 @@ function updateLegend(color){
 }
 
 function createDetroitLegend(color){
-    
+
     var svg = d3.select("body").append("svg")
         .attr("width", 145)
         .attr("height", 100)
@@ -749,7 +676,7 @@ function createDetroitLegend(color){
 };
 
 function createSeattleLegend(color){
-   
+
     var svg = d3.select("body").append("svg")
         .attr("width", 145)
         .attr("height", 100)
@@ -791,7 +718,7 @@ function createSeattleLegend(color){
             return "< " + format(+extent[1]) + "%";
         });
 }
-    
+
 function createDropdown(csvData){
 	//determine the census data level for to differentiate .attr("class")
 
@@ -1031,6 +958,12 @@ function createSeattleTitle(){
 		.append("div")
 		.attr("class","waTitle")
 		.text("Case Study: Seattle, Washington")
+}
+function createDetroitResourcesTitle(){
+	var firstPara = d3.select("#inner")
+		.append("div")
+		.attr("class","miTitle")
+		.text("Community Resources: Detroit, Michigan")
 }
 //create bottom conclusions
 function conclusionText(){
