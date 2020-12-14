@@ -44,7 +44,13 @@ async function drawMap(){
 		.append("svg")
 		.attr("class", "map")
 		.attr("width", width)
-		.attr("height", height);
+		.attr("height", height)
+        //zoom
+//        .call(d3.behavior.zoom()
+//             .translate(projection.translate())
+//             .scale(projection.scale())
+//             .on("zoom", redraw));
+    
 	//create Albers equal area conic projection centered on Michigan
 	var projection = d3.geoAlbers()
 		.center([-98, 36])
@@ -54,7 +60,21 @@ async function drawMap(){
 		.translate([width / 2, height / 2]);
 		//create path
 	var path = d3.geoPath().projection(projection);
-	// pull in data
+	
+    //attempting to get zoom nad pan functionality
+//    function redraw() {
+//      if (d3.event) {
+//        projection
+//            .translate(d3.event.translate)
+//            .scale(d3.event.scale);
+//      }
+//      svg.selectAll("path").attr("d", path);
+//      var t = projection.translate();
+//      xAxis.attr("x1", t[0]).attr("x2", t[0]);
+//      yAxis.attr("y1", t[1]).attr("y2", t[1]);
+//    }
+    
+    // pull in data
   d3.queue()
     .defer(d3.csv,"data/csvCountiesInternet.csv")
     .defer(d3.json,"data/usCounties_Contig.topojson")
@@ -80,6 +100,7 @@ async function drawMap(){
 
 		//create bottom div and sources
 		setDataSources();
+        redraw();
 	};
 };
 //MAIN DETROIT function
@@ -738,22 +759,17 @@ function createDropdown(csvData){
 					}
 				})
 				.on("change", function(){
-                    //this is the issue with the labels. Both of the dropdowns made have this capability, which is called in the set label function. So both of them call changeAttribute(), which changes the value of expressed, which affects the setLabel function.
                     var attribute = this.value
                     //console.log(attribute)
 					changeAttribute(this.value, csvData)
-//                $(".dropdownMI").change(function(){
-//                        changeAttribute(this.value, csvData)
-//                    })
-//                $(".dropdownUS").change(function(){
-//                        changeAttribute(this.value, csvData)
-//                    })
 				});
 	//add initial option
 	var titleOption = dropdown.append("option")
 				.attr("class", "titleOption")
+                .property("selected", function(d){ return d === "hascomputerPerc"})
 				.attr("disabled", "true")
-				.text("Select Attribute");
+                .attr("value", function(d){return d = "hascomputerPerc"})
+				.text("Has Computer");
 	//add attribute name options
 	var attrOptions = dropdown.selectAll("attrOptions")
 				.data(attrIntArray)
@@ -904,7 +920,7 @@ function setLabelGF(props){
   //console.log(attributeGF)
   var formatted = Number(props[attributeGF]).toFixed(1);
   var titleFormatted = chartPopupArray[attrIntArray.indexOf(attributeGF)];
-	var labelAttribute = "<h1>" + formatted + " " + titleFormatted + "</h>";
+  var labelAttribute = "<h1>" + formatted + " " + titleFormatted + "</h>";
 
 	//create label div
 	var infolabel = d3.select("body")
@@ -916,7 +932,6 @@ function setLabelGF(props){
 		.attr("class","labelname")
 		.html(props.LABEL)
 };
-//Think this works
 function moveLabel(){
 	//get width of label
 	var labelWidth = d3.select(".infolabel")
