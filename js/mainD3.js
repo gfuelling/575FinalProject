@@ -143,7 +143,7 @@ async function drawDetroitMap(){
 		//create dropdown
 		createDropdown(internetMiTracts);
         //create legend
-        createDetroitLegend(colorScale);
+        createCaseStudyLegend(colorScale);
 		//create side panel
 		//sidePanel();
 		//create chart
@@ -606,12 +606,22 @@ function makeLegend(color) {
         });
 };
 
-function updateLegend(color){
-
+function updateLegend(color, classType){
+    console.log(classType);
      var svg = d3.select("body").append("svg")
         .attr("width", 145)
         .attr("height", 100)
-        .attr("class", "legend");
+        .attr("class", function(){
+				if (classType == ".counties"){
+				return "legend"
+					}
+				else if (classType = ".tracts") {
+				return "caseStudyLegend"
+					}
+				else {
+						console.log("there's a problem with updating the legend.");
+					}
+				});
         //.append("g");
 
 
@@ -651,12 +661,12 @@ function updateLegend(color){
 
 }
 
-function createDetroitLegend(color){
+function createCaseStudyLegend(color){
 
     var svg = d3.select("body").append("svg")
         .attr("width", 145)
         .attr("height", 100)
-        .attr("class", "detroitLegend");
+        .attr("class", "caseStudyLegend");
         //.append("g");
 
 
@@ -695,49 +705,6 @@ function createDetroitLegend(color){
         });
 };
 
-function createSeattleLegend(color){
-
-    var svg = d3.select("body").append("svg")
-        .attr("width", 145)
-        .attr("height", 100)
-        .attr("class", "legend");
-        //.append("g");
-
-
-    var legend = svg.selectAll('g.legendEntry')
-        .data(color.range().reverse())
-        .enter()
-        .append('g').attr('class', 'legendEntry');
-
-    legend
-        .append('rect')
-        .attr("x", 0)
-        .attr("y", function(d, i) {
-            return i * 20;
-        })
-        .attr("width", 10)
-        .attr("height", 10)
-        .style("stroke", "black")
-        .style("stroke-width", 1)
-        .style("fill", function(d){return d;});
-       //the data objects are the fill colors
-
-    legend
-        .append('text')
-        .attr("x", 25) //leave x pixel space after the <rect>
-        .attr("y", function(d, i) {
-                return i * 20;
-            })
-        .attr("dy", "0.85em") //place text one line below the x,y point
-        //.text("test");
-        .text(function(d,i) {
-           var extent = color.invertExtent(d);
-            //extent will be a two-element array
-           var format = d3.format("0.2f");
-           //return format(+extent[0]) + " - " + format(+extent[1]);  //this shows lower value - higher value
-            return "< " + format(+extent[1]) + "%";
-        });
-}
 
 function createDropdown(csvData){
 	//determine the census data level for to differentiate .attr("class")
@@ -762,6 +729,17 @@ function createDropdown(csvData){
                     var attribute = this.value
                     //console.log(attribute)
 					changeAttribute(this.value, csvData)
+<<<<<<< HEAD
+=======
+                    
+                                        
+//                $(".dropdownMI").change(function(){
+//                        changeAttribute(this.value, csvData)
+//                    })
+//                $(".dropdownUS").change(function(){
+//                        changeAttribute(this.value, csvData)
+//                    })
+>>>>>>> 890d8029ddbb7424af76170852167b3e4ede9290
 				});
 	//add initial option
 	var titleOption = dropdown.append("option")
@@ -795,10 +773,7 @@ function changeAttribute(attribute, csvData){
 			.style("fill", function(d){
 				return choropleth(d.properties, colorScale)
 			});
-	//set legend properties
-
-
-
+	
     //re-sort, resize, and recolor bars
 	var bars = d3.selectAll(".bar")
 		//resort bars
@@ -825,8 +800,22 @@ function changeAttribute(attribute, csvData){
 		}
 
 		updateChart(bars,csvData.length, colorScale);
-        d3.selectAll(".legend").remove();
-        updateLegend(colorScale);
+        
+        console.log(classType);
+    
+        if (classType == ".counties"){
+            d3.selectAll(".legend").remove();
+            updateLegend(colorScale, classType);
+        }
+        else if (classType == ".tracts"){
+            d3.selectAll(".caseStudyLegend").remove();
+            updateLegend(colorScale, classType);
+        }
+        else {
+            console.log("There is a problem updating the legends.")
+        }
+    
+        
 };
 function updateChart(bars, n, colorScale){
 	//position bars

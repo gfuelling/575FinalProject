@@ -166,10 +166,10 @@ option {
     fill: seashell;
 }
 
-.detroitLegend {
+.caseStudyLegend {
     position: absolute;
-    top: 800px;
-    left: 40px;
+    top: 1300px;
+    left: 175px;
     font-family: "Oswald";
     font-size: 13px;
     fill: seashell;
