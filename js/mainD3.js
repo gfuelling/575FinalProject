@@ -508,12 +508,12 @@ function setPieChart(csvData, colorScale){
 
     //csv data totals
     var data = [
-                {"label" : "Broadband" , "value": 96128868 } ,
-                {"label" : "No Internet", "value": 10383777} ,
                 {"label": "No Computer", "value" : 13875454},
+                {"label" : "No Internet", "value": 10383777} ,
+                {"label" : "Broadband" , "value": 96128868 } ,
                 {"label" : "Dialup", "value" : 547104 }
     ];
-    var radius = 100; //radius of pie chart
+    var radius = 150; //radius of pie chart
    
 
     //change this color scale so it doesn't match maps... could be confusing
@@ -541,12 +541,12 @@ function setPieChart(csvData, colorScale){
 
     var svg = d3.select("body").append("svg")
         .attr("class", "pieChart")    
-        .attr("width", 300)
-        .attr("height", 300)
+        .attr("width", 350)
+        .attr("height", 350)
         .append("g")
-        .attr("transform", "translate(150 150)"); //should be half of width and height to center pie chart in svg
+        .attr("transform", "translate(175 175)"); //should be half of width and height to center pie chart in svg
         
-
+    console.log(pie(data));
     var g = svg.selectAll(".arc")
             .data(pie(data))
             .enter().append("g")
@@ -557,11 +557,25 @@ function setPieChart(csvData, colorScale){
             .style("fill", function(d) {return color(d.data.value); });
 
     g.append("text")
+            //.attr("transform", function(d) {})        
             .attr("transform", function(d) { return "translate(" + (labelArc.centroid(d)) + ")"; })
-            .attr("dy", ".35em")
+            .attr("dy", "0.35em")
             .text(function(d) { return d.data.label; })
             .attr("class", "pieText");
-
+    
+    g.append("path")
+        .attr("class", "pointer")
+        .style("fill", "none")
+        .style("stroke", "black")
+    
+        //.attr("d", function(d) {
+        //console.log(d);
+           // if(d.cx > d.ox) {
+              //  return "M" + d.sx + "," + d.sy + "L" + d.ox + "," + d.oy + " " + d.cx + "," + d.cy;
+           // } else {
+               // return "M" + d.ox + "," + d.oy + "L" + d.sx + "," + d.sy + " " + d.cx + "," + d.cy;
+      //  }
+   // });
 };
 
 function makeLegend(color) {
