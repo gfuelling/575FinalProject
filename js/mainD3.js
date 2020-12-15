@@ -100,7 +100,7 @@ async function drawMap(){
 
 		//create bottom div and sources
 		setDataSources();
-        redraw();
+        //redraw();
 	};
 };
 //MAIN DETROIT function
@@ -513,16 +513,16 @@ function setPieChart(csvData, colorScale){
                 {"label": "No Computer", "value" : 13875454},
                 {"label" : "Dialup", "value" : 547104 }
     ];
-
-    var radius = Math.min(chartWidth, chartHeight) /4;  // can edit this denominator for easy resizing
+    var radius = 100; //radius of pie chart
+   
 
     //change this color scale so it doesn't match maps... could be confusing
     var color = d3.scaleOrdinal()
         .range([
-		"#52212C",
-		"#9C7981",
-		"#929C5A",
-		"#465200"
+		"#686868",
+		"#909090",
+		"#B8B8B8",
+		"#D8D8D8"
 	]);
 
 
@@ -531,8 +531,8 @@ function setPieChart(csvData, colorScale){
         .innerRadius(0);
 
     var labelArc = d3.arc()
-        .outerRadius(radius-30)
-        .innerRadius(radius-30);
+        .outerRadius(radius-10)
+        .innerRadius(radius-10);
 
     //process the data for pie chart - when called, adds start and end angle to array
     var pie = d3.pie()
@@ -540,10 +540,12 @@ function setPieChart(csvData, colorScale){
         .value(function(d) {return d.value; });
 
     var svg = d3.select("body").append("svg")
-        .attr("width", chartWidth)
-        .attr("height", chartHeight)
+        .attr("class", "pieChart")    
+        .attr("width", 300)
+        .attr("height", 300)
         .append("g")
-        .attr("transform", "translate(" + chartWidth / 2 + "," + chartHeight / 2 + ")");
+        .attr("transform", "translate(150 150)"); //should be half of width and height to center pie chart in svg
+        
 
     var g = svg.selectAll(".arc")
             .data(pie(data))

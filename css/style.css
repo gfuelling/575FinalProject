@@ -157,6 +157,12 @@ option {
     font-size: 15px;
 }
 
+.pieChart {
+     position: absolute;
+    top: 400px;
+    left: 1200px;
+}
+
 .legend {
     position: absolute;
     top: 400px;
