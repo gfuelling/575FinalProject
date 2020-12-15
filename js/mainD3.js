@@ -26,8 +26,6 @@ var yScale = d3.scaleLinear()
 					.domain([0, 50]);
 //begin script when window loads
 window.onload = drawMap();
-window.onload = createDetroitTitle();
-window.onload = createSeattleTitle();
 window.onload = drawDetroitMap();
 window.onload = drawSeattleMap();
 window.onload = createDetroitResourcesTitle();
@@ -37,7 +35,7 @@ window.onload = setLeaflet();
 async function drawMap(){
 	//set up header div and title
 	//map frame dimensions
-	 var width = window.innerWidth * .65,
+	 var width = window.innerWidth * .5,
 	 	height = 460;
 	//create new svg container for the map
 	var map = d3.select("#inner")
@@ -45,13 +43,13 @@ async function drawMap(){
 		.attr("class", "map")
 		.attr("width", width)
 		.attr("height", height)
-    //zoom     
+    //zoom
         .call(d3.zoom().on("zoom", function() {
             map.attr("transform", d3.event.transform)
         }))
         .append("g");
-    
-        
+
+
 	//create Albers equal area conic projection centered on Michigan
 	var projection = d3.geoAlbers()
 		.center([-98, 36])
@@ -61,8 +59,8 @@ async function drawMap(){
 		.translate([width / 2, height / 2]);
 		//create path
 	var path = d3.geoPath().projection(projection);
-	
-    
+
+
     // pull in data
   d3.queue()
     .defer(d3.csv,"data/csvCountiesInternet.csv")
@@ -89,7 +87,7 @@ async function drawMap(){
 
 		//create bottom div and sources
 		setDataSources();
-       
+
 	};
 };
 //MAIN DETROIT function
@@ -99,7 +97,7 @@ async function drawDetroitMap(){
 	 var width = window.innerWidth * 0.45,
 	 	height = localMapHeights;
 	//create new svg container for the map
-	var map = d3.select("#inner")
+	var map = d3.select("#caseMaps")
 		.append("svg")
 		.attr("class", "map")
 		.attr("width", width)
@@ -149,7 +147,7 @@ async function drawSeattleMap(){
 	 var width = window.innerWidth * 0.45,
 	 	height = localMapHeights;
 	//create new svg container for the map
-	var map = d3.select("#inner")
+	var map = d3.select("#caseMaps")
 		.append("svg")
 		.attr("class", "map")
 		.attr("width", width)
@@ -185,19 +183,6 @@ async function drawSeattleMap(){
 		var colorScale = makeColorScale(internetWaTracts);
 		//add enumeration units to the map
 		setDetroitEnumerationUnits(waTracts,map,path,colorScale);
-		//create dropdown
-		//createDropdown(internetWaTracts);
-
-		//create side panel
-		//sidePanel();
-		//create chart
-		//setChart(internetCounties,colorScale);
-		//create Seattle Legend
-        //createSeattleLegend();
-
-
-		//create bottom div and sources
-		//setDataSources();
 	};
 };
 async function setLeaflet(){
@@ -503,7 +488,7 @@ function setPieChart(csvData, colorScale){
                 {"label" : "Dialup", "value" : 547104 }
     ];
     var radius = 150; //radius of pie chart
-   
+
 
     //change this color scale so it doesn't match maps... could be confusing
     var color = d3.scaleOrdinal()
@@ -528,13 +513,13 @@ function setPieChart(csvData, colorScale){
         .sort(null)
         .value(function(d) {return d.value; });
 
-    var svg = d3.select("body").append("svg")
-        .attr("class", "pieChart")    
+    var svg = d3.select("#sidePanel").append("svg")
+        .attr("class", "pieChart")
         .attr("width", 350)
         .attr("height", 350)
         .append("g")
         .attr("transform", "translate(175 175)"); //should be half of width and height to center pie chart in svg
-        
+
     console.log(pie(data));
     var g = svg.selectAll(".arc")
             .data(pie(data))
@@ -546,25 +531,16 @@ function setPieChart(csvData, colorScale){
             .style("fill", function(d) {return color(d.data.value); });
 
     g.append("text")
-            //.attr("transform", function(d) {})        
+            //.attr("transform", function(d) {})
             .attr("transform", function(d) { return "translate(" + (labelArc.centroid(d)) + ")"; })
             .attr("dy", "0.35em")
             .text(function(d) { return d.data.label; })
             .attr("class", "pieText");
-    
+
     g.append("path")
         .attr("class", "pointer")
         .style("fill", "none")
         .style("stroke", "black")
-    
-        //.attr("d", function(d) {
-        //console.log(d);
-           // if(d.cx > d.ox) {
-              //  return "M" + d.sx + "," + d.sy + "L" + d.ox + "," + d.oy + " " + d.cx + "," + d.cy;
-           // } else {
-               // return "M" + d.ox + "," + d.oy + "L" + d.sx + "," + d.sy + " " + d.cx + "," + d.cy;
-      //  }
-   // });
 };
 
 function makeLegend(color) {
@@ -734,14 +710,9 @@ function createDropdown(csvData){
                     var attribute = this.value
                     //console.log(attribute)
 					changeAttribute(this.value, csvData)
-         
-                                        
-//                $(".dropdownMI").change(function(){
-//                        changeAttribute(this.value, csvData)
-//                    })
-//                $(".dropdownUS").change(function(){
-//                        changeAttribute(this.value, csvData)
-//                    })
+
+
+
 
 				});
 	//add initial option
@@ -776,7 +747,7 @@ function changeAttribute(attribute, csvData){
 			.style("fill", function(d){
 				return choropleth(d.properties, colorScale)
 			});
-	
+
     //re-sort, resize, and recolor bars
 	var bars = d3.selectAll(".bar")
 		//resort bars
@@ -803,9 +774,9 @@ function changeAttribute(attribute, csvData){
 		}
 
 		updateChart(bars,csvData.length, colorScale);
-        
+
         console.log(classType);
-    
+
         if (classType == ".counties"){
             d3.selectAll(".legend").remove();
             updateLegend(colorScale, classType);
@@ -817,8 +788,8 @@ function changeAttribute(attribute, csvData){
         else {
             console.log("There is a problem updating the legends.")
         }
-    
-        
+
+
 };
 function updateChart(bars, n, colorScale){
 	//position bars
@@ -838,22 +809,16 @@ function updateChart(bars, n, colorScale){
 	var chartTitle = d3.select(".chartTitle")
 			.text("Percentage of those with "+ chartTitleArray[attrIntArray.indexOf(expressed)]);
 };
-//not working
 function onMouseEnter(d){
 	tooltip.style("opacity", 1)
 	var metricValue = d.expressed;
 	tooltip.select(".county")
 		.text("testing!")
 };
-//not working
 function onMouseLeave() {
 	tooltip.style("opacity", 0)
 }
 function highlight(props){ //add interactivity
-	// var selected = d3.selectAll("." + d.name).append("text")
-	// 	.text(function() {
-	// 		return [d];
-	// 	})
 
 	//change stroke
 	var selected = d3.selectAll("." + props.LABEL)
@@ -953,22 +918,10 @@ function setDataSources(){
 			.attr("class","dataSources")
 			.text("Data sources: Counties: US Census, Internet and Poverty statistics: ACS 2018 5-Year Estimates, United States Census. Created by Garrett Fuelling, Cassandra Verras, Danielle Wyenberg, December 2020.")
 };
-function createDetroitTitle(){
-	var firstPara = d3.select("#inner")
-		.append("div")
-		.attr("class","miTitle")
-		.text("Case Study: Detroit, Michigan")
-}
-function createSeattleTitle(){
-	var firstPara = d3.select("#inner")
-		.append("div")
-		.attr("class","waTitle")
-		.text("Case Study: Seattle, Washington")
-}
 function createDetroitResourcesTitle(){
-	var firstPara = d3.select("#mapid")
+	var firstPara = d3.select("#comRes")
 		.append("div")
-		.attr("class","miTitle")
+		.attr("class","title")
 		.text("Community Resources: Detroit, Michigan")
 }
 })(); //run anonymous function
