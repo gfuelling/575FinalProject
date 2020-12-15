@@ -729,9 +729,7 @@ function createDropdown(csvData){
                     var attribute = this.value
                     //console.log(attribute)
 					changeAttribute(this.value, csvData)
-<<<<<<< HEAD
-=======
-                    
+         
                                         
 //                $(".dropdownMI").change(function(){
 //                        changeAttribute(this.value, csvData)
@@ -739,7 +737,7 @@ function createDropdown(csvData){
 //                $(".dropdownUS").change(function(){
 //                        changeAttribute(this.value, csvData)
 //                    })
->>>>>>> 890d8029ddbb7424af76170852167b3e4ede9290
+
 				});
 	//add initial option
 	var titleOption = dropdown.append("option")
@@ -890,7 +888,7 @@ function setLabel(props){
   var attributeCV = $(".dropdownUS option:selected").val()
   var formatted = Number(props[attributeCV]).toFixed(1);
   var titleFormatted = chartPopupArray[attrIntArray.indexOf(attributeCV)];
-  var labelAttribute = "<h1>" + formatted + " " + titleFormatted + "</h>";
+  var labelAttribute = "<h1>" + formatted + titleFormatted + "</h>";
 
 	//create label div
 	var infolabel = d3.select("body")
@@ -909,7 +907,7 @@ function setLabelGF(props){
   //console.log(attributeGF)
   var formatted = Number(props[attributeGF]).toFixed(1);
   var titleFormatted = chartPopupArray[attrIntArray.indexOf(attributeGF)];
-  var labelAttribute = "<h1>" + formatted + " " + titleFormatted + "</h>";
+  var labelAttribute = "<h1>" + formatted + titleFormatted + "</h>";
 
 	//create label div
 	var infolabel = d3.select("body")
