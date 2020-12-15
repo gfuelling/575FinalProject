@@ -7,7 +7,7 @@ var attrStrArray = ["LABEL"];
 //array of csv fields formatted for dropdown options
 var chartTitleArray = ["Has Computer","Dialup","Broadband","No Internet","No Computer","Labor Participation Rate","Unemployment Rate"];
 //array of csv fields formatted for popups
-var chartPopupArray = ["% households have a computer","% households have dialup","% households have broadband","% households have no internet","% households have no computer", ": Total Population 16+","% Labor Participation","% Unemployment","Pop 20+ Below Poverty Level"];
+var chartPopupArray = ["% households have a computer","% households have dialup","% households have broadband","% households have no internet","% households have no computer", "% Labor Participation","% Unemployment",];
 var expressed = attrIntArray[0];
 var chartTitleExpressed = chartTitleArray[0];
 var chartWidth = window.innerWidth *0.54,
