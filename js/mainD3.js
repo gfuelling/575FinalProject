@@ -45,12 +45,13 @@ async function drawMap(){
 		.attr("class", "map")
 		.attr("width", width)
 		.attr("height", height)
-        //zoom
-//        .call(d3.behavior.zoom()
-//             .translate(projection.translate())
-//             .scale(projection.scale())
-//             .on("zoom", redraw));
+    //zoom     
+        .call(d3.zoom().on("zoom", function() {
+            map.attr("transform", d3.event.transform)
+        }))
+        .append("g");
     
+        
 	//create Albers equal area conic projection centered on Michigan
 	var projection = d3.geoAlbers()
 		.center([-98, 36])
@@ -61,18 +62,6 @@ async function drawMap(){
 		//create path
 	var path = d3.geoPath().projection(projection);
 	
-    //attempting to get zoom nad pan functionality
-//    function redraw() {
-//      if (d3.event) {
-//        projection
-//            .translate(d3.event.translate)
-//            .scale(d3.event.scale);
-//      }
-//      svg.selectAll("path").attr("d", path);
-//      var t = projection.translate();
-//      xAxis.attr("x1", t[0]).attr("x2", t[0]);
-//      yAxis.attr("y1", t[1]).attr("y2", t[1]);
-//    }
     
     // pull in data
   d3.queue()
@@ -100,7 +89,7 @@ async function drawMap(){
 
 		//create bottom div and sources
 		setDataSources();
-        //redraw();
+       
 	};
 };
 //MAIN DETROIT function

@@ -154,13 +154,14 @@ option {
 
 .pieText {
     font-family: "Oswald";
-    font-size: 15px;
+    font-size: 12px;
+    fill: seashell;
 }
 
 .pieChart {
-     position: absolute;
-    top: 400px;
-    left: 1200px;
+    position: absolute;
+    top: 300px;
+    left: 1300px;
 }
 
 .legend {
@@ -175,7 +176,7 @@ option {
 .caseStudyLegend {
     position: absolute;
     top: 1300px;
-    left: 175px;
+    left: 500px;
     font-family: "Oswald";
     font-size: 13px;
     fill: seashell;
