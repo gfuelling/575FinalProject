@@ -133,9 +133,6 @@ async function drawDetroitMap(){
         createCaseStudyLegend(colorScale);
 		//create side panel
 		//sidePanel();
-		//create chart
-		//setChart(internetCounties,colorScale);
-
 		//create bottom div and sources
 		//setDataSources();
 	};
@@ -338,7 +335,7 @@ function joinData(geoJson, csvData){
 			};
 		};
 	};
-	//console.log(geoJson);
+	
 	return geoJson;
 };
 function joinDetroitData(geoJson, csvData){
@@ -360,7 +357,7 @@ function joinDetroitData(geoJson, csvData){
 			};
 		};
 	};
-	//console.log(geoJson);
+	
 	return geoJson;
 };
 function setEnumerationUnits(geoJson,map,path,colorScale){
@@ -409,74 +406,6 @@ function setDetroitEnumerationUnits(geoJson,map,path,colorScale){
 		var desc = tracts.append("desc")
 			.text('{"stroke": "#000", "stroke-width": "0.5px"}');
 };
-function setChart(csvData, colorScale){
-	//create second svg element to hold the bar chart
-	var chart = d3.select("body")
-						.append("svg")
-						.attr("width",chartWidth)
-						.attr("height",chartHeight)
-						.attr("class","chart");
-	//create chart background fill
-	var chartBackground = chart.append("rect")
-						.attr("class", "chartBackground")
-						.attr("width", chartInnerWidth)
-						.attr("height", chartInnerHeight)
-						.attr("transform", translate);
-	//set bars for each county
-	var bars = chart.selectAll(".bar")
-						.data(csvData)
-						.enter()
-						.append("rect")
-						.sort(function(a,b){
-							return b[expressed]-a[expressed]
-						})
-						.attr("class", function(d){
-							return "bar " + d.county;
-						})
-						.attr("width", chartInnerWidth/csvData.length -1)
-						.on("mouseover", highlight)
-						.on("mouseout", dehighlight)
-						.on("mousemove", moveLabel)
-						.on("mouseover", function (d,i){
-							d3.select(this).transition()
-								.duration('50')
-								.attr('opacity', '.85');
-						})
-						.on("mouseout", function(d,i) {
-							d3.select(this).transition()
-								.duration('50')
-								.attr('opacity', '1');
-						});
-            var desc = bars.append("desc")
-                    .text('{"stroke": "none", "stroke-width": "0px"}');
-						// .on("mouseenter", onMouseEnter(this))
-						// .on("mouseleave", onMouseLeave);
-
-		//create chart title
-		var chartTitle = chart.append("text")
-						.attr("x",400)
-						.attr("y",40)
-						.attr("class","chartTitle")
-						.text("Percentage of " + expressed + " in each county");
-		//create vertical axis generator
-		var yAxis = d3.axisLeft()
-						.scale(yScale)
-						//.orient("left");
-		//place axis
-		var axis = chart.append("g")
-						.attr("class", "axis")
-						.attr("transform", translate)
-						.call(yAxis);
-		//create frame for chart border
-		var chartFrame = chart.append("rect")
-						.attr("class","chartFrame")
-						.attr("width", chartInnerWidth)
-						.attr("height",chartInnerHeight)
-						.attr("transform", translate);
-		//create an average line
-	//reset bar positions, heights, and colors
-	updateChart(bars, csvData.length, colorScale);
-};
 
 function setPieChart(csvData, colorScale){
 
@@ -490,7 +419,7 @@ function setPieChart(csvData, colorScale){
     var radius = 150; //radius of pie chart
 
 
-    //change this color scale so it doesn't match maps... could be confusing
+    //colors for pie chart sections
     var color = d3.scaleOrdinal()
         .range([
 		"#686868",
@@ -520,7 +449,6 @@ function setPieChart(csvData, colorScale){
         .append("g")
         .attr("transform", "translate(175 175)"); //should be half of width and height to center pie chart in svg
 
-    console.log(pie(data));
     var g = svg.selectAll(".arc")
             .data(pie(data))
             .enter().append("g")
@@ -577,7 +505,6 @@ function makeLegend(color) {
                 return i * 20;
             })
         .attr("dy", "0.85em") //place text one line below the x,y point
-        //.text("test");
         .text(function(d,i) {
            var extent = color.invertExtent(d);
             //extent will be a two-element array
@@ -588,8 +515,7 @@ function makeLegend(color) {
 };
 
 function updateLegend(color, classType){
-    console.log(classType);
-     var svg = d3.select("body").append("svg")
+    var svg = d3.select("body").append("svg")
         .attr("width", 145)
         .attr("height", 100)
         .attr("class", function(){
@@ -636,7 +562,7 @@ function updateLegend(color, classType){
             var extent = color.invertExtent(d);
             //extent will be a two-element array
             var format = d3.format("0.2f");
-           //return format(+extent[0]) + " - " + format(+extent[1]);  //this shows lower value - higher value
+           //return format(+extent[0]) + " - " + format(+extent[1]);  //for reference, this shows lower value - higher value
             return "< " + format(+extent[1]) + "%";
         });
 
@@ -676,7 +602,6 @@ function createCaseStudyLegend(color){
                 return i * 20;
             })
         .attr("dy", "0.85em") //place text one line below the x,y point
-        //.text("test");
         .text(function(d,i) {
            var extent = color.invertExtent(d);
             //extent will be a two-element array
@@ -708,13 +633,9 @@ function createDropdown(csvData){
 				})
 				.on("change", function(){
                     var attribute = this.value
-                    //console.log(attribute)
 					changeAttribute(this.value, csvData)
-
-
-
-
 				});
+    
 	//add initial option
 	var titleOption = dropdown.append("option")
 				.attr("class", "titleOption")
@@ -747,18 +668,7 @@ function changeAttribute(attribute, csvData){
 			.style("fill", function(d){
 				return choropleth(d.properties, colorScale)
 			});
-
-    //re-sort, resize, and recolor bars
-	var bars = d3.selectAll(".bar")
-		//resort bars
-		.sort(function(a,b){
-			return b[expressed] - a[expressed];
-		})
-		.transition()//add animation
-		.delay(function(d,i){
-			return i * 20
-		})
-		.duration(500);
+    
 
 		function classType(censusLevel){
 				if (censusLevel == 05){
@@ -773,11 +683,7 @@ function changeAttribute(attribute, csvData){
 				console.log("this is "+ classType)
 		}
 
-		updateChart(bars,csvData.length, colorScale);
-
-        console.log(classType);
-
-        if (classType == ".counties"){
+		if (classType == ".counties"){
             d3.selectAll(".legend").remove();
             updateLegend(colorScale, classType);
         }
@@ -791,24 +697,7 @@ function changeAttribute(attribute, csvData){
 
 
 };
-function updateChart(bars, n, colorScale){
-	//position bars
-	bars.attr("x", function(d,i){
-				return i * (chartInnerWidth / n) + leftPadding;
-			})
-			.attr("height", function(d, i){
-				return 463 - yScale(parseFloat(d[expressed]));
-			})
-			.attr("y", function(d, i){
-				return yScale(parseFloat(d[expressed])) + topBottomPadding;
-			})
-			.style("fill", function(d){
-				return choropleth(d, colorScale);
-			});
-	//updated chart title
-	var chartTitle = d3.select(".chartTitle")
-			.text("Percentage of those with "+ chartTitleArray[attrIntArray.indexOf(expressed)]);
-};
+
 function onMouseEnter(d){
 	tooltip.style("opacity", 1)
 	var metricValue = d.expressed;
